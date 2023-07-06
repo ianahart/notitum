@@ -16,6 +16,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity()
 @Table(name = "_user")
@@ -34,6 +35,10 @@ public class User implements UserDetails {
     private String email;
     @Column(name = "password")
     private String password;
+    @Column(name = "logged_in")
+    private Boolean loggedIn;
+    @Transient
+    private String abbreviation;
     @Enumerated(EnumType.STRING)
     private Role role;
 
@@ -46,25 +51,33 @@ public class User implements UserDetails {
             String firstName,
             String lastName,
             String email,
-            String password) {
+            String password,
+            Boolean loggedIn,
+            Role role) {
 
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+        this.loggedIn = loggedIn;
+        this.role = role;
     }
 
     public User(
             String firstName,
             String lastName,
             String email,
-            String password) {
+            String password,
+            Boolean loggedIn,
+            Role role) {
 
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+        this.loggedIn = loggedIn;
+        this.role = role;
     }
 
     public Long getId() {
@@ -72,8 +85,20 @@ public class User implements UserDetails {
 
     }
 
+    public Boolean getLoggedIn() {
+        return loggedIn;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
     public String getEmail() {
         return email;
+    }
+
+    public String getAbbreviation() {
+        return firstName.substring(0, 1).toUpperCase() + lastName.substring(0, 1).toUpperCase();
     }
 
     public String getLastName() {
@@ -96,12 +121,24 @@ public class User implements UserDetails {
         this.email = email;
     }
 
+    public void setAbbreviation(String abbreviation) {
+        this.abbreviation = abbreviation;
+    }
+
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public void setLoggedIn(Boolean loggedIn) {
+        this.loggedIn = loggedIn;
     }
 
     public void setFirstName(String firstName) {
