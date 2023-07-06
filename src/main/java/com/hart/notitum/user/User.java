@@ -3,6 +3,8 @@ package com.hart.notitum.user;
 import java.util.Collection;
 import java.util.List;
 
+import com.hart.notitum.token.Token;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,6 +15,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
@@ -41,6 +44,9 @@ public class User implements UserDetails {
     private String abbreviation;
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToMany()
+    private List<Token> tokens;
 
     public User() {
 
@@ -85,6 +91,10 @@ public class User implements UserDetails {
 
     }
 
+    public List<Token> getTokens() {
+        return tokens;
+    }
+
     public Boolean getLoggedIn() {
         return loggedIn;
     }
@@ -95,6 +105,10 @@ public class User implements UserDetails {
 
     public String getEmail() {
         return email;
+    }
+
+    public void setTokens(List<Token> tokens) {
+        this.tokens = tokens;
     }
 
     public String getAbbreviation() {

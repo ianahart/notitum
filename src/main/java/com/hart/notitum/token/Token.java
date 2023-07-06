@@ -35,8 +35,8 @@ public class Token {
     @Column(name = "revoked")
     private Boolean revoked;
 
-    @ManyToOne()
-    @JoinColumn(name = "user_id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
     public Token() {

@@ -2,6 +2,8 @@ package com.hart.notitum.config;
 
 import java.io.IOException;
 
+import com.hart.notitum.token.TokenRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,11 +24,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
+    private final TokenRepository tokenRepository;
 
     @Autowired
-    public JwtAuthenticationFilter(JwtService jwtService, UserDetailsService userDetailsService) {
+    public JwtAuthenticationFilter(JwtService jwtService,
+            UserDetailsService userDetailsService,
+            TokenRepository tokenRepository) {
         this.jwtService = jwtService;
         this.userDetailsService = userDetailsService;
+        this.tokenRepository = tokenRepository;
     }
 
     @Override
@@ -48,8 +54,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
-
-            if (jwtService.isTokenValid(jwt, userDetails)) {
+            var isTokenValid = this.tokenRepository.findByToken(jwt)
+                    .map(t -> !t.getExpired() && !t.getRevoked()).orElse(false);
+            if (jwtService.isTokenValid(jwt, userDetails) && isTokenValid) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails,
                         null, userDetails.getAuthorities());
 
