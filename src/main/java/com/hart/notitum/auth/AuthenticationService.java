@@ -1,5 +1,6 @@
 package com.hart.notitum.auth;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.hart.notitum.advice.BadRequestException;
@@ -69,6 +70,21 @@ public class AuthenticationService {
         this.userRepository.save(user);
 
         return new RegisterResponse("User created.");
+    }
+
+    public void revokeAllUserTokens(User user) {
+        List<Token> tokens = this.tokenRepository.findAllValidTokens(user.getId());
+
+        if (tokens.isEmpty()) {
+            return;
+        }
+
+        tokens.forEach(t -> {
+            t.setExpired(true);
+            t.setRevoked(true);
+        });
+
+        this.tokenRepository.saveAll(tokens);
     }
 
     public LoginResponse login(LoginRequest request) {

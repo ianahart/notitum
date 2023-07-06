@@ -11,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface TokenRepository extends JpaRepository<Token, Long> {
 
-       @Query(value = """
+    @Query(value = """
              SELECT expired, t.id, revoked, token, token_type, user_id
              FROM token t
              INNER JOIN _user u
