@@ -1,4 +1,4 @@
-package com.backend.fitters.advice;
+package com.hart.notitum.advice;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;

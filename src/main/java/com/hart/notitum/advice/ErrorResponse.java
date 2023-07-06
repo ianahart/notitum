@@ -1,4 +1,4 @@
-package com.backend.fitters.advice;
+package com.hart.notitum.advice;
 
 public class ErrorResponse {
     private String message;
