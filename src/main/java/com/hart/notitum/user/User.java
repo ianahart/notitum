@@ -3,6 +3,7 @@ package com.hart.notitum.user;
 import java.util.Collection;
 import java.util.List;
 
+import com.hart.notitum.passwordreset.PasswordReset;
 import com.hart.notitum.refreshtoken.RefreshToken;
 import com.hart.notitum.token.Token;
 
@@ -48,6 +49,9 @@ public class User implements UserDetails {
 
     @OneToMany()
     private List<Token> tokens;
+
+    @OneToMany()
+    private List<PasswordReset> passwordResets;
 
     @OneToMany()
     private List<RefreshToken> refreshTokens;
@@ -111,6 +115,10 @@ public class User implements UserDetails {
         return role;
     }
 
+    public List<PasswordReset> getPasswordResets() {
+        return passwordResets;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -137,6 +145,10 @@ public class User implements UserDetails {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void setPasswordResets(List<PasswordReset> passwordResets) {
+        this.passwordResets = passwordResets;
     }
 
     public void setEmail(String email) {
@@ -201,7 +213,7 @@ public class User implements UserDetails {
         return email;
     }
 
-      public String toString() {
+    public String toString() {
         return "User{" +
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
