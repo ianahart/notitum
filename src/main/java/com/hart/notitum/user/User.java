@@ -3,6 +3,7 @@ package com.hart.notitum.user;
 import java.util.Collection;
 import java.util.List;
 
+import com.hart.notitum.refreshtoken.RefreshToken;
 import com.hart.notitum.token.Token;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -48,6 +49,9 @@ public class User implements UserDetails {
     @OneToMany()
     private List<Token> tokens;
 
+    @OneToMany()
+    private List<RefreshToken> refreshTokens;
+
     public User() {
 
     }
@@ -89,6 +93,10 @@ public class User implements UserDetails {
     public Long getId() {
         return id;
 
+    }
+
+    public List<RefreshToken> getRefreshTokens() {
+        return refreshTokens;
     }
 
     public List<Token> getTokens() {
@@ -159,6 +167,10 @@ public class User implements UserDetails {
         this.firstName = firstName;
     }
 
+    public void setRefreshTokens(List<RefreshToken> refreshTokens) {
+        this.refreshTokens = refreshTokens;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
@@ -189,7 +201,7 @@ public class User implements UserDetails {
         return email;
     }
 
-    public String toString() {
+      public String toString() {
         return "User{" +
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
@@ -199,5 +211,4 @@ public class User implements UserDetails {
                 ", password=" + password +
                 '}';
     }
-
 }

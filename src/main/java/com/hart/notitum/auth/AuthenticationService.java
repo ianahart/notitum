@@ -11,6 +11,8 @@ import com.hart.notitum.auth.request.RegisterRequest;
 import com.hart.notitum.auth.response.LoginResponse;
 import com.hart.notitum.auth.response.RegisterResponse;
 import com.hart.notitum.config.JwtService;
+import com.hart.notitum.config.RefreshTokenService;
+import com.hart.notitum.refreshtoken.RefreshToken;
 import com.hart.notitum.token.Token;
 import com.hart.notitum.token.TokenRepository;
 import com.hart.notitum.token.TokenType;
@@ -35,6 +37,7 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
     private final TokenRepository tokenRepository;
+    private final RefreshTokenService refreshTokenService;
 
     @Autowired
     public AuthenticationService(
@@ -42,12 +45,14 @@ public class AuthenticationService {
             UserRepository userRepository,
             AuthenticationManager authenticationManager,
             JwtService jwtService,
-            TokenRepository tokenRepository) {
+            TokenRepository tokenRepository,
+            RefreshTokenService refreshTokenService) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;
         this.tokenRepository = tokenRepository;
+        this.refreshTokenService = refreshTokenService;
     }
 
     public RegisterResponse register(RegisterRequest request) {
@@ -103,7 +108,7 @@ public class AuthenticationService {
         String jwtToken = this.jwtService.generateToken(user);
         this.revokeAllUserTokens(user);
         this.saveTokenWithUser(jwtToken, user);
-
+        RefreshToken refreshToken = this.refreshTokenService.generateRefreshToken(user.getId());
         UserDto userDto = new UserDto(
                 user.getId(),
                 user.getEmail(),
@@ -112,7 +117,8 @@ public class AuthenticationService {
                 user.getRole(),
                 user.getAbbreviation(),
                 true);
-        return new LoginResponse(userDto, jwtToken);
+
+        return new LoginResponse(userDto, jwtToken, refreshToken.getRefreshToken());
     }
 
     public void saveTokenWithUser(String token, User user) {

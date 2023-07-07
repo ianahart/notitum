@@ -3,6 +3,7 @@ package com.hart.notitum.config;
 import com.hart.notitum.user.User;
 import com.hart.notitum.user.UserRepository;
 import com.hart.notitum.advice.NotFoundException;
+import com.hart.notitum.refreshtoken.RefreshTokenRepository;
 import com.hart.notitum.token.TokenRepository;
 
 import org.springframework.security.core.Authentication;
@@ -19,12 +20,16 @@ public class LogoutService implements LogoutHandler {
     private final JwtService jwtService;
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
+    private final RefreshTokenService refreshTokenService;
 
-    public LogoutService(JwtService jwtService, UserRepository userRepository,
-            TokenRepository tokenRepository) {
+    public LogoutService(JwtService jwtService,
+            UserRepository userRepository,
+            TokenRepository tokenRepository,
+            RefreshTokenService refreshTokenService) {
         this.jwtService = jwtService;
         this.userRepository = userRepository;
         this.tokenRepository = tokenRepository;
+        this.refreshTokenService = refreshTokenService;
     }
 
     @Override
@@ -45,6 +50,7 @@ public class LogoutService implements LogoutHandler {
         storedToken.setRevoked(true);
         storedToken.setExpired(true);
         this.tokenRepository.save(storedToken);
+        this.refreshTokenService.revokeAllUserRefreshTokens(user);
         SecurityContextHolder.clearContext();
 
     }
