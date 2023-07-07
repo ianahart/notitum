@@ -12,6 +12,8 @@ import com.hart.notitum.email.EmailService;
 import com.hart.notitum.email.request.EmailRequest;
 import com.hart.notitum.email.response.EmailResponse;
 import com.hart.notitum.passwordreset.PasswordResetService;
+import com.hart.notitum.passwordreset.request.PasswordResetRequest;
+import com.hart.notitum.passwordreset.response.PasswordResetResponse;
 import com.hart.notitum.refreshtoken.RefreshToken;
 import com.hart.notitum.refreshtoken.request.RefreshTokenRequest;
 import com.hart.notitum.refreshtoken.response.RefreshTokenResponse;
@@ -91,6 +93,20 @@ public class AuthenticationController {
         return ResponseEntity
                 .status(200)
                 .body(this.emailService.sendSimpleMail(request));
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<PasswordResetResponse> passwordReset(
+            @RequestBody PasswordResetRequest request) {
+
+        this.passwordResetService
+                .isResetTokenValid(request.getToken());
+
+        this.userService.resetUserPassword(request);
+
+        this.passwordResetService.deleteUserPasswordResetsById(request.getId());
+        return ResponseEntity.status(200).body(
+                new PasswordResetResponse("Password has been reset."));
     }
 
 }
