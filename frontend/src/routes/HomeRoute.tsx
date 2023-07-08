@@ -1,10 +1,11 @@
-import { Box, Text } from '@chakra-ui/react';
+import loginBG from '../assets/login.jpg';
+import AuthContainer from '../components/Shared/AuthContainer';
 
 const HomeRoute = () => {
   return (
-    <Box minH="100vh">
-      <Text color="text.primary">Hi hello there</Text>
-    </Box>
+    <AuthContainer path="/register" pathName="Register" backgroundImage={loginBG}>
+      <></>
+    </AuthContainer>
   );
 };
 

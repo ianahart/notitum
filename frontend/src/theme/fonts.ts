@@ -1,4 +1,7 @@
+import '@fontsource-variable/manrope';
+import '@fontsource-variable/open-sans';
+
 export const fonts = {
-  heading: `'Bangers', sans-serif`,
+  heading: `'Manrope Variable', sans-serif`,
   body: `'Open Sans', sans-serif`,
 };

@@ -1,6 +1,4 @@
 import { extendTheme } from '@chakra-ui/react';
-import '@fontsource/bangers';
-import '@fontsource-variable/open-sans';
 import { colors } from './colors';
 import { fonts } from './fonts';
 
