@@ -16,14 +16,15 @@ const AuthContainer = ({
 }: IAuthContainerProps) => {
   return (
     <Box minH="100vh">
-      <Flex direction={['column', 'column', 'row']} minH="100vh" as="main">
+      <Flex className="authContainer" minH="100vh" as="main">
         <Box
+          className="authBackgroundImage"
           backgroundImage={`url(${backgroundImage})`}
-          flexGrow="1"
           backgroundSize="cover"
           backgroundPosition="center"
+          minH="100vh"
         ></Box>
-        <Box flexGrow="1">
+        <Box className="authFormContainer">
           <Flex
             bg="primary.blue"
             direction="column"
@@ -39,8 +40,9 @@ const AuthContainer = ({
           >
             <RouterLink to={path}>{pathName}</RouterLink>
           </Flex>
-
-          {children}
+          <Box className="formContainer" margin="10rem auto 1rem auto">
+            {children}
+          </Box>
         </Box>
       </Flex>
     </Box>
