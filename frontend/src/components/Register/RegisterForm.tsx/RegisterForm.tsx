@@ -24,7 +24,6 @@ const RegisterForm = ({ heading, subHeading }: IRegisterFormProps) => {
   };
 
   const updateField = (name: string, value: string, attribute: string) => {
-    console.log(name, value, attribute);
     setForm((prevState) => ({
       ...prevState,
       [name]: { ...prevState[name as keyof IRegisterForm], [attribute]: value },

@@ -19,7 +19,7 @@ function App() {
   const storeUser = useCallback(async () => {
     Client.syncUser(retreiveTokens()?.token)
       .then((res) => {
-        updateUser(res.data.user);
+        updateUser(res.data);
         stowTokens(retreiveTokens());
       })
       .catch((err) => {
