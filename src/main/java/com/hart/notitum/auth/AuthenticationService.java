@@ -107,6 +107,8 @@ public class AuthenticationService {
                 .orElseThrow(() -> new NotFoundException("User not found by email."));
         String jwtToken = this.jwtService.generateToken(user);
         this.revokeAllUserTokens(user);
+        user.setLoggedIn(true);
+        this.userRepository.save(user);
         this.saveTokenWithUser(jwtToken, user);
         RefreshToken refreshToken = this.refreshTokenService.generateRefreshToken(user.getId());
         UserDto userDto = new UserDto(
@@ -116,7 +118,7 @@ public class AuthenticationService {
                 user.getLastName(),
                 user.getRole(),
                 user.getAbbreviation(),
-                true);
+                user.getLoggedIn());
 
         return new LoginResponse(userDto, jwtToken, refreshToken.getRefreshToken());
     }

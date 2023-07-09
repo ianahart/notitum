@@ -11,6 +11,9 @@ export const colors = {
     primary: '#718096',
     secondary: '#444447',
   },
+  bg: {
+    primary: '#282E32',
+  },
   light: {
     primary: '#e4e3e3',
   },

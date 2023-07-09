@@ -6,6 +6,12 @@ export const http = axios.create({
 });
 
 export const Client = {
+  heartbeat: () => {
+    return http.get('/heartbeat');
+  },
+  logout: (refreshToken: string) => {
+    return http.post('/auth/logout', { refreshToken });
+  },
   register: (form: IRegisterForm, role: string) => {
     const data = {
       role,
@@ -18,7 +24,6 @@ export const Client = {
 
     return http.post('/auth/register', data);
   },
-
   login: (email: string, password: string) => {
     return http.post('/auth/login', { email, password });
   },

@@ -1,0 +1,52 @@
+import { Box } from '@chakra-ui/react';
+import { useEffect, useRef } from 'react';
+
+interface IClickAwayMenuProps {
+  handleSetAccountMenuOpen: (accountMenuOpen: boolean) => void;
+  top?: string;
+  left?: string;
+  right?: string;
+  bottom?: string;
+  triggerRef?: React.RefObject<HTMLDivElement>;
+}
+
+const ClickAwayMenu = ({
+  handleSetAccountMenuOpen,
+  top = 'unset',
+  left = 'unset',
+  right = 'unset',
+  bottom = 'unset',
+  triggerRef = undefined,
+}: IClickAwayMenuProps) => {
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  const clickAway = (e: MouseEvent) => {
+    const target = e.target as Element;
+    console.log(target);
+    console.log(triggerRef);
+  };
+
+  useEffect(() => {
+    window.addEventListener('click', clickAway);
+    return () => window.removeEventListener('click', clickAway);
+  }, []);
+
+  return (
+    <Box
+      ref={menuRef}
+      zIndex={10}
+      pos="absolute"
+      top={top}
+      right={right}
+      left={left}
+      bottom={bottom}
+      minH="400px"
+      width="200px"
+      bg="bg.primary"
+    >
+      click away menu
+    </Box>
+  );
+};
+
+export default ClickAwayMenu;

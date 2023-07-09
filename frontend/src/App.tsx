@@ -13,9 +13,13 @@ import { UserContext } from './context/user';
 import { IUserContext } from './interfaces';
 import { retreiveTokens } from './util';
 import { useEffectOnce } from './hooks/UseEffectOnce';
+import Navbar from './components/Shared/Navbar';
+import AccountRoute from './routes/AccountRoute';
+import SettingsRoute from './routes/SettingsRoute';
+import WithAxios from './hooks/WithAxios';
 
 function App() {
-  const { updateUser, stowTokens } = useContext(UserContext) as IUserContext;
+  const { updateUser, stowTokens, user } = useContext(UserContext) as IUserContext;
   const storeUser = useCallback(async () => {
     Client.syncUser(retreiveTokens()?.token)
       .then((res) => {
@@ -34,33 +38,52 @@ function App() {
   return (
     <Box className="App">
       <Router>
+        {user.loggedIn && <Navbar />}
         <Box minH="100vh">
-          <Routes>
-            <Route
-              index
-              element={
-                <RequireGuest>
-                  <HomeRoute />
-                </RequireGuest>
-              }
-            />
-            <Route
-              path="/register"
-              element={
-                <RequireGuest>
-                  <RegisterRoute />
-                </RequireGuest>
-              }
-            />
-            <Route
-              path="/:name/dashboard"
-              element={
-                <RequireAuth>
-                  <DashboardRoute />
-                </RequireAuth>
-              }
-            />
-          </Routes>
+          <WithAxios>
+            <Routes>
+              <Route
+                index
+                element={
+                  <RequireGuest>
+                    <HomeRoute />
+                  </RequireGuest>
+                }
+              />
+              <Route
+                path="/register"
+                element={
+                  <RequireGuest>
+                    <RegisterRoute />
+                  </RequireGuest>
+                }
+              />
+              <Route
+                path="/:name/dashboard"
+                element={
+                  <RequireAuth>
+                    <DashboardRoute />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/:name/account"
+                element={
+                  <RequireAuth>
+                    <AccountRoute />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/:name/settings"
+                element={
+                  <RequireAuth>
+                    <SettingsRoute />
+                  </RequireAuth>
+                }
+              />
+            </Routes>
+          </WithAxios>
         </Box>
       </Router>
       <Footer />
