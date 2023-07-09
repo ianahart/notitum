@@ -18,6 +18,7 @@ import AccountRoute from './routes/AccountRoute';
 import SettingsRoute from './routes/SettingsRoute';
 import WithAxios from './hooks/WithAxios';
 import ForgotPasswordRoute from './routes/ForgotPasswordRoute';
+import ResetPasswordRoute from './routes/ResetPasswordRoute';
 
 function App() {
   const { updateUser, stowTokens, user } = useContext(UserContext) as IUserContext;
@@ -59,6 +60,15 @@ function App() {
                   </RequireGuest>
                 }
               />
+              <Route
+                path="/reset-password"
+                element={
+                  <RequireGuest>
+                    <ResetPasswordRoute />
+                  </RequireGuest>
+                }
+              />
+
               <Route
                 path="/register"
                 element={

@@ -11,6 +11,11 @@ export const loginFormState = {
   password: { name: 'password', value: '', error: '', type: 'password' },
 };
 
+export const resetPasswordFormState = {
+  password: { name: 'password', value: '', error: '', type: 'password' },
+  confirmPassword: { name: 'confirmPassword', value: '', error: '', type: 'password' },
+};
+
 export const tokenState = {
   refreshToken: '',
   token: '',
