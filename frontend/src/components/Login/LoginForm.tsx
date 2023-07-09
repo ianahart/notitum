@@ -1,6 +1,6 @@
 import { Button, Box, Heading, Text, Flex } from '@chakra-ui/react';
 import { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import BasicSpinner from '../Shared/BasicSpinner';
 import FormInput from '../Shared/FormInput';
 import { ILoginForm, IUserContext } from '../../interfaces';
@@ -124,6 +124,9 @@ const LoginForm = ({ heading, subHeading }: ILoginFormProps) => {
               htmlFor="password"
               label="Password"
             />
+            <Flex color="text.primary" fontSize="0.85rem" my="1.5rem" justify="flex-end">
+              <RouterLink to="/forgot-password">Forgot your password?</RouterLink>
+            </Flex>
             <Flex justify="center">
               <Button type="submit" colorScheme="blue" width="100%">
                 Login

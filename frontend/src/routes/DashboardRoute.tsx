@@ -3,11 +3,13 @@ import { Client } from '../util/client';
 
 const DashboardRoute = () => {
   const heartbeat = () => {
-    Client.heartbeat().then((res) => {
-      console.log(res);
-    }).catch((err) => {
-      console.log(err);
-    });
+    Client.heartbeat()
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (

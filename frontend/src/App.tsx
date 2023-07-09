@@ -17,6 +17,7 @@ import Navbar from './components/Shared/Navbar';
 import AccountRoute from './routes/AccountRoute';
 import SettingsRoute from './routes/SettingsRoute';
 import WithAxios from './hooks/WithAxios';
+import ForgotPasswordRoute from './routes/ForgotPasswordRoute';
 
 function App() {
   const { updateUser, stowTokens, user } = useContext(UserContext) as IUserContext;
@@ -47,6 +48,14 @@ function App() {
                 element={
                   <RequireGuest>
                     <HomeRoute />
+                  </RequireGuest>
+                }
+              />
+              <Route
+                path="/forgot-password"
+                element={
+                  <RequireGuest>
+                    <ForgotPasswordRoute />
                   </RequireGuest>
                 }
               />

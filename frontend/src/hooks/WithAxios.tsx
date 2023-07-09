@@ -45,12 +45,11 @@ const WithAxios: React.FC<IProps> = ({ children }): JSX.Element => {
         return response;
       },
       async function (error) {
-        console.log('ERROR', error);
         const originalRequest = error.config;
         originalRequest.headers = JSON.parse(
-          JSON.stringify(originalRequest.headers || {})
+          JSON.stringify(originalRequest?.headers || {})
         );
-        const refreshToken = retreiveTokens().refreshToken;
+        const refreshToken = retreiveTokens()?.refreshToken;
 
         const handleError = (error: any) => {
           processQueue(error);

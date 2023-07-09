@@ -6,6 +6,9 @@ export const http = axios.create({
 });
 
 export const Client = {
+  sendForgotPasswordEmail: (email: string) => {
+    return http.post('/auth/forgot-password', { email });
+  },
   heartbeat: () => {
     return http.get('/heartbeat');
   },

@@ -25,3 +25,7 @@ export const userState = {
   loggedIn: false,
   role: '',
 };
+
+export const forgotPasswordState = {
+  email: { name: 'email', value: '', error: '', type: 'email' },
+};
