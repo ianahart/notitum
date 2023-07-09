@@ -2,7 +2,7 @@ import { Box } from '@chakra-ui/react';
 import { useEffect, useRef, useCallback } from 'react';
 
 interface IClickAwayMenuProps {
-  handleSetAccountMenuOpen: (accountMenuOpen: boolean) => void;
+  handleMenuOpen: (open: boolean) => void;
   top?: string;
   left?: string;
   right?: string;
@@ -14,7 +14,7 @@ interface IClickAwayMenuProps {
 }
 
 const ClickAwayMenu = ({
-  handleSetAccountMenuOpen,
+  handleMenuOpen,
   top = 'unset',
   left = 'unset',
   right = 'unset',
@@ -30,15 +30,12 @@ const ClickAwayMenu = ({
     (e: MouseEvent) => {
       const target = e.target as Element;
       if (menuRef.current !== null && triggerRef !== null) {
-        console.log(!menuRef.current.contains(target));
-
         if (!menuRef.current.contains(target) && !triggerRef?.current?.contains(target)) {
-          console.log('test');
-          handleSetAccountMenuOpen(false);
+          handleMenuOpen(false);
         }
       }
     },
-    [handleSetAccountMenuOpen, triggerRef]
+    [handleMenuOpen, triggerRef]
   );
 
   useEffect(() => {

@@ -25,7 +25,6 @@ const AccountMenu = () => {
         logout();
       })
       .catch((err) => {
-        console.log(err);
         throw new Error(err.response.data.message);
       });
   };
@@ -40,7 +39,7 @@ const AccountMenu = () => {
           top="50px"
           right="10px"
           triggerRef={triggerRef}
-          handleSetAccountMenuOpen={handleSetAccountMenuOpen}
+          handleMenuOpen={handleSetAccountMenuOpen}
         >
           <Box>
             <Box className="account" p="0.75rem">
@@ -89,7 +88,6 @@ const AccountMenu = () => {
               <Box
                 display="flex"
                 alignItems="center"
-                space-between
                 justifyContent="space-between"
                 mt="1rem"
                 fontSize="0.8rem"
