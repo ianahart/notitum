@@ -10,3 +10,18 @@ export const loginFormState = {
   email: { name: 'email', value: '', error: '', type: 'email' },
   password: { name: 'password', value: '', error: '', type: 'password' },
 };
+
+export const tokenState = {
+  refreshToken: '',
+  token: '',
+};
+
+export const userState = {
+  abbreviation: '',
+  email: '',
+  id: 0,
+  lastName: '',
+  firstName: '',
+  loggedIn: false,
+  role: '',
+};

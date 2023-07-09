@@ -51,6 +51,7 @@ const RegisterForm = ({ heading, subHeading }: IRegisterFormProps) => {
   const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     clearErrors();
+    setError('');
     checkForErrors();
     if (checkForErrors()) {
       return;
@@ -60,13 +61,11 @@ const RegisterForm = ({ heading, subHeading }: IRegisterFormProps) => {
 
   const register = () => {
     setIsLoading(true);
-    Client.register(form)
-      .then((res) => {
-        console.log(res);
+    Client.register(form, 'USER')
+      .then(() => {
         navigate('/');
       })
       .catch((err) => {
-        console.log(err);
         setError(err.response.data.message);
         throw new Error(err.response.data.message);
       })
