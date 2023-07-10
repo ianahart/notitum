@@ -57,7 +57,8 @@ const ClickAwayMenu = ({
       bottom={bottom}
       minH={minH}
       width={width}
-      bg="bg.primary"
+      boxShadow="rgba(0, 0, 0, 0.16) 0px 1px 4px"
+      bg="black.primary"
     >
       {children}
     </Box>

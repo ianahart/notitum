@@ -59,10 +59,7 @@ const NavMenu = ({
               top={top}
               handleMenuOpen={handleMenuOpen}
             >
-            <Box p="1rem">
-              {children}
-
-                            </Box>
+              <Box p="1rem">{children}</Box>
             </ClickAwayMenu>
           )}
         </Flex>

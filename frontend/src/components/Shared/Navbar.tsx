@@ -12,7 +12,7 @@ const Navbar = () => {
   const mobileNavMenuStyles = {
     flexDirection: 'column',
     alignItems: 'flex-end',
-        display: 'flex'
+    display: 'flex',
   };
 
   return (

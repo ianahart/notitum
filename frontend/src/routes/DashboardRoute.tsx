@@ -1,5 +1,7 @@
 import { Box } from '@chakra-ui/react';
 import { Client } from '../util/client';
+import RecentlyViewed from '../components/Dashboard/RecentlyViewed';
+import YourWorkspaces from '../components/Dashboard/YourWorkspaces';
 
 const DashboardRoute = () => {
   const heartbeat = () => {
@@ -13,9 +15,11 @@ const DashboardRoute = () => {
   };
 
   return (
-    <Box>
-      Dashboard Route
-      <button onClick={heartbeat}>Heartbeat</button>
+    <Box minH="100vh" bg="bg.primary">
+      <Box>
+        <RecentlyViewed />
+        <YourWorkspaces />
+      </Box>
     </Box>
   );
 };
