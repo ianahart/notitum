@@ -16,6 +16,12 @@ export const resetPasswordFormState = {
   confirmPassword: { name: 'confirmPassword', value: '', error: '', type: 'password' },
 };
 
+export const navMenusState = {
+  workspace: { open: false, name: 'workspace' },
+  starred: { open: false, name: 'starred' },
+  recent: { open: false, name: 'recent' },
+};
+
 export const tokenState = {
   refreshToken: '',
   token: '',

@@ -1,23 +1,25 @@
 import { Box, Text } from '@chakra-ui/react';
-import { useState, useRef } from 'react';
+import { useRef } from 'react';
 import NavMenu from './NavMenu';
 
-const Recent = () => {
-  const [recentOpen, setRecentOpen] = useState(false);
-  const recentRef = useRef<HTMLDivElement>(null);
+interface IRecentProps {
+  updateMenu: (open: boolean, name?: string) => void;
+  menu: { open: boolean; name: string };
+}
 
-  const handleRecentOpen = (open: boolean) => {
-    setRecentOpen(open);
-  };
+const Recent = ({ menu, updateMenu }: IRecentProps) => {
+  const recentRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   return (
     <Box>
       <NavMenu
-        menuOpen={recentOpen}
-        handleMenuOpen={handleRecentOpen}
+        menu={menu}
+        menuRef={menuRef}
+        handleMenuOpen={updateMenu}
         refEl={recentRef}
         title="Recent"
-        minH="unset"
+        minH="150px"
         top="30px"
       >
         <Text color="#fff">recent here</Text>

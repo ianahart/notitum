@@ -1,23 +1,25 @@
 import { Box, Text } from '@chakra-ui/react';
-import { useState, useRef } from 'react';
+import { useRef } from 'react';
 import NavMenu from './NavMenu';
 
-const Starred = () => {
-  const [starredOpen, setStarredOpen] = useState(false);
-  const starredRef = useRef<HTMLDivElement>(null);
+interface IStarredProps {
+  updateMenu: (open: boolean, name?: string) => void;
+  menu: { open: boolean; name: string };
+}
 
-  const handleStarredOpen = (open: boolean) => {
-    setStarredOpen(open);
-  };
+const Starred = ({ updateMenu, menu }: IStarredProps) => {
+  const starredRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   return (
     <Box>
       <NavMenu
-        menuOpen={starredOpen}
-        handleMenuOpen={handleStarredOpen}
+        menuRef={menuRef}
+        menu={menu}
+        handleMenuOpen={updateMenu}
         refEl={starredRef}
         title="Starred"
-        minH="unset"
+        minH="150px"
         top="30px"
       >
         <Text color="#fff">recent here</Text>

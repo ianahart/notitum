@@ -1,24 +1,26 @@
 import { Box, Text } from '@chakra-ui/react';
-import { useState, useRef } from 'react';
+import { useRef } from 'react';
 import NavMenu from './NavMenu';
 
-const Workspace = () => {
-  const [workspaceOpen, setWorkSpaceOpen] = useState(false);
-  const workSpaceRef = useRef<HTMLDivElement>(null);
+interface IWorkspaceProps {
+  updateMenu: (open: boolean, name?: string) => void;
+  menu: { open: boolean; name: string };
+}
 
-  const handleWorkSpaceOpen = (open: boolean) => {
-    setWorkSpaceOpen(open);
-  };
+const Workspace = ({ updateMenu, menu }: IWorkspaceProps) => {
+  const workSpaceRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   return (
     <Box>
       <NavMenu
-        menuOpen={workspaceOpen}
-        handleMenuOpen={handleWorkSpaceOpen}
+        menu={menu}
+        handleMenuOpen={updateMenu}
         refEl={workSpaceRef}
+        menuRef={menuRef}
         title="Workspace"
-        minH="unset"
         top="30px"
+        minH="150px"
       >
         <Text color="#fff">workspace here</Text>
       </NavMenu>

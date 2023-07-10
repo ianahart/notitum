@@ -14,6 +14,7 @@ const AccountMenu = () => {
   const { user, logout, tokens } = useContext(UserContext) as IUserContext;
   const [accountMenuOpen, setAccountMenuOpen] = useState(false);
   const triggerRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   const handleSetAccountMenuOpen = () => {
     setAccountMenuOpen((prevState) => !prevState);
@@ -39,6 +40,7 @@ const AccountMenu = () => {
           top="50px"
           right="10px"
           triggerRef={triggerRef}
+          menuRef={menuRef}
           handleMenuOpen={handleSetAccountMenuOpen}
         >
           <Box>

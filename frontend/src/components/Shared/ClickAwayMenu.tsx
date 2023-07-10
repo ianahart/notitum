@@ -1,37 +1,39 @@
 import { Box } from '@chakra-ui/react';
-import { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useCallback } from 'react';
 
 interface IClickAwayMenuProps {
-  handleMenuOpen: (open: boolean) => void;
+  handleMenuOpen: (open: boolean, name?: string) => void;
+  menuName?: string;
   top?: string;
-  left?: string;
+  left?: string | string[];
   right?: string;
   bottom?: string;
   triggerRef?: React.RefObject<HTMLDivElement>;
   children: React.ReactNode;
   minH?: string;
   width?: string;
+  menuRef: React.RefObject<HTMLDivElement>;
 }
 
 const ClickAwayMenu = ({
+  menuName = '',
   handleMenuOpen,
   top = 'unset',
   left = 'unset',
   right = 'unset',
   bottom = 'unset',
-  triggerRef = undefined,
+  triggerRef,
   children,
-  minH = '400px',
+  minH = '150px',
   width = '220px',
+  menuRef,
 }: IClickAwayMenuProps) => {
-  const menuRef = useRef<HTMLDivElement>(null);
-
   const clickAway = useCallback(
     (e: MouseEvent) => {
       const target = e.target as Element;
       if (menuRef.current !== null && triggerRef !== null) {
         if (!menuRef.current.contains(target) && !triggerRef?.current?.contains(target)) {
-          handleMenuOpen(false);
+          handleMenuOpen(false, menuName);
         }
       }
     },

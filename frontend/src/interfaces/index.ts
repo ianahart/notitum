@@ -6,6 +6,12 @@ export interface IRegisterForm {
   confirmPassword: { name: string; value: string; error: string; type: string };
 }
 
+export interface INavMenus {
+  workspace: { open: boolean; name: string };
+  recent: { open: boolean; name: string };
+  starred: { open: boolean; name: string };
+}
+
 export interface ILoginForm {
   email: { name: string; value: string; error: string; type: string };
   password: { name: string; value: string; error: string; type: string };
