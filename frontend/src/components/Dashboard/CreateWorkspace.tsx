@@ -7,13 +7,19 @@ import { useEffect, useRef, useState } from 'react';
 import { Client } from '../../util/client';
 import { nanoid } from 'nanoid';
 import PexelBackgrounds from './PexelBackgrounds';
+import { colorsState } from '../../state/initialState';
+import WorkspaceForm from './WorkspaceForm';
 
 const CreateWorkspace = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [page, setPage] = useState(1);
+  const [colors, setColors] = useState<IPexels[]>([]);
   const [photos, setPhotos] = useState<IPexels[]>([]);
   const [extraPhotos, setExtraPhotos] = useState<IPexels[]>([]);
-  const [background, setBackground] = useState<IPexels>({ id: '', photo: '' });
+  const [selectedBackground, setSelectedBackground] = useState<IPexels>({
+    id: '',
+    background: '',
+  });
   const [loading, setLoading] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLDivElement>(null);
@@ -22,15 +28,19 @@ const CreateWorkspace = () => {
     setMenuOpen((prevState) => !prevState);
   };
 
+  useEffect(() => {
+    if (colors.length === 0) {
+      setColors(colorsState);
+    }
+  }, [colors.length]);
+
   const resetState = () => {
     setExtraPhotos([]);
-    setPhotos([]);
-    setBackground({ id: '', photo: '' });
   };
 
   const getPexelBackgrounds = () => {
     setLoading(true);
-    setBackground({ id: '', photo: '' });
+    setSelectedBackground({ id: '', background: '' });
     setPhotos([]);
     fetch('initial');
   };
@@ -52,22 +62,22 @@ const CreateWorkspace = () => {
   };
 
   const handleSetPhotos = (data: string[], load: string) => {
-    data.forEach((photo) => {
+    data.forEach((background) => {
       if (load === 'initial') {
-        setPhotos((prevState) => [...prevState, { id: nanoid(), photo }]);
+        setPhotos((prevState) => [...prevState, { id: nanoid(), background }]);
       }
-      setExtraPhotos((prevState) => [...prevState, { id: nanoid(), photo }]);
+      setExtraPhotos((prevState) => [...prevState, { id: nanoid(), background }]);
     });
     if (page === 1 && photos.length) {
-      setBackground(photos[0]);
+      setSelectedBackground(photos[0]);
     }
   };
 
   useEffect(() => {
-    if (background.photo === '' && photos.length) {
-      setBackground(photos[0]);
+    if (selectedBackground.background === '' && photos.length) {
+      setSelectedBackground(photos[0]);
     }
-  }, [setBackground, photos.length, background]);
+  }, [setSelectedBackground, photos.length, selectedBackground]);
 
   const handleNewWorkspace = (e: React.MouseEvent<HTMLDivElement>, open: boolean) => {
     e.stopPropagation();
@@ -77,8 +87,12 @@ const CreateWorkspace = () => {
     setMenuOpen(open);
   };
 
-  const handleSetBackground = (id: string, photo: string) => {
-    setBackground({ id, photo });
+  const handleSetBackground = (id: string, background: string) => {
+    setSelectedBackground({ id, background });
+  };
+
+  const handleCreateWorkspace = (title: string) => {
+    console.log(selectedBackground.background, title);
   };
 
   return (
@@ -113,15 +127,15 @@ const CreateWorkspace = () => {
           menuName=""
           menuRef={menuRef}
           triggerRef={triggerRef}
-          minH="500px"
-          top="0px"
+          minH="100%"
+          top="-200px"
           left={['0', '0', '300px']}
           handleMenuOpen={handleMenuOpen}
         >
           <Box className="createWorkspaceMenu" p="0.5rem">
             <Flex alignItems="center" justifyContent="space-evenly">
               <Box></Box>
-              <Text fontSize="0.8rem" textTransform="uppercase" color="light.primary">
+              <Text fontSize="0.8rem" fontWeight="bold" color="light.primary">
                 New workspace
               </Text>
               <Box
@@ -141,13 +155,25 @@ const CreateWorkspace = () => {
                   alignItems="center"
                   justifyContent="center"
                 >
-                  <Image
-                    borderRadius={8}
-                    width="150px"
-                    height="100px"
-                    src={background.photo}
-                    alt="background image for workspace"
-                  />
+                  <>
+                    {selectedBackground.background.startsWith('#') && (
+                      <Box
+                        bg={selectedBackground.background}
+                        borderRadius={8}
+                        width="150px"
+                        height="100px"
+                      ></Box>
+                    )}
+                    {!selectedBackground.background.startsWith('#') && (
+                      <Image
+                        borderRadius={8}
+                        width="150px"
+                        height="100px"
+                        src={selectedBackground.background}
+                        alt="background image for workspace"
+                      />
+                    )}
+                  </>
                   <Flex position="absolute">
                     {[...Array(3)].map((_, index) => {
                       return (
@@ -172,18 +198,23 @@ const CreateWorkspace = () => {
               )}
             </Flex>
             <Box mt="1.5rem">
-              <Text fontSize="0.8rem" color="light.primary">
+              <Text fontWeight="bold" fontSize="0.8rem" color="light.primary">
                 Background
               </Text>
             </Box>
             <PexelBackgrounds
+              fetch={fetch}
               extraPhotos={extraPhotos}
               handleSetBackground={handleSetBackground}
               photos={photos}
-              background={background}
+              colors={colors}
+              selectedBackground={selectedBackground}
               paginatePexelBackgrounds={paginatePexelBackgrounds}
               resetState={resetState}
             />
+            <Box my="1.5rem">
+              <WorkspaceForm handleCreateWorkspace={handleCreateWorkspace} />
+            </Box>
           </Box>
         </ClickAwayMenu>
       )}

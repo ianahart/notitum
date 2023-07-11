@@ -1,7 +1,6 @@
 import {
   Box,
   Flex,
-  Image,
   Text,
   Menu,
   MenuButton,
@@ -14,31 +13,46 @@ import { IPexels } from '../../interfaces';
 import Photos from './Photos';
 
 interface IPexelBackgroundsProps {
+  colors: IPexels[];
   photos: IPexels[];
   extraPhotos: IPexels[];
-  background: IPexels;
-  handleSetBackground: (id: string, photo: string) => void;
+  selectedBackground: IPexels;
+  fetch: (load: string) => void;
+  handleSetBackground: (id: string, background: string) => void;
   paginatePexelBackgrounds: () => void;
   resetState: () => void;
 }
 
 const PexelBackgrounds = ({
+  colors,
+  fetch,
   photos,
   extraPhotos,
-  background,
+  selectedBackground,
   paginatePexelBackgrounds,
   handleSetBackground,
   resetState,
 }: IPexelBackgroundsProps) => {
+  const handleOnMenuOpen = () => {
+    if (extraPhotos.length === 0) {
+      fetch('paginate');
+    }
+  };
+
   return (
     <Flex alignItems="center" flexWrap="wrap">
       <Photos
-        background={background}
+        selectedBackground={selectedBackground}
         photos={photos}
         handleSetBackground={handleSetBackground}
       />
+      <Photos
+        selectedBackground={selectedBackground}
+        photos={colors}
+        handleSetBackground={handleSetBackground}
+      />
       <Box cursor="pointer" color="light.primary">
-        <Menu onClose={resetState}>
+        <Menu onOpen={handleOnMenuOpen} onClose={resetState}>
           <MenuButton
             _hover={{ backgroundColor: 'transparent' }}
             as={IconButton}
@@ -58,7 +72,7 @@ const PexelBackgrounds = ({
           >
             <Flex flexWrap="wrap">
               <Photos
-                background={background}
+                selectedBackground={selectedBackground}
                 photos={extraPhotos}
                 handleSetBackground={handleSetBackground}
               />

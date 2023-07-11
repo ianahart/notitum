@@ -8,7 +8,7 @@ export interface IRegisterForm {
 
 export interface IPexels {
   id: string;
-  photo: string;
+  background: string;
 }
 
 export interface INavMenus {
