@@ -6,6 +6,11 @@ export interface IRegisterForm {
   confirmPassword: { name: string; value: string; error: string; type: string };
 }
 
+export interface IPexels {
+  id: string;
+  photo: string;
+}
+
 export interface INavMenus {
   workspace: { open: boolean; name: string };
   recent: { open: boolean; name: string };

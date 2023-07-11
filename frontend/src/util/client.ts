@@ -6,8 +6,8 @@ export const http = axios.create({
 });
 
 export const Client = {
-  getPexelBackgrounds: () => {
-    return http.get('/pexels');
+  getPexelBackgrounds: (page: number, perPage: number) => {
+    return http.get(`/pexels?page=${page}&perPage=${perPage}`);
   },
 
   resetPassword: (
