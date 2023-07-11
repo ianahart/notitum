@@ -1,22 +1,18 @@
 import { Box, Flex, Image, Text } from '@chakra-ui/react';
-import { BsThreeDots } from 'react-icons/bs';
-import {
-  AiOutlineClose,
-  AiOutlinePlus,
-  AiOutlineCheck,
-  AiOutlineUnorderedList,
-} from 'react-icons/ai';
+import { AiOutlineClose, AiOutlinePlus, AiOutlineUnorderedList } from 'react-icons/ai';
 import ClickAwayMenu from '../Shared/ClickAwayMenu';
 import BasicSpinner from '../Shared/BasicSpinner';
 import { IPexels } from '../../interfaces';
 import { useEffect, useRef, useState } from 'react';
 import { Client } from '../../util/client';
 import { nanoid } from 'nanoid';
+import PexelBackgrounds from './PexelBackgrounds';
 
 const CreateWorkspace = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [page, setPage] = useState(1);
   const [photos, setPhotos] = useState<IPexels[]>([]);
+  const [extraPhotos, setExtraPhotos] = useState<IPexels[]>([]);
   const [background, setBackground] = useState<IPexels>({ id: '', photo: '' });
   const [loading, setLoading] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -26,13 +22,23 @@ const CreateWorkspace = () => {
     setMenuOpen((prevState) => !prevState);
   };
 
+  const resetState = () => {
+    setExtraPhotos([]);
+    setPhotos([]);
+    setBackground({ id: '', photo: '' });
+  };
+
   const getPexelBackgrounds = () => {
     setLoading(true);
     setBackground({ id: '', photo: '' });
     setPhotos([]);
+    fetch('initial');
+  };
+
+  const fetch = (load: string) => {
     Client.getPexelBackgrounds(page, perPage)
       .then((res) => {
-        handleSetPhotos(res.data.photos);
+        handleSetPhotos(res.data.photos, load);
         setPage((prevState) => prevState + 1);
       })
       .catch((err) => {
@@ -41,9 +47,16 @@ const CreateWorkspace = () => {
       .finally(() => setLoading(false));
   };
 
-  const handleSetPhotos = (data: string[]) => {
+  const paginatePexelBackgrounds = () => {
+    fetch('paginate');
+  };
+
+  const handleSetPhotos = (data: string[], load: string) => {
     data.forEach((photo) => {
-      setPhotos((prevState) => [...prevState, { id: nanoid(), photo }]);
+      if (load === 'initial') {
+        setPhotos((prevState) => [...prevState, { id: nanoid(), photo }]);
+      }
+      setExtraPhotos((prevState) => [...prevState, { id: nanoid(), photo }]);
     });
     if (page === 1 && photos.length) {
       setBackground(photos[0]);
@@ -62,6 +75,10 @@ const CreateWorkspace = () => {
       getPexelBackgrounds();
     }
     setMenuOpen(open);
+  };
+
+  const handleSetBackground = (id: string, photo: string) => {
+    setBackground({ id, photo });
   };
 
   return (
@@ -159,44 +176,14 @@ const CreateWorkspace = () => {
                 Background
               </Text>
             </Box>
-            <Flex alignItems="center" flexWrap="wrap">
-              {photos.map(({ id, photo }) => {
-                return (
-                  <Box
-                    opacity={id === background.id ? '0.6' : '1'}
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                    flexDir="column"
-                    position="relative"
-                    onClick={() => setBackground({ id, photo })}
-                    key={id}
-                    cursor="pointer"
-                    m="0.25rem"
-                  >
-                    <Image
-                      borderRadius={8}
-                      width="50px"
-                      height="35px"
-                      src={photo}
-                      alt="background for workspace"
-                    />
-                    {id === background.id && (
-                      <Box color="black.primary" position="absolute">
-                        <AiOutlineCheck />
-                      </Box>
-                    )}
-                  </Box>
-                );
-              })}
-              <Box
-                cursor="pointer"
-                color="light.primary"
-                onClick={() => getPexelBackgrounds()}
-              >
-                <BsThreeDots />
-              </Box>
-            </Flex>
+            <PexelBackgrounds
+              extraPhotos={extraPhotos}
+              handleSetBackground={handleSetBackground}
+              photos={photos}
+              background={background}
+              paginatePexelBackgrounds={paginatePexelBackgrounds}
+              resetState={resetState}
+            />
           </Box>
         </ClickAwayMenu>
       )}
