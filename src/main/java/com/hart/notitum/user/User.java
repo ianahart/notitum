@@ -6,6 +6,7 @@ import java.util.List;
 import com.hart.notitum.passwordreset.PasswordReset;
 import com.hart.notitum.refreshtoken.RefreshToken;
 import com.hart.notitum.token.Token;
+import com.hart.notitum.workspace.Workspace;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -46,6 +47,9 @@ public class User implements UserDetails {
     private String abbreviation;
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToMany
+    private List<Workspace> workspaces;
 
     @OneToMany()
     private List<Token> tokens;
@@ -107,6 +111,10 @@ public class User implements UserDetails {
         return tokens;
     }
 
+    public List<Workspace> getWorkspaces() {
+        return workspaces;
+    }
+
     public Boolean getLoggedIn() {
         return loggedIn;
     }
@@ -145,6 +153,10 @@ public class User implements UserDetails {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void setWorkspaces(List<Workspace> workspaces) {
+        this.workspaces = workspaces;
     }
 
     public void setPasswordResets(List<PasswordReset> passwordResets) {

@@ -6,7 +6,7 @@ interface IVisibilitySelectOptionProps {
   icon: JSX.Element;
   visibility: string;
   handleMenuOpen: () => void;
-    handleVisibility: (option: string) => void;
+  handleVisibility: (option: string) => void;
 }
 
 const VisibilitySelectOption = ({
@@ -15,10 +15,10 @@ const VisibilitySelectOption = ({
   icon,
   visibility,
   handleMenuOpen,
-    handleVisibility
+  handleVisibility,
 }: IVisibilitySelectOptionProps) => {
   const handleOnClick = () => {
-        handleVisibility(title);
+    handleVisibility(title);
     handleMenuOpen();
   };
 

@@ -2,17 +2,20 @@ import { Box, Flex, Image, Text } from '@chakra-ui/react';
 import { AiOutlineClose, AiOutlinePlus, AiOutlineUnorderedList } from 'react-icons/ai';
 import ClickAwayMenu from '../Shared/ClickAwayMenu';
 import BasicSpinner from '../Shared/BasicSpinner';
-import { IPexels } from '../../interfaces';
-import { useEffect, useRef, useState } from 'react';
+import { IPexels, IUserContext } from '../../interfaces';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { Client } from '../../util/client';
 import { nanoid } from 'nanoid';
 import PexelBackgrounds from './PexelBackgrounds';
 import { colorsState } from '../../state/initialState';
 import WorkspaceForm from './WorkspaceForm';
+import { UserContext } from '../../context/user';
 
 const CreateWorkspace = () => {
+  const { user } = useContext(UserContext) as IUserContext;
   const [menuOpen, setMenuOpen] = useState(false);
   const [page, setPage] = useState(1);
+  const [error, setError] = useState('');
   const [colors, setColors] = useState<IPexels[]>([]);
   const [photos, setPhotos] = useState<IPexels[]>([]);
   const [extraPhotos, setExtraPhotos] = useState<IPexels[]>([]);
@@ -25,6 +28,7 @@ const CreateWorkspace = () => {
   const triggerRef = useRef<HTMLDivElement>(null);
   const perPage = 5;
   const handleMenuOpen = () => {
+    setError('');
     setMenuOpen((prevState) => !prevState);
   };
 
@@ -92,8 +96,17 @@ const CreateWorkspace = () => {
   };
 
   const handleCreateWorkspace = (title: string, visibility: string) => {
-    console.log(selectedBackground.background, title, visibility);
-    handleMenuOpen();
+    setError('');
+    Client.createWorkSpace(selectedBackground.background, title, visibility, user.id)
+      .then((res) => {
+        console.log(res);
+        handleMenuOpen();
+      })
+      .catch((err) => {
+        setError(err.response.data.message);
+        console.log(err);
+        throw new Error(err.response.data.message);
+      });
   };
 
   return (
@@ -146,6 +159,13 @@ const CreateWorkspace = () => {
               >
                 <AiOutlineClose />
               </Box>
+            </Flex>
+            <Flex justify="center">
+              {error.length > 0 && (
+                <Text textAlign="center" fontSize="0.7rem" color="red.500">
+                  {error}
+                </Text>
+              )}
             </Flex>
             <Flex mt="1rem" justifyContent="center">
               {photos.length > 0 && (

@@ -6,6 +6,20 @@ export const http = axios.create({
 });
 
 export const Client = {
+  createWorkSpace: (
+    background: string,
+    title: string,
+    visibility: string,
+    userId: number
+  ) => {
+    return http.post('/workspaces', {
+      background,
+      title,
+      visibility: visibility.toUpperCase(),
+      userId,
+    });
+  },
+
   getPexelBackgrounds: (page: number, perPage: number) => {
     return http.get(`/pexels?page=${page}&perPage=${perPage}`);
   },
