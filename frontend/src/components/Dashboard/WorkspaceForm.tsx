@@ -1,22 +1,20 @@
-import {
-  Input,
-  FormControl,
-  FormLabel,
-  Text,
-  Flex,
-  Button,
-  Select,
-} from '@chakra-ui/react';
+import { Box, Input, FormControl, FormLabel, Text, Flex, Button } from '@chakra-ui/react';
 import { useState } from 'react';
+import VisibilitySelect from './VisibilitySelect';
 
 interface IWorkspaceFormProps {
-  handleCreateWorkspace: (title: string) => void;
+  handleCreateWorkspace: (title: string, visibility: string) => void;
 }
 
 const WorkspaceForm = ({ handleCreateWorkspace }: IWorkspaceFormProps) => {
   const [title, setTitle] = useState('');
+  const [visibility, setVisibility] = useState('workspace');
   const [error, setError] = useState('');
   const inputBorderColor = title.length > 0 ? '#068FFF' : '#ff5349';
+
+  const handleVisibility = (option: string) => {
+    setVisibility(option);
+  };
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
@@ -26,12 +24,11 @@ const WorkspaceForm = ({ handleCreateWorkspace }: IWorkspaceFormProps) => {
     e.preventDefault();
 
     setError('');
-    console.log(title.trim().length);
     if (title.trim().length === 0) {
       setError('Please provide a title');
       return;
     }
-    handleCreateWorkspace(title);
+    handleCreateWorkspace(title, visibility);
   };
 
   const formStyles = {
@@ -53,6 +50,7 @@ const WorkspaceForm = ({ handleCreateWorkspace }: IWorkspaceFormProps) => {
         <Input
           _hover={{ borderColor: inputBorderColor }}
           onFocus={() => setError('')}
+          bg="#302e2e"
           onChange={handleOnChange}
           color="light.primary"
           fontSize="0.85rem"
@@ -73,6 +71,9 @@ const WorkspaceForm = ({ handleCreateWorkspace }: IWorkspaceFormProps) => {
           </Text>
         )}
       </FormControl>
+      <Box my="0.5rem">
+        <VisibilitySelect handleVisibility={handleVisibility} visibility={visibility} />
+      </Box>
 
       {title.trim().length > 0 && (
         <Flex mt="2rem">

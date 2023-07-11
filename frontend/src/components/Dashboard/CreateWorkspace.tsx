@@ -91,8 +91,9 @@ const CreateWorkspace = () => {
     setSelectedBackground({ id, background });
   };
 
-  const handleCreateWorkspace = (title: string) => {
-    console.log(selectedBackground.background, title);
+  const handleCreateWorkspace = (title: string, visibility: string) => {
+    console.log(selectedBackground.background, title, visibility);
+    handleMenuOpen();
   };
 
   return (
