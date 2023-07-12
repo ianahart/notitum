@@ -20,6 +20,16 @@ export const colorsState = [
   { id: nanoid(), background: '#FF55BB' },
 ];
 
+export const workspaceState = {
+  workspaceId: 0,
+  background: '',
+  createdAt: new Date(),
+  title: '',
+  visibility: '',
+  userId: 0,
+  updatedAt: new Date(),
+};
+
 export const loginFormState = {
   email: { name: 'email', value: '', error: '', type: 'email' },
   password: { name: 'password', value: '', error: '', type: 'password' },

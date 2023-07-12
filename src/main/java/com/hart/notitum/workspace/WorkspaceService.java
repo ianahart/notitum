@@ -40,11 +40,33 @@ public class WorkspaceService {
         }
     }
 
+    private void updateTimestamp(Long workspaceId) {
+        Workspace workspace = this.workspaceRepository.findById(workspaceId)
+                .orElseThrow(() -> new NotFoundException("Workspace not found to update"));
+
+        if (workspace.getToggleUpdate() == null) {
+            workspace.setToggleUpdate(true);
+        } else {
+            if (workspace.getToggleUpdate() == false) {
+                workspace.setToggleUpdate(true);
+            } else {
+                workspace.setToggleUpdate(false);
+            }
+        }
+        System.out.println("__________________________________");
+        System.out.println(workspace.getToggleUpdate());
+        System.out.println("__________________________________");
+
+        this.workspaceRepository.save(workspace);
+
+    }
+
     public WorkspaceDto getWorkspace(Long workspaceId, Long userId) {
         if (workspaceId == null || userId == null) {
             throw new BadRequestException("Workspace id or user id is missing");
         }
         checkOwnerShip(userId);
+        updateTimestamp(workspaceId);
         return this.workspaceRepository.getWorkspace(workspaceId);
     }
 
@@ -52,11 +74,17 @@ public class WorkspaceService {
         if (userId == null) {
             throw new BadRequestException("A user id was not present in the query string");
         }
+        checkOwnerShip(userId);
+        return this.workspaceRepository.getWorkspaces(userId);
+    }
+
+    public List<WorkspaceDto> getRecentWorkspaces(Long userId) {
+        if (userId == null) {
+            throw new BadRequestException("A user id was not present in the query string");
+        }
 
         checkOwnerShip(userId);
-
-        return this.workspaceRepository.getWorkspaces(userId);
-
+        return this.workspaceRepository.getRecentWorkspaces(userId);
     }
 
     private boolean checkIfWorkspaceExists(String title) {

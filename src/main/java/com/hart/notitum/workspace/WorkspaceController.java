@@ -44,6 +44,13 @@ public class WorkspaceController {
                 .body(new GetWorkspacesResponse("success", this.workspaceService.getWorkspaces(userId)));
     }
 
+    @GetMapping("/recent")
+    public ResponseEntity<GetWorkspacesResponse> getRecentWorkspaces(@RequestParam("userId") Long userId) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new GetWorkspacesResponse("success", this.workspaceService.getRecentWorkspaces(userId)));
+    }
+
     @PostMapping
     public ResponseEntity<CreateWorkspaceResponse> createWorkSpace(@RequestBody CreateWorkspaceRequest request) {
         return ResponseEntity

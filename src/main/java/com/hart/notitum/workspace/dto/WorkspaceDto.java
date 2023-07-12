@@ -11,6 +11,7 @@ public class WorkspaceDto {
     private String title;
     private Visibility visibility;
     private Long userId;
+    private Timestamp updatedAt;
 
     public WorkspaceDto() {
 
@@ -22,7 +23,8 @@ public class WorkspaceDto {
             Timestamp createdAt,
             String title,
             Visibility visibility,
-            Long userId) {
+            Long userId,
+            Timestamp updatedAt) {
 
         this.workspaceId = workspaceId;
         this.background = background;
@@ -30,6 +32,7 @@ public class WorkspaceDto {
         this.title = title;
         this.visibility = visibility;
         this.userId = userId;
+        this.updatedAt = updatedAt;
     }
 
     public Long getWorkspaceId() {
@@ -56,8 +59,16 @@ public class WorkspaceDto {
         return visibility;
     }
 
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
+    }
+
     public void setWorkspaceId(Long workspaceId) {
         this.workspaceId = workspaceId;
+    }
+
+    public void setUpdatedAt(Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public void setTitle(String title) {

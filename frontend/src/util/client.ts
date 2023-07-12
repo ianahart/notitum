@@ -6,6 +6,9 @@ export const http = axios.create({
 });
 
 export const Client = {
+  getRecentlyViewedWorkspaces: (userId: number) => {
+    return http.get(`/workspaces/recent?userId=${userId}`);
+  },
   getWorkspace: (workspaceId: number, userId: number) => {
     return http.get(`/workspaces/${workspaceId}?userId=${userId}`);
   },

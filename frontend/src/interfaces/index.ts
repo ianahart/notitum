@@ -18,6 +18,7 @@ export interface IWorkspace {
   title: string;
   visibility: string;
   userId: number;
+  updatedAt: Date;
 }
 
 export interface INavMenus {

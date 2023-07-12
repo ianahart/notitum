@@ -38,6 +38,8 @@ public class Workspace {
     private String title;
     @Column(name = "background")
     private String background;
+    @Column(name = "toggle_update")
+    private Boolean toggleUpdate;
     @Column(name = "visibility")
     @Enumerated(EnumType.STRING)
     private Visibility visibility;
@@ -56,6 +58,7 @@ public class Workspace {
             Timestamp updatedAt,
             String title,
             String background,
+            Boolean toggleUpdate,
             Visibility visibility
 
     ) {
@@ -64,6 +67,7 @@ public class Workspace {
         this.updatedAt = updatedAt;
         this.title = title;
         this.background = background;
+        this.toggleUpdate = toggleUpdate;
         this.visibility = visibility;
     }
 
@@ -86,6 +90,10 @@ public class Workspace {
 
     public User getUser() {
         return user;
+    }
+
+    public Boolean getToggleUpdate() {
+        return toggleUpdate;
     }
 
     public String getTitle() {
@@ -114,6 +122,10 @@ public class Workspace {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public void setToggleUpdate(Boolean toggleUpdate) {
+        this.toggleUpdate = toggleUpdate;
     }
 
     public void setTitle(String title) {

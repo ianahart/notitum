@@ -30,11 +30,25 @@ public interface WorkspaceRepository extends JpaRepository<Workspace, Long> {
             SELECT new com.hart.notitum.workspace.dto.WorkspaceDto(
              w.id as workspaceId, w.background as background,
              w.createdAt as createdAt, w.title as title, w.visibility as visibility,
-            u.id as userId
+            u.id as userId, w.updatedAt as updatedAt
             ) FROM
                     Workspace w
                     INNER JOIN w.user u
                     WHERE u.id = :userId
+                    ORDER BY updatedAt DESC LIMIT 2
+                    """)
+    List<WorkspaceDto> getRecentWorkspaces(@Param("userId") Long userId);
+
+    @Query(value = """
+            SELECT new com.hart.notitum.workspace.dto.WorkspaceDto(
+             w.id as workspaceId, w.background as background,
+             w.createdAt as createdAt, w.title as title, w.visibility as visibility,
+            u.id as userId, w.updatedAt as updatedAt
+            ) FROM
+                    Workspace w
+                    INNER JOIN w.user u
+                    WHERE u.id = :userId
+                    ORDER BY w.id DESC
                     """)
     List<WorkspaceDto> getWorkspaces(@Param("userId") Long userId);
 }
