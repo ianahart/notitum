@@ -33,15 +33,27 @@ public class WorkspaceService {
         this.userService = userService;
     }
 
+    private void checkOwnerShip(Long userId) {
+        User user = this.userService.getCurrentlyLoggedInUser();
+        if (userId != user.getId()) {
+            throw new ForbiddenException("You cannot view another user's workspaces.");
+        }
+    }
+
+    public WorkspaceDto getWorkspace(Long workspaceId, Long userId) {
+        if (workspaceId == null || userId == null) {
+            throw new BadRequestException("Workspace id or user id is missing");
+        }
+        checkOwnerShip(userId);
+        return this.workspaceRepository.getWorkspace(workspaceId);
+    }
+
     public List<WorkspaceDto> getWorkspaces(Long userId) {
         if (userId == null) {
             throw new BadRequestException("A user id was not present in the query string");
         }
 
-        User user = this.userService.getCurrentlyLoggedInUser();
-        if (userId != user.getId()) {
-            throw new ForbiddenException("You cannot view another user's workspaces.");
-        }
+        checkOwnerShip(userId);
 
         return this.workspaceRepository.getWorkspaces(userId);
 
