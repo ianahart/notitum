@@ -1,10 +1,12 @@
 package com.hart.notitum.workspace;
 
 import com.hart.notitum.workspace.request.CreateWorkspaceRequest;
+import com.hart.notitum.workspace.response.CreateWorkspaceResponse;
 import com.hart.notitum.advice.BadRequestException;
 import com.hart.notitum.advice.NotFoundException;
 import com.hart.notitum.user.User;
 import com.hart.notitum.user.UserRepository;
+import com.hart.notitum.util.MyUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +24,18 @@ public class WorkspaceService {
         this.userRepository = userRepository;
     }
 
-    public void createWorkSpace(CreateWorkspaceRequest request) {
+    private boolean checkIfWorkspaceExists(String title) {
+        if (title == null) {
+            return false;
+        }
+        return this.workspaceRepository.checkIfWorkspaceExists(title);
+    }
+
+    public CreateWorkspaceResponse createWorkSpace(CreateWorkspaceRequest request) {
+        if (checkIfWorkspaceExists(request.getTitle())) {
+          throw new BadRequestException("A workspace with this title already exists");
+        }
+
         if (request.getTitle().strip().length() > 150) {
             throw new BadRequestException("Workspace title cannot exceed 150 characters.");
         }
@@ -38,5 +51,9 @@ public class WorkspaceService {
                         request.getBackground(),
                         visibility,
                         user));
+
+        String title = MyUtils.slugify(request.getTitle());
+
+        return new CreateWorkspaceResponse("success", title, user.getId());
     }
 }

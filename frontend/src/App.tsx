@@ -19,6 +19,7 @@ import SettingsRoute from './routes/SettingsRoute';
 import WithAxios from './hooks/WithAxios';
 import ForgotPasswordRoute from './routes/ForgotPasswordRoute';
 import ResetPasswordRoute from './routes/ResetPasswordRoute';
+import WorkspaceRoute from './routes/WorkspaceRoute';
 
 function App() {
   const { updateUser, stowTokens, user } = useContext(UserContext) as IUserContext;
@@ -93,6 +94,15 @@ function App() {
                   </RequireAuth>
                 }
               />
+              <Route
+                path="/:name/:title"
+                element={
+                  <RequireAuth>
+                    <WorkspaceRoute />
+                  </RequireAuth>
+                }
+              />
+
               <Route
                 path="/:name/settings"
                 element={

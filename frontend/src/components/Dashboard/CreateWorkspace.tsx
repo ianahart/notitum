@@ -1,5 +1,6 @@
 import { Box, Flex, Image, Text } from '@chakra-ui/react';
 import { AiOutlineClose, AiOutlinePlus, AiOutlineUnorderedList } from 'react-icons/ai';
+import { useNavigate } from 'react-router-dom';
 import ClickAwayMenu from '../Shared/ClickAwayMenu';
 import BasicSpinner from '../Shared/BasicSpinner';
 import { IPexels, IUserContext } from '../../interfaces';
@@ -10,8 +11,10 @@ import PexelBackgrounds from './PexelBackgrounds';
 import { colorsState } from '../../state/initialState';
 import WorkspaceForm from './WorkspaceForm';
 import { UserContext } from '../../context/user';
+import { slugify } from '../../util';
 
 const CreateWorkspace = () => {
+  const navigate = useNavigate();
   const { user } = useContext(UserContext) as IUserContext;
   const [menuOpen, setMenuOpen] = useState(false);
   const [page, setPage] = useState(1);
@@ -100,11 +103,14 @@ const CreateWorkspace = () => {
     Client.createWorkSpace(selectedBackground.background, title, visibility, user.id)
       .then((res) => {
         console.log(res);
+        const { title, userId } = res.data;
         handleMenuOpen();
+        navigate(`/${slugify(user.firstName, user.lastName)}/${title}`, {
+          state: { userId, title },
+        });
       })
       .catch((err) => {
         setError(err.response.data.message);
-        console.log(err);
         throw new Error(err.response.data.message);
       });
   };
