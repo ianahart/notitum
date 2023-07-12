@@ -11,6 +11,15 @@ export interface IPexels {
   background: string;
 }
 
+export interface IWorkspace {
+  workspaceId: number;
+  background: string;
+  createdAt: Date;
+  title: string;
+  visibility: string;
+  userId: number;
+}
+
 export interface INavMenus {
   workspace: { open: boolean; name: string };
   recent: { open: boolean; name: string };

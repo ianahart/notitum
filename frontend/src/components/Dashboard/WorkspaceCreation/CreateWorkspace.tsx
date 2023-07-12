@@ -1,19 +1,23 @@
 import { Box, Flex, Image, Text } from '@chakra-ui/react';
 import { AiOutlineClose, AiOutlinePlus, AiOutlineUnorderedList } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
-import ClickAwayMenu from '../Shared/ClickAwayMenu';
-import BasicSpinner from '../Shared/BasicSpinner';
-import { IPexels, IUserContext } from '../../interfaces';
+import ClickAwayMenu from '../../Shared/ClickAwayMenu';
+import BasicSpinner from '../../Shared/BasicSpinner';
+import { IPexels, IUserContext } from '../../../interfaces';
 import { useContext, useEffect, useRef, useState } from 'react';
-import { Client } from '../../util/client';
+import { Client } from '../../../util/client';
 import { nanoid } from 'nanoid';
 import PexelBackgrounds from './PexelBackgrounds';
-import { colorsState } from '../../state/initialState';
+import { colorsState } from '../../../state/initialState';
 import WorkspaceForm from './WorkspaceForm';
-import { UserContext } from '../../context/user';
-import { slugify } from '../../util';
+import { UserContext } from '../../../context/user';
+import { slugify } from '../../../util';
 
-const CreateWorkspace = () => {
+interface ICreateWorkspaceProps {
+  remainingWorkspaces: number;
+}
+
+const CreateWorkspace = ({ remainingWorkspaces }: ICreateWorkspaceProps) => {
   const navigate = useNavigate();
   const { user } = useContext(UserContext) as IUserContext;
   const [menuOpen, setMenuOpen] = useState(false);
@@ -102,7 +106,6 @@ const CreateWorkspace = () => {
     setError('');
     Client.createWorkSpace(selectedBackground.background, title, visibility, user.id)
       .then((res) => {
-        console.log(res);
         const { title, userId } = res.data;
         handleMenuOpen();
         navigate(`/${slugify(user.firstName, user.lastName)}/${title}`, {
@@ -140,7 +143,7 @@ const CreateWorkspace = () => {
           <AiOutlinePlus />
         </Box>
         <Text>Create new workspace</Text>
-        <Text>10 remaining</Text>
+        <Text>{remainingWorkspaces} remaining</Text>
       </Flex>
       {menuOpen && (
         <ClickAwayMenu

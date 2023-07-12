@@ -1,13 +1,13 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { useContext, useRef, useState } from 'react';
 import { BsChevronDown } from 'react-icons/bs';
-import ClickAwayMenu from '../Shared/ClickAwayMenu';
+import ClickAwayMenu from '../../Shared/ClickAwayMenu';
 import VisibilitySelectOption from './VisibilitySelectOption';
 import { FiUsers } from 'react-icons/fi';
 import { AiOutlineLock } from 'react-icons/ai';
 import { RiEarthLine } from 'react-icons/ri';
-import { UserContext } from '../../context/user';
-import { IUserContext } from '../../interfaces';
+import { UserContext } from '../../../context/user';
+import { IUserContext } from '../../../interfaces';
 
 interface IVisibilitySelectProps {
   visibility: string;

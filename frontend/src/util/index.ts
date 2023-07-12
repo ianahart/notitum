@@ -7,6 +7,19 @@ export const retreiveTokens = () => {
   return tokens;
 };
 
+export const slugifyTitle = (title: string) => {
+  return title
+    .split(' ')
+    .map((word, index) => {
+      if (index > 0) {
+        return '-' + word;
+      } else {
+        return word;
+      }
+    })
+    .join('');
+};
+
 export const slugify = (firstName: string, lastName: string) => {
   return (firstName + lastName).toLowerCase();
 };

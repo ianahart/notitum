@@ -1,9 +1,15 @@
 package com.hart.notitum.workspace;
 
+import com.hart.notitum.workspace.dto.WorkspaceDto;
 import com.hart.notitum.workspace.request.CreateWorkspaceRequest;
 import com.hart.notitum.workspace.response.CreateWorkspaceResponse;
+import com.hart.notitum.user.UserService;
+
+import java.util.List;
+
 import com.hart.notitum.advice.BadRequestException;
 import com.hart.notitum.advice.NotFoundException;
+import com.hart.notitum.advice.ForbiddenException;
 import com.hart.notitum.user.User;
 import com.hart.notitum.user.UserRepository;
 import com.hart.notitum.util.MyUtils;
@@ -16,12 +22,29 @@ public class WorkspaceService {
 
     private final WorkspaceRepository workspaceRepository;
     private final UserRepository userRepository;
+    private final UserService userService;
 
     @Autowired
     public WorkspaceService(WorkspaceRepository workspaceRepository,
-            UserRepository userRepository) {
+            UserRepository userRepository,
+            UserService userService) {
         this.workspaceRepository = workspaceRepository;
         this.userRepository = userRepository;
+        this.userService = userService;
+    }
+
+    public List<WorkspaceDto> getWorkspaces(Long userId) {
+        if (userId == null) {
+            throw new BadRequestException("A user id was not present in the query string");
+        }
+
+        User user = this.userService.getCurrentlyLoggedInUser();
+        if (userId != user.getId()) {
+            throw new ForbiddenException("You cannot view another user's workspaces.");
+        }
+
+        return this.workspaceRepository.getWorkspaces(userId);
+
     }
 
     private boolean checkIfWorkspaceExists(String title) {
@@ -33,7 +56,7 @@ public class WorkspaceService {
 
     public CreateWorkspaceResponse createWorkSpace(CreateWorkspaceRequest request) {
         if (checkIfWorkspaceExists(request.getTitle())) {
-          throw new BadRequestException("A workspace with this title already exists");
+            throw new BadRequestException("A workspace with this title already exists");
         }
 
         if (request.getTitle().strip().length() > 150) {

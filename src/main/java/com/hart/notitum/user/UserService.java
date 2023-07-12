@@ -8,6 +8,8 @@ import com.hart.notitum.passwordreset.request.PasswordResetRequest;
 import com.hart.notitum.user.dto.UserDto;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -72,7 +74,7 @@ public class UserService {
 
     }
 
-       public void resetUserPassword(PasswordResetRequest request) {
+    public void resetUserPassword(PasswordResetRequest request) {
 
         User user = this.userRepository.findById(request.getId())
                 .orElseThrow(() -> new NotFoundException("User not found."));
@@ -86,6 +88,19 @@ public class UserService {
         }
         user.setPassword(this.passwordEncoder.encode(request.getNewPassword()));
         this.userRepository.save(user);
+    }
+
+    public User getCurrentlyLoggedInUser() {
+        Object principal = SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+
+        String username = ((UserDetails) principal).getUsername();
+        User user = this.userRepository.findByEmail(username)
+                .orElseThrow(() -> new NotFoundException("Current user was not found."));
+
+        return user;
     }
 
 }

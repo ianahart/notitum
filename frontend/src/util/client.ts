@@ -6,6 +6,10 @@ export const http = axios.create({
 });
 
 export const Client = {
+  fetchYourWorkspaces: (userId: number) => {
+    return http.get(`/workspaces?userId=${userId}`);
+  },
+
   createWorkSpace: (
     background: string,
     title: string,

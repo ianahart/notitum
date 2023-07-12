@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import com.hart.notitum.user.User;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -30,6 +31,9 @@ public class Workspace {
     @CreationTimestamp
     @Column(name = "created_at")
     private Timestamp createdAt;
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private Timestamp updatedAt;
     @Column(name = "title")
     private String title;
     @Column(name = "background")
@@ -49,6 +53,7 @@ public class Workspace {
     public Workspace(
             Long id,
             Timestamp createdAt,
+            Timestamp updatedAt,
             String title,
             String background,
             Visibility visibility
@@ -56,6 +61,7 @@ public class Workspace {
     ) {
         this.id = id;
         this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
         this.title = title;
         this.background = background;
         this.visibility = visibility;
@@ -90,6 +96,10 @@ public class Workspace {
         return createdAt;
     }
 
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
+    }
+
     public String getBackground() {
         return background;
     }
@@ -112,6 +122,10 @@ public class Workspace {
 
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public void setUpdatedAt(Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public void setBackground(String background) {
