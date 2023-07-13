@@ -20,6 +20,7 @@ export interface IWorkspace {
   userId: number;
   updatedAt: Date;
   isStarred: boolean;
+  description: string;
 }
 
 export interface INavMenus {
@@ -69,5 +70,5 @@ export interface IWorkspaceContext {
   workspace: IWorkspace;
   setWorkspace: (workspace: IWorkspace) => void;
   handleUpdateProperty: <T>(value: T, property: string) => void;
-    handleUpdateStarred: () => void;
+  handleUpdateStarred: () => void;
 }

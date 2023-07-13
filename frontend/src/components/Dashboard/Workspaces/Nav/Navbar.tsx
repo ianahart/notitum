@@ -4,6 +4,7 @@ import Starred from './Starred';
 import TitleInput from './TitleInput';
 import { useContext } from 'react';
 import { WorkspaceContext } from '../../../../context/workspace';
+import Visibility from './Visibility';
 
 const Navbar = () => {
   const { workspace, handleUpdateStarred, handleUpdateProperty } = useContext(
@@ -19,6 +20,7 @@ const Navbar = () => {
             handleUpdateProperty={handleUpdateProperty}
           />
           <Starred workspace={workspace} handleUpdateStarred={handleUpdateStarred} />
+          <Visibility />
         </Flex>
         <Box>Menu</Box>
       </Flex>

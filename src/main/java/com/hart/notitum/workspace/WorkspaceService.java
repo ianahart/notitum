@@ -138,15 +138,17 @@ public class WorkspaceService {
         Visibility visibility = request.getVisibility().equals("WORKSPACE") ? Visibility.WORKSPACE
                 : request.getVisibility().equals("PUBLIC") ? Visibility.PUBLIC : Visibility.PRIVATE;
 
-        this.workspaceRepository.save(
-                new Workspace(request.getTitle(),
-                        request.getBackground(),
-                        visibility,
-                        user,
-                        false));
+        Workspace workspace = new Workspace(request.getTitle(),
+                request.getBackground(),
+                visibility,
+                user,
+                false);
+
+        this.workspaceRepository.save(workspace);
+
 
         String title = MyUtils.slugify(request.getTitle());
 
-        return new CreateWorkspaceResponse("success", title, user.getId());
+        return new CreateWorkspaceResponse("success", title, user.getId(), workspace.getId());
     }
 }

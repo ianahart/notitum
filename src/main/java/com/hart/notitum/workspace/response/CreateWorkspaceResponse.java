@@ -4,15 +4,17 @@ public class CreateWorkspaceResponse {
     private String message;
     private String title;
     private Long userId;
+    private Long workspaceId;
 
     public CreateWorkspaceResponse() {
 
     }
 
-    public CreateWorkspaceResponse(String message, String title, Long userId) {
+    public CreateWorkspaceResponse(String message, String title, Long userId, Long workspaceId) {
         this.message = message;
         this.title = title;
         this.userId = userId;
+        this.workspaceId = workspaceId;
     }
 
     public String getTitle() {
@@ -21,6 +23,10 @@ public class CreateWorkspaceResponse {
 
     public String getMessage() {
         return message;
+    }
+
+    public Long getWorkspaceId() {
+        return workspaceId;
     }
 
     public Long getUserId() {
@@ -33,6 +39,10 @@ public class CreateWorkspaceResponse {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public void setWorkspaceId(Long workspaceId) {
+        this.workspaceId = workspaceId;
     }
 
     public void setMessage(String message) {

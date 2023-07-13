@@ -40,6 +40,8 @@ public class Workspace {
     private String background;
     @Column(name = "toggle_update")
     private Boolean toggleUpdate;
+    @Column(name = "description")
+    private String description;
     @Column(name = "is_starred")
     private Boolean isStarred;
     @Column(name = "visibility")
@@ -62,7 +64,8 @@ public class Workspace {
             String background,
             Boolean toggleUpdate,
             Visibility visibility,
-            Boolean isStarred
+            Boolean isStarred,
+            String description
 
     ) {
         this.id = id;
@@ -73,6 +76,7 @@ public class Workspace {
         this.toggleUpdate = toggleUpdate;
         this.visibility = visibility;
         this.isStarred = isStarred;
+        this.description = description;
     }
 
     public Workspace(
@@ -96,6 +100,10 @@ public class Workspace {
 
     public User getUser() {
         return user;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public Boolean getToggleUpdate() {
@@ -128,6 +136,10 @@ public class Workspace {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public void setUser(User user) {

@@ -19,7 +19,7 @@ const Starred = ({ workspace, handleUpdateStarred }: IStarredProps) => {
         mx="0.5rem"
         cursor="pointer"
         height="35px"
-        width="35px"
+        width="60px"
         borderRadius={8}
         fontSize="1.2rem"
       >

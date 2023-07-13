@@ -106,10 +106,10 @@ const CreateWorkspace = ({ remainingWorkspaces }: ICreateWorkspaceProps) => {
     setError('');
     Client.createWorkSpace(selectedBackground.background, title, visibility, user.id)
       .then((res) => {
-        const { title, userId } = res.data;
+        const { title, userId, workspaceId } = res.data;
         handleMenuOpen();
         navigate(`/${slugify(user.firstName, user.lastName)}/${title}`, {
-          state: { userId, title },
+          state: { userId, title, workspaceId },
         });
       })
       .catch((err) => {

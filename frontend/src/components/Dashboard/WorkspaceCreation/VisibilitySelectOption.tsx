@@ -24,7 +24,7 @@ const VisibilitySelectOption = ({
 
   return (
     <Flex
-      background={visibility === title ? '#068FFF' : 'unset'}
+      background={visibility.toLowerCase() === title ? '#068FFF' : 'unset'}
       _hover={{ background: '#302e2e' }}
       onClick={handleOnClick}
       cursor="pointer"

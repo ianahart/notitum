@@ -19,7 +19,8 @@ public interface WorkspaceRepository extends JpaRepository<Workspace, Long> {
             SELECT new com.hart.notitum.workspace.dto.WorkspaceDto(
              w.id as workspaceId, w.background as background,
              w.createdAt as createdAt, w.title as title, w.visibility as visibility,
-            u.id as userId, w.updatedAt as updatedAt, w.isStarred as isStarred)
+            u.id as userId, w.updatedAt as updatedAt, w.isStarred as isStarred,
+            w.description as description)
             FROM Workspace w
             INNER JOIN w.user u
             WHERE w.id = :workspaceId
@@ -30,7 +31,8 @@ public interface WorkspaceRepository extends JpaRepository<Workspace, Long> {
             SELECT new com.hart.notitum.workspace.dto.WorkspaceDto(
              w.id as workspaceId, w.background as background,
              w.createdAt as createdAt, w.title as title, w.visibility as visibility,
-            u.id as userId, w.updatedAt as updatedAt, w.isStarred as isStarred
+            u.id as userId, w.updatedAt as updatedAt, w.isStarred as isStarred,
+            w.description as description
             ) FROM
                     Workspace w
                     INNER JOIN w.user u
@@ -43,7 +45,8 @@ public interface WorkspaceRepository extends JpaRepository<Workspace, Long> {
             SELECT new com.hart.notitum.workspace.dto.WorkspaceDto(
              w.id as workspaceId, w.background as background,
              w.createdAt as createdAt, w.title as title, w.visibility as visibility,
-            u.id as userId, w.updatedAt as updatedAt, w.isStarred as isStarred
+            u.id as userId, w.updatedAt as updatedAt, w.isStarred as isStarred,
+            w.description as description
             ) FROM
                     Workspace w
                     INNER JOIN w.user u

@@ -1,5 +1,5 @@
 import { Box, FormControl, Input, Text } from '@chakra-ui/react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface ITitleInputProps {
   title: string;
@@ -9,7 +9,6 @@ interface ITitleInputProps {
 const TitleInput = ({ title, handleUpdateProperty }: ITitleInputProps) => {
   const [isInputShowing, setIsInputShowing] = useState(false);
   const [inputValue, setInputValue] = useState('');
-  const shouldRun = useRef(true);
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -26,7 +25,12 @@ const TitleInput = ({ title, handleUpdateProperty }: ITitleInputProps) => {
   }, [title]);
 
   return (
-    <Box width="65%">
+    <Box
+      borderRadius={8}
+      padding="0.5rem"
+      _hover={{ background: 'rgba(255, 255, 255, 0.2)' }}
+      width="65%"
+    >
       {!isInputShowing && (
         <Text
           cursor="point"

@@ -20,7 +20,7 @@ public class PexelService {
 
     public List<String> getPexelBackgrounds(int page, int perPage) {
         try {
-            return makeRequest(
+            return getInitial(
                     "https://api.pexels.com/v1/search?query=backgrounds&page=" + page + "&per_page=" + perPage);
 
         } catch (IOException e) {
@@ -31,7 +31,7 @@ public class PexelService {
         }
     }
 
-    private List<String> makeRequest(String endpoint) throws IOException {
+    private List<String> getInitial(String endpoint) throws IOException {
         URL getUrl = new URL(endpoint);
 
         HttpURLConnection connection = (HttpURLConnection) getUrl.openConnection();

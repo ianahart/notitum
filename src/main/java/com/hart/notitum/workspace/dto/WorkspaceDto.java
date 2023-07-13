@@ -13,6 +13,7 @@ public class WorkspaceDto {
     private Long userId;
     private Timestamp updatedAt;
     private Boolean isStarred;
+    private String description;
 
     public WorkspaceDto() {
 
@@ -26,7 +27,8 @@ public class WorkspaceDto {
             Visibility visibility,
             Long userId,
             Timestamp updatedAt,
-            Boolean isStarred) {
+            Boolean isStarred,
+            String description) {
 
         this.workspaceId = workspaceId;
         this.background = background;
@@ -36,10 +38,15 @@ public class WorkspaceDto {
         this.userId = userId;
         this.updatedAt = updatedAt;
         this.isStarred = isStarred;
+        this.description = description;
     }
 
     public Long getWorkspaceId() {
         return workspaceId;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public Boolean getIsStarred() {
@@ -100,6 +107,10 @@ public class WorkspaceDto {
 
     public void setBackground(String background) {
         this.background = background;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
 }

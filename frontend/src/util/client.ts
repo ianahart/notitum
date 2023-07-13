@@ -7,7 +7,6 @@ export const http = axios.create({
 
 export const Client = {
   updateWorkspace: (workspace: IWorkspace) => {
-    console.log(workspace);
     return http.put(`workspaces/${workspace.workspaceId}`, workspace);
   },
 

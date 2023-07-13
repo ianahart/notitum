@@ -29,6 +29,7 @@ export const workspaceState = {
   userId: 0,
   updatedAt: new Date(),
   isStarred: false,
+  description: '',
 };
 
 export const loginFormState = {
