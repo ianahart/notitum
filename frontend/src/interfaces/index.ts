@@ -64,3 +64,10 @@ export interface IUserContext {
   updateUser: (user: IUser) => void;
   logout: () => void;
 }
+
+export interface IWorkspaceContext {
+  workspace: IWorkspace;
+  setWorkspace: (workspace: IWorkspace) => void;
+  handleUpdateProperty: <T>(value: T, property: string) => void;
+    handleUpdateStarred: () => void;
+}

@@ -1,36 +1,19 @@
 import { Box, Flex } from '@chakra-ui/react';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Client } from '../util/client';
 import { workspaceState } from '../state/initialState';
 import BasicSpinner from '../components/Shared/BasicSpinner';
-import Navbar from '../components/Dashboard/Workspaces/Navbar';
-import { IWorkspace } from '../interfaces';
+import Navbar from '../components/Dashboard/Workspaces/Nav/Navbar';
+import { IWorkspace, IWorkspaceContext } from '../interfaces';
+import { WorkspaceContext } from '../context/workspace';
 
 const WorkspaceRoute = () => {
   const location = useLocation();
   const { workspaceId, userId } = location.state;
-  const [workspace, setWorkspace] = useState(workspaceState);
+  const { workspace, setWorkspace } = useContext(WorkspaceContext) as IWorkspaceContext;
   const [isLoading, setIsLoading] = useState(false);
   const shouldRun = useRef(true);
-
-  const handleUpdateStarred = () => {
-    const isStarred = workspace.isStarred ? !workspace.isStarred : true;
-    const updatedWorkspace = { ...workspace, isStarred };
-    setWorkspace(updatedWorkspace);
-    updateWorkspace(updatedWorkspace);
-  };
-
-  const updateWorkspace = (updatedWorkspace: IWorkspace) => {
-    Client.updateWorkspace(updatedWorkspace)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-        throw new Error(err.response.data.message);
-      });
-  };
 
   const backgroundImage = !workspace.background.startsWith('#')
     ? workspace.background
@@ -69,7 +52,7 @@ const WorkspaceRoute = () => {
         backgroundPosition="center"
         backgroundSize="cover"
       >
-        <Navbar workspace={workspace} handleUpdateStarred={handleUpdateStarred} />
+        <Navbar />
       </Box>
     </>
   );
