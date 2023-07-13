@@ -19,6 +19,7 @@ export interface IWorkspace {
   visibility: string;
   userId: number;
   updatedAt: Date;
+  isStarred: boolean;
 }
 
 export interface INavMenus {

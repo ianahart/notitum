@@ -1,9 +1,11 @@
 package com.hart.notitum.workspace;
 
 import com.hart.notitum.workspace.request.CreateWorkspaceRequest;
+import com.hart.notitum.workspace.request.UpdateWorkspaceRequest;
 import com.hart.notitum.workspace.response.CreateWorkspaceResponse;
 import com.hart.notitum.workspace.response.GetWorkspaceResponse;
 import com.hart.notitum.workspace.response.GetWorkspacesResponse;
+import com.hart.notitum.workspace.response.UpdateWorkspaceResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -56,5 +59,12 @@ public class WorkspaceController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(this.workspaceService.createWorkSpace(request));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UpdateWorkspaceResponse> updateWorkspace(@RequestBody UpdateWorkspaceRequest request,
+            @PathVariable("id") Long id) {
+        this.workspaceService.updateWorkspace(request, id);
+        return ResponseEntity.status(HttpStatus.OK).body(new UpdateWorkspaceResponse("success"));
     }
 }

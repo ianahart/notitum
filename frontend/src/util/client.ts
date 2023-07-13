@@ -1,11 +1,16 @@
 import axios from 'axios';
-import { IRegisterForm } from '../interfaces';
+import { IRegisterForm, IWorkspace } from '../interfaces';
 
 export const http = axios.create({
   baseURL: 'http://localhost:5173/api/v1',
 });
 
 export const Client = {
+  updateWorkspace: (workspace: IWorkspace) => {
+    console.log(workspace);
+    return http.put(`workspaces/${workspace.workspaceId}`, workspace);
+  },
+
   getRecentlyViewedWorkspaces: (userId: number) => {
     return http.get(`/workspaces/recent?userId=${userId}`);
   },

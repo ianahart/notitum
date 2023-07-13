@@ -40,6 +40,8 @@ public class Workspace {
     private String background;
     @Column(name = "toggle_update")
     private Boolean toggleUpdate;
+    @Column(name = "is_starred")
+    private Boolean isStarred;
     @Column(name = "visibility")
     @Enumerated(EnumType.STRING)
     private Visibility visibility;
@@ -59,7 +61,8 @@ public class Workspace {
             String title,
             String background,
             Boolean toggleUpdate,
-            Visibility visibility
+            Visibility visibility,
+            Boolean isStarred
 
     ) {
         this.id = id;
@@ -69,19 +72,22 @@ public class Workspace {
         this.background = background;
         this.toggleUpdate = toggleUpdate;
         this.visibility = visibility;
+        this.isStarred = isStarred;
     }
 
     public Workspace(
             String title,
             String background,
             Visibility visibility,
-            User user
+            User user,
+            Boolean isStarred
 
     ) {
         this.title = title;
         this.background = background;
         this.visibility = visibility;
         this.user = user;
+        this.isStarred = isStarred;
     }
 
     public Long getId() {
@@ -98,6 +104,10 @@ public class Workspace {
 
     public String getTitle() {
         return title;
+    }
+
+    public Boolean getIsStarred() {
+        return isStarred;
     }
 
     public Timestamp getCreatedAt() {
@@ -142,6 +152,10 @@ public class Workspace {
 
     public void setBackground(String background) {
         this.background = background;
+    }
+
+    public void setIsStarred(Boolean isStarred) {
+        this.isStarred = isStarred;
     }
 
     public void setVisibility(Visibility visibility) {

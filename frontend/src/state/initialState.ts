@@ -28,6 +28,7 @@ export const workspaceState = {
   visibility: '',
   userId: 0,
   updatedAt: new Date(),
+  isStarred: false,
 };
 
 export const loginFormState = {

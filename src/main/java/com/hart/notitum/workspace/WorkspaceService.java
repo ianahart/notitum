@@ -2,6 +2,7 @@ package com.hart.notitum.workspace;
 
 import com.hart.notitum.workspace.dto.WorkspaceDto;
 import com.hart.notitum.workspace.request.CreateWorkspaceRequest;
+import com.hart.notitum.workspace.request.UpdateWorkspaceRequest;
 import com.hart.notitum.workspace.response.CreateWorkspaceResponse;
 import com.hart.notitum.user.UserService;
 
@@ -33,6 +34,37 @@ public class WorkspaceService {
         this.userService = userService;
     }
 
+    public void validateWorkspaceProperties(UpdateWorkspaceRequest request) {
+        if (request.getTitle().trim().length() == 0 || request.getTitle().length() > 150) {
+            throw new BadRequestException("Title must be between 1 and 150 characters");
+        }
+        if (!request.getBackground().startsWith("https://") && !request.getBackground().startsWith("#")) {
+            throw new BadRequestException("Background is malformed");
+        }
+
+    }
+
+    public void updateWorkspace(UpdateWorkspaceRequest request, Long id) {
+        Workspace workspace = this.workspaceRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Work space not found with id " + id));
+
+        User user = this.userService.getCurrentlyLoggedInUser();
+
+        validateWorkspaceProperties(request);
+
+        workspace.setBackground(request.getBackground());
+        workspace.setCreatedAt(request.getCreatedAt());
+        workspace.setIsStarred(request.getIsStarred());
+        workspace.setTitle(request.getTitle());
+        workspace.setUpdatedAt(request.getUpdatedAt());
+        workspace.setUser(user);
+        workspace.setVisibility(request.getVisibility());
+        workspace.setId(request.getWorkspaceId());
+
+        this.workspaceRepository.save(workspace);
+
+    }
+
     private void checkOwnerShip(Long userId) {
         User user = this.userService.getCurrentlyLoggedInUser();
         if (userId != user.getId()) {
@@ -53,9 +85,6 @@ public class WorkspaceService {
                 workspace.setToggleUpdate(false);
             }
         }
-        System.out.println("__________________________________");
-        System.out.println(workspace.getToggleUpdate());
-        System.out.println("__________________________________");
 
         this.workspaceRepository.save(workspace);
 
@@ -113,7 +142,8 @@ public class WorkspaceService {
                 new Workspace(request.getTitle(),
                         request.getBackground(),
                         visibility,
-                        user));
+                        user,
+                        false));
 
         String title = MyUtils.slugify(request.getTitle());
 
