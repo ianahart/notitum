@@ -42,6 +42,10 @@ public class WorkspaceService {
             throw new BadRequestException("Background is malformed");
         }
 
+        if (request.getDescription().trim().length() == 0 || request.getDescription().length() > 150) {
+            throw new BadRequestException("Description must be between 1 and 150 characters");
+        }
+
     }
 
     public void updateWorkspace(UpdateWorkspaceRequest request, Long id) {
@@ -60,6 +64,7 @@ public class WorkspaceService {
         workspace.setUser(user);
         workspace.setVisibility(request.getVisibility());
         workspace.setId(request.getWorkspaceId());
+        workspace.setDescription(request.getDescription());
 
         this.workspaceRepository.save(workspace);
 
@@ -145,7 +150,6 @@ public class WorkspaceService {
                 false);
 
         this.workspaceRepository.save(workspace);
-
 
         String title = MyUtils.slugify(request.getTitle());
 

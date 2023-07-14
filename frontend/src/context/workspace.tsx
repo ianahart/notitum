@@ -11,7 +11,6 @@ export const WorkspaceContext = createContext<IWorkspaceContext | null>(null);
 
 const WorkspaceContextProvider = ({ children }: IChildren) => {
   const [workspace, setWorkspace] = useState<IWorkspace>(workspaceState);
-
   const handleUpdateStarred = () => {
     const isStarred = workspace.isStarred ? !workspace.isStarred : true;
     const updatedWorkspace = { ...workspace, isStarred };
@@ -37,7 +36,12 @@ const WorkspaceContextProvider = ({ children }: IChildren) => {
 
   return (
     <WorkspaceContext.Provider
-      value={{ workspace, setWorkspace, handleUpdateStarred, handleUpdateProperty }}
+      value={{
+        workspace,
+        setWorkspace,
+        handleUpdateStarred,
+        handleUpdateProperty,
+      }}
     >
       {children}
     </WorkspaceContext.Provider>

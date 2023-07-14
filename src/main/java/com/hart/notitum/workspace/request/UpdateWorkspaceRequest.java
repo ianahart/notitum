@@ -14,6 +14,7 @@ public class UpdateWorkspaceRequest {
     private Long userId;
     private Visibility visibility;
     private Long workspaceId;
+    private String description;
 
     public UpdateWorkspaceRequest() {
 
@@ -27,7 +28,8 @@ public class UpdateWorkspaceRequest {
             Timestamp updatedAt,
             Long userId,
             Visibility visibility,
-            Long workspaceId) {
+            Long workspaceId,
+            String description) {
         this.background = background;
         this.createdAt = createdAt;
         this.isStarred = isStarred;
@@ -36,10 +38,15 @@ public class UpdateWorkspaceRequest {
         this.userId = userId;
         this.visibility = visibility;
         this.workspaceId = workspaceId;
+        this.description = description;
     }
 
     public String getTitle() {
         return title;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public Long getUserId() {
@@ -76,6 +83,10 @@ public class UpdateWorkspaceRequest {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public void setCreatedAt(Timestamp createdAt) {

@@ -20,6 +20,12 @@ export const colorsState = [
   { id: nanoid(), background: '#FF55BB' },
 ];
 
+export const workspaceMenuState = {
+  description: { name: 'description', value: 'About this workspace', open: false },
+  background: { name: 'background', value: 'Change background', open: false },
+  menu: { name: 'menu', value: 'Menu', open: false },
+};
+
 export const workspaceState = {
   workspaceId: 0,
   background: '',

@@ -57,7 +57,13 @@ const Visibility = () => {
         <Box mx="0.25rem" color="light.primary">
           {showCorrectIcon()}
         </Box>
-        <Text minW="150px" fontSize="0.8rem" color="light.primary" onClick={openMenu}>
+        <Text
+          fontWeight="bold"
+          minW="150px"
+          fontSize="0.8rem"
+          color="light.primary"
+          onClick={openMenu}
+        >
           {workspace.visibility.toLowerCase()} is visible
         </Text>
       </Flex>
