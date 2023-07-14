@@ -8,6 +8,8 @@ import {
   DrawerFooter,
   DrawerHeader,
   Text,
+  Flex,
+  Image,
 } from '@chakra-ui/react';
 import { useContext, useEffect, useState } from 'react';
 import { WorkspaceContext } from '../../../../context/workspace';
@@ -17,6 +19,7 @@ import { BsChevronLeft } from 'react-icons/bs';
 import DrawerMenuItem from './DrawerMenuItem';
 import AboutWorkspace from './AboutWorkspace';
 import { workspaceMenuState } from '../../../../state/initialState';
+import ChangeBackground from './ChangeBackground';
 
 interface IDrawerMenuProps {
   isOpen: boolean;
@@ -114,22 +117,40 @@ const DrawerMenu = ({ isOpen, onClose, menuBtnRef }: IDrawerMenuProps) => {
                   <AboutWorkspace />
                 )}
               </Box>
-              {/*backgroung goes here*/}
               <Box onClick={() => updateWorkspaceMenu('background', true)}>
                 {!workspaceMenu.background.open && !checkForOpenMenus(['description']) && (
                   <DrawerMenuItem>
-                    <Text fontWeight="bold" fontSize="0.8rem" color="light.primary">
-                      Change Background
-                    </Text>
+                    <Flex alignItems="center">
+                      {workspace.background.startsWith('#') ? (
+                        <Box
+                          bg={workspace.background}
+                          mr="0.25rem"
+                          width="25px"
+                          height="25px"
+                          borderRadius={8}
+                        ></Box>
+                      ) : (
+                        <Image
+                          mr="0.25rem"
+                          width="25px"
+                          height="25px"
+                          borderRadius={8}
+                          src={workspace.background}
+                          alt="a background image of the workspace"
+                        />
+                      )}
+                      <Text fontWeight="bold" fontSize="0.8rem" color="light.primary">
+                        Change Background
+                      </Text>
+                    </Flex>
                   </DrawerMenuItem>
                 )}
                 {workspaceMenu.background.open && !checkForOpenMenus(['description']) && (
-                  <Text>Background widget here</Text>
+                  <ChangeBackground />
                 )}
               </Box>
             </Box>
           </DrawerBody>
-
           <DrawerFooter></DrawerFooter>
         </DrawerContent>
       </Drawer>
