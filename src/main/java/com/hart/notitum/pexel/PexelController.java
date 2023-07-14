@@ -23,9 +23,9 @@ public class PexelController {
 
     @GetMapping
     public ResponseEntity<PexelResponse> getPexelBackgrounds(@RequestParam("page") int page,
-            @RequestParam("perPage") int perPage) {
+            @RequestParam("perPage") int perPage, @RequestParam("query") String query) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new PexelResponse("success", this.pexelService.getPexelBackgrounds(page, perPage)));
+                .body(new PexelResponse("success", this.pexelService.getPexelBackgrounds(page, perPage, query)));
     }
 }

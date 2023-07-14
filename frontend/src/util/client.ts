@@ -33,8 +33,8 @@ export const Client = {
     });
   },
 
-  getPexelBackgrounds: (page: number, perPage: number) => {
-    return http.get(`/pexels?page=${page}&perPage=${perPage}`);
+  getPexelBackgrounds: (page: number, perPage: number, query: string) => {
+    return http.get(`/pexels?page=${page}&perPage=${perPage}&query=${query}`);
   },
 
   resetPassword: (

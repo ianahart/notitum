@@ -57,7 +57,7 @@ const CreateWorkspace = ({ remainingWorkspaces }: ICreateWorkspaceProps) => {
   };
 
   const fetch = (load: string) => {
-    Client.getPexelBackgrounds(page, perPage)
+    Client.getPexelBackgrounds(page, perPage, 'backgrounds')
       .then((res) => {
         handleSetPhotos(res.data.photos, load);
         setPage((prevState) => prevState + 1);

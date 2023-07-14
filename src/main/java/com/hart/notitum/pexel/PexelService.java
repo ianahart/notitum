@@ -18,10 +18,10 @@ public class PexelService {
     @Value("${pexels}")
     private String pexelsKey;
 
-    public List<String> getPexelBackgrounds(int page, int perPage) {
+    public List<String> getPexelBackgrounds(int page, int perPage, String query) {
         try {
             return getInitial(
-                    "https://api.pexels.com/v1/search?query=backgrounds&page=" + page + "&per_page=" + perPage);
+                    "https://api.pexels.com/v1/search?query=" + query + "&page=" + page + "&per_page=" + perPage);
 
         } catch (IOException e) {
             e.printStackTrace();
