@@ -6,6 +6,9 @@ export const http = axios.create({
 });
 
 export const Client = {
+  createActivity: (text: string, userId: number) => {
+    return http.post('/activities', { text, userId });
+  },
   updateWorkspace: (workspace: IWorkspace) => {
     return http.put(`workspaces/${workspace.workspaceId}`, workspace);
   },

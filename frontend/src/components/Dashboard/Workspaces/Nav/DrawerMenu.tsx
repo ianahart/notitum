@@ -20,6 +20,8 @@ import DrawerMenuItem from './DrawerMenuItem';
 import AboutWorkspace from './AboutWorkspace';
 import { workspaceMenuState } from '../../../../state/initialState';
 import ChangeBackground from './ChangeBackground';
+import Activity from './Activiy';
+import { AiOutlineUnorderedList } from 'react-icons/ai';
 
 interface IDrawerMenuProps {
   isOpen: boolean;
@@ -32,19 +34,13 @@ const DrawerMenu = ({ isOpen, onClose, menuBtnRef }: IDrawerMenuProps) => {
   const [menuTitle, setMenuTitle] = useState('Menu');
   const { workspace } = useContext(WorkspaceContext) as IWorkspaceContext;
 
+  const background = !workspaceMenu.activity.open && !workspaceMenu.description.open;
+  const description = !workspaceMenu.activity.open && !workspaceMenu.background.open;
+  const activity = !workspaceMenu.background.open && !workspaceMenu.description.open;
+
   const updateWorkspaceMenu = (name: string, open: boolean) => {
     preformUpdate(name, open);
     setMenuTitle(name.slice(0, 1).toUpperCase() + name.slice(1));
-  };
-
-  const checkForOpenMenus = (names: string[]) => {
-    let open = true;
-    for (const [key, val] of Object.entries(workspaceMenu)) {
-      if (!val.open && names.includes(key)) {
-        open = false;
-      }
-    }
-    return open;
   };
 
   const preformUpdate = (name: string, open: boolean) => {
@@ -94,7 +90,7 @@ const DrawerMenu = ({ isOpen, onClose, menuBtnRef }: IDrawerMenuProps) => {
           <DrawerBody>
             <Box>
               <Box onClick={() => updateWorkspaceMenu('description', true)}>
-                {!workspaceMenu.description.open && !checkForOpenMenus(['background']) && (
+                {!workspaceMenu.description.open && description && (
                   <DrawerMenuItem>
                     <>
                       <Box mr="0.5rem" color="light.primary">
@@ -113,17 +109,14 @@ const DrawerMenu = ({ isOpen, onClose, menuBtnRef }: IDrawerMenuProps) => {
                     </>
                   </DrawerMenuItem>
                 )}
-                {workspaceMenu.description.open && !checkForOpenMenus(['background']) && (
-                  <AboutWorkspace />
-                )}
+                {workspaceMenu.description.open && description && <AboutWorkspace />}
               </Box>
               <Box onClick={() => updateWorkspaceMenu('background', true)}>
-                {!workspaceMenu.background.open && !checkForOpenMenus(['description']) && (
+                {!workspaceMenu.background.open && background && (
                   <DrawerMenuItem>
                     <Flex alignItems="center">
                       {workspace.background.startsWith('#') ? (
                         <Box
-                          bg={workspace.background}
                           mr="0.25rem"
                           width="25px"
                           height="25px"
@@ -145,9 +138,28 @@ const DrawerMenu = ({ isOpen, onClose, menuBtnRef }: IDrawerMenuProps) => {
                     </Flex>
                   </DrawerMenuItem>
                 )}
-                {workspaceMenu.background.open && !checkForOpenMenus(['description']) && (
-                  <ChangeBackground />
+                {workspaceMenu.background.open && background && <ChangeBackground />}
+              </Box>
+
+              <Box onClick={() => updateWorkspaceMenu('activity', true)}>
+                {!workspaceMenu.activity.open && activity && (
+                  <DrawerMenuItem>
+                    <>
+                      <Box mr="0.5rem" color="light.primary">
+                        <AiOutlineUnorderedList />
+                      </Box>
+                      <Box>
+                        <Text fontWeight="bold" fontSize="0.8rem" color="light.primary">
+                          {workspaceMenu.activity.value}
+                        </Text>
+                        <Text color="light.primary" fontSize="0.85rem">
+                          Keep track of your changes
+                        </Text>
+                      </Box>
+                    </>
+                  </DrawerMenuItem>
                 )}
+                {workspaceMenu.activity.open && activity && <Activity />}
               </Box>
             </Box>
           </DrawerBody>

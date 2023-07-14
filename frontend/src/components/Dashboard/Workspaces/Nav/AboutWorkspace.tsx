@@ -31,13 +31,11 @@ const AboutWorkspace = () => {
   const handleSave = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     handleUpdateProperty(textareaValue, 'description');
-    console.log('save');
     setIsFormShowing(false);
   };
 
   const handleCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    console.log('cancel');
     setIsFormShowing(false);
   };
 

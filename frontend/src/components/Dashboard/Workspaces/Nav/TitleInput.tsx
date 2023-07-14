@@ -1,5 +1,9 @@
 import { Box, FormControl, Input, Text } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { UserContext } from '../../../../context/user';
+import { IUserContext, IWorkspaceContext } from '../../../../interfaces';
+import { Client } from '../../../../util/client';
+import { WorkspaceContext } from '../../../../context/workspace';
 
 interface ITitleInputProps {
   title: string;
@@ -7,6 +11,8 @@ interface ITitleInputProps {
 }
 
 const TitleInput = ({ title, handleUpdateProperty }: ITitleInputProps) => {
+  const { user } = useContext(UserContext) as IUserContext;
+  const { workspace } = useContext(WorkspaceContext) as IWorkspaceContext;
   const [isInputShowing, setIsInputShowing] = useState(false);
   const [inputValue, setInputValue] = useState('');
 
@@ -17,7 +23,13 @@ const TitleInput = ({ title, handleUpdateProperty }: ITitleInputProps) => {
   const handleOnBlur = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
     handleUpdateProperty(e.target.value, 'title');
+    createActivity(e.target.value);
     setIsInputShowing(false);
+  };
+
+  const createActivity = (title: string) => {
+    const text = `${user.firstName} ${user.lastName} changed workspace title from ${workspace.title} to ${title}`;
+    Client.createActivity(text, user.id);
   };
 
   useEffect(() => {

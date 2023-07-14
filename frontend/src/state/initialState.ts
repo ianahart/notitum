@@ -23,6 +23,7 @@ export const colorsState = [
 export const workspaceMenuState = {
   description: { name: 'description', value: 'About this workspace', open: false },
   background: { name: 'background', value: 'Change background', open: false },
+  activity: { name: 'activity', value: 'Activity', open: false },
   menu: { name: 'menu', value: 'Menu', open: false },
 };
 

@@ -3,6 +3,7 @@ package com.hart.notitum.user;
 import java.util.Collection;
 import java.util.List;
 
+import com.hart.notitum.activity.Activity;
 import com.hart.notitum.passwordreset.PasswordReset;
 import com.hart.notitum.refreshtoken.RefreshToken;
 import com.hart.notitum.token.Token;
@@ -60,6 +61,9 @@ public class User implements UserDetails {
     @OneToMany()
     private List<RefreshToken> refreshTokens;
 
+    @OneToMany()
+    private List<Activity> activities;
+
     public User() {
 
     }
@@ -105,6 +109,10 @@ public class User implements UserDetails {
 
     public List<RefreshToken> getRefreshTokens() {
         return refreshTokens;
+    }
+
+    public List<Activity> getActivities() {
+        return activities;
     }
 
     public List<Token> getTokens() {
@@ -157,6 +165,10 @@ public class User implements UserDetails {
 
     public void setWorkspaces(List<Workspace> workspaces) {
         this.workspaces = workspaces;
+    }
+
+    public void setActivities(List<Activity> activities) {
+        this.activities = activities;
     }
 
     public void setPasswordResets(List<PasswordReset> passwordResets) {

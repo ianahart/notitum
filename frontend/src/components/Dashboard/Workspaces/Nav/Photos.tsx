@@ -54,7 +54,7 @@ const Photos = () => {
   const handleOnKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       fetchPhotos(inputValue);
-            setPhotos([]);
+      setPhotos([]);
     }
   };
 
