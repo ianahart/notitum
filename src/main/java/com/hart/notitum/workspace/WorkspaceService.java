@@ -125,6 +125,15 @@ public class WorkspaceService {
         return this.workspaceRepository.getRecentWorkspaces(userId);
     }
 
+    public List<WorkspaceDto> getStarredWorkspaces(Long userId, boolean isStarred) {
+        if (userId == null) {
+            throw new BadRequestException("A user id was not present in the query string");
+        }
+
+        checkOwnerShip(userId);
+        return this.workspaceRepository.getStarredWorkspaces(userId, isStarred);
+    }
+
     private boolean checkIfWorkspaceExists(String title) {
         if (title == null) {
             return false;

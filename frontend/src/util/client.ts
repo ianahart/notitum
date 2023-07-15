@@ -6,6 +6,9 @@ export const http = axios.create({
 });
 
 export const Client = {
+  getStarredWorkspaces: (userId: number, isStarred: boolean) => {
+    return http.get(`/workspaces/starred?userId=${userId}&isStarred=${isStarred}`);
+  },
   removeActivity: (activityId: number) => {
     return http.delete(`/activities/${activityId}`);
   },

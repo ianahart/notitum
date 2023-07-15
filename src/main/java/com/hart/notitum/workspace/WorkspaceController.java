@@ -47,6 +47,19 @@ public class WorkspaceController {
                 .body(new GetWorkspacesResponse("success", this.workspaceService.getWorkspaces(userId)));
     }
 
+
+
+
+    @GetMapping("/starred")
+    public ResponseEntity<GetWorkspacesResponse> getStarredWorkspaces(@RequestParam("userId") Long userId, @RequestParam("isStarred") boolean isStarred) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new GetWorkspacesResponse("success", this.workspaceService.getStarredWorkspaces(userId, isStarred)));
+    }
+
+
+
+
     @GetMapping("/recent")
     public ResponseEntity<GetWorkspacesResponse> getRecentWorkspaces(@RequestParam("userId") Long userId) {
         return ResponseEntity

@@ -51,6 +51,20 @@ public interface WorkspaceRepository extends JpaRepository<Workspace, Long> {
                     Workspace w
                     INNER JOIN w.user u
                     WHERE u.id = :userId
+                    AND w.isStarred = :isStarred
+                    """)
+    List<WorkspaceDto> getStarredWorkspaces(@Param("userId") Long userId, @Param("isStarred") boolean isStarred);
+
+    @Query(value = """
+            SELECT new com.hart.notitum.workspace.dto.WorkspaceDto(
+             w.id as workspaceId, w.background as background,
+             w.createdAt as createdAt, w.title as title, w.visibility as visibility,
+            u.id as userId, w.updatedAt as updatedAt, w.isStarred as isStarred,
+            w.description as description
+            ) FROM
+                    Workspace w
+                    INNER JOIN w.user u
+                    WHERE u.id = :userId
                     ORDER BY w.id DESC
                     """)
     List<WorkspaceDto> getWorkspaces(@Param("userId") Long userId);
