@@ -7,6 +7,7 @@ import BasicSpinner from '../components/Shared/BasicSpinner';
 import Navbar from '../components/Dashboard/Workspaces/Nav/Navbar';
 import { IWorkspace, IWorkspaceContext } from '../interfaces';
 import { WorkspaceContext } from '../context/workspace';
+import CreateList from '../components/Dashboard/Workspaces/Lists/CreateList';
 
 const WorkspaceRoute = () => {
   const location = useLocation();
@@ -53,6 +54,9 @@ const WorkspaceRoute = () => {
         backgroundSize="cover"
       >
         <Navbar />
+        <Flex my="4rem" mx="1rem">
+          <CreateList />
+        </Flex>
       </Box>
     </>
   );

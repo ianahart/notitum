@@ -6,6 +6,10 @@ export const http = axios.create({
 });
 
 export const Client = {
+  createList: (userId: number, workspaceId: number, title: string) => {
+    return http.post('/lists', { userId, workspaceId, title });
+  },
+
   getStarredWorkspaces: (userId: number, isStarred: boolean) => {
     return http.get(`/workspaces/starred?userId=${userId}&isStarred=${isStarred}`);
   },

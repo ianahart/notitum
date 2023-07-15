@@ -16,7 +16,7 @@ const Navbar = () => {
   const menuBtnRef = useRef<HTMLDivElement>(null);
 
   return (
-    <Box bg="rgba(255, 255, 255, 0.2)" minH="50px" p="0.5rem">
+    <Box bg="rgba(188, 188, 188, 0.6)" minH="50px" p="0.5rem">
       <Flex alignItems="center" justify="space-between">
         <Flex mx="0.5rem" alignItems="center">
           <TitleInput
