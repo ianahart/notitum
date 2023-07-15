@@ -29,7 +29,7 @@ const TitleInput = ({ title, handleUpdateProperty }: ITitleInputProps) => {
 
   const createActivity = (title: string) => {
     const text = `${user.firstName} ${user.lastName} changed workspace title from ${workspace.title} to ${title}`;
-    Client.createActivity(text, user.id);
+    Client.createActivity(text, user.id, workspace.workspaceId).then(() => {});
   };
 
   useEffect(() => {

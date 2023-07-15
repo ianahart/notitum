@@ -3,6 +3,7 @@ package com.hart.notitum.activity;
 import java.sql.Timestamp;
 
 import com.hart.notitum.user.User;
+import com.hart.notitum.workspace.Workspace;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -40,6 +41,10 @@ public class Activity {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "workspace_id", referencedColumnName = "id")
+    private Workspace workspace;
+
     public Activity() {
 
     }
@@ -56,13 +61,18 @@ public class Activity {
         this.text = text;
     }
 
-    public Activity(String text, User user) {
+    public Activity(String text, User user, Workspace workspace) {
         this.text = text;
         this.user = user;
+        this.workspace = workspace;
     }
 
     public Long getId() {
         return id;
+    }
+
+    public Workspace getWorkspace() {
+        return workspace;
     }
 
     public String getText() {
@@ -83,6 +93,10 @@ public class Activity {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public void setWorkspace(Workspace workspace) {
+        this.workspace = workspace;
     }
 
     public void setId(Long id) {

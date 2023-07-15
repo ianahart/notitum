@@ -18,6 +18,19 @@ export interface IPexels {
   background: string;
 }
 
+export interface IActivity {
+  activityId: number;
+  createdAt: Date;
+  text: string;
+}
+
+export interface IPagination {
+  pageSize: number;
+  direction: string;
+  page: number;
+  totalPages: number;
+}
+
 export interface IWorkspace {
   workspaceId: number;
   background: string;

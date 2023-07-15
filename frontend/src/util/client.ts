@@ -6,13 +6,24 @@ export const http = axios.create({
 });
 
 export const Client = {
-  createActivity: (text: string, userId: number) => {
-    return http.post('/activities', { text, userId });
+  getActivities: (
+    userId: number,
+    workspaceId: number,
+    page: number,
+    direction: string,
+    pageSize: number
+  ) => {
+    return http.get(
+      `/activities?userId=${userId}&workspaceId=${workspaceId}&page=${page}&direction=${direction}&pageSize=${pageSize}`
+    );
+  },
+
+  createActivity: (text: string, userId: number, workspaceId: number) => {
+    return http.post('/activities', { text, userId, workspaceId });
   },
   updateWorkspace: (workspace: IWorkspace) => {
     return http.put(`workspaces/${workspace.workspaceId}`, workspace);
   },
-
   getRecentlyViewedWorkspaces: (userId: number) => {
     return http.get(`/workspaces/recent?userId=${userId}`);
   },

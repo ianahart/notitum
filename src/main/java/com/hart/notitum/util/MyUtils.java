@@ -12,6 +12,21 @@ public final class MyUtils {
 
     public static String capitalize(String text) {
         return text.substring(0, 1).toUpperCase() + text.substring(1).toLowerCase();
+
+    }
+
+    public static int paginate(int page, String direction) {
+        int currentPage = page;
+
+        if (direction.equals("next")) {
+            currentPage = currentPage + 1;
+        }
+
+        if (direction.equals("prev") && page > 0) {
+            currentPage = currentPage - 1;
+        }
+
+        return currentPage;
     }
 
     public static String slugify(String text) {

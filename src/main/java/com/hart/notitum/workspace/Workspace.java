@@ -1,7 +1,9 @@
 package com.hart.notitum.workspace;
 
 import java.sql.Timestamp;
+import java.util.List;
 
+import com.hart.notitum.activity.Activity;
 import com.hart.notitum.user.User;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -17,6 +19,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
@@ -51,6 +54,9 @@ public class Workspace {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
+
+    @OneToMany()
+    private List<Activity> activities;
 
     public Workspace() {
 
@@ -102,6 +108,10 @@ public class Workspace {
         return user;
     }
 
+    public List<Activity> getActivities() {
+        return activities;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -136,6 +146,10 @@ public class Workspace {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void setActivities(List<Activity> activities) {
+        this.activities = activities;
     }
 
     public void setDescription(String description) {
