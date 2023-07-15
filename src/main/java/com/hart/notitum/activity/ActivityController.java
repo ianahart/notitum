@@ -54,7 +54,7 @@ public class ActivityController {
     public ResponseEntity<DeleteActivityResponse> deleteActivity(@PathVariable("id") Long id) {
         this.activityService.deleteActivity(id);
         return ResponseEntity
-        .status(HttpStatus.OK)
-        .body(new DeleteActivityResponse("success"));
+                .status(HttpStatus.OK)
+                .body(new DeleteActivityResponse("success"));
     }
 }

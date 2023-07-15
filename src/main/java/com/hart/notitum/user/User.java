@@ -50,7 +50,7 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Workspace> workspaces;
 
     @OneToMany()
@@ -62,7 +62,7 @@ public class User implements UserDetails {
     @OneToMany()
     private List<RefreshToken> refreshTokens;
 
-    @OneToMany()
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Activity> activities;
 
     public User() {

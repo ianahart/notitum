@@ -49,12 +49,16 @@ public class WorkspaceService {
     }
 
     public void updateWorkspace(UpdateWorkspaceRequest request, Long id) {
+
         Workspace workspace = this.workspaceRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Work space not found with id " + id));
 
         User user = this.userService.getCurrentlyLoggedInUser();
 
-        validateWorkspaceProperties(request);
+        if (request.getTitle() != null && request.getBackground() != null && request.getDescription() != null) {
+            validateWorkspaceProperties(request);
+
+        }
 
         workspace.setBackground(request.getBackground());
         workspace.setCreatedAt(request.getCreatedAt());
