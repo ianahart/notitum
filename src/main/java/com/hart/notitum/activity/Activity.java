@@ -37,11 +37,11 @@ public class Activity {
     @Column(name = "text")
     private String text;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "workspace_id", referencedColumnName = "id")
     private Workspace workspace;
 

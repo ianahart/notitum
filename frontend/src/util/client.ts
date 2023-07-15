@@ -6,6 +6,9 @@ export const http = axios.create({
 });
 
 export const Client = {
+  removeActivity: (activityId: number) => {
+    return http.delete(`/activities/${activityId}`);
+  },
   getActivities: (
     userId: number,
     workspaceId: number,

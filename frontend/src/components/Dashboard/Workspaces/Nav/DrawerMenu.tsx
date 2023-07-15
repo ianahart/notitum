@@ -20,7 +20,7 @@ import DrawerMenuItem from './DrawerMenuItem';
 import AboutWorkspace from './AboutWorkspace';
 import { workspaceMenuState } from '../../../../state/initialState';
 import ChangeBackground from './ChangeBackground';
-import Activity from './Activiy';
+import Activity from './Activity';
 import { AiOutlineUnorderedList } from 'react-icons/ai';
 
 interface IDrawerMenuProps {

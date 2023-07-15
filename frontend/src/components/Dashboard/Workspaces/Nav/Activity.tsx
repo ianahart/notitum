@@ -10,7 +10,7 @@ import {
 } from '../../../../interfaces';
 import { WorkspaceContext } from '../../../../context/workspace';
 import BasicSpinner from '../../../Shared/BasicSpinner';
-import { AiOutlineStar } from 'react-icons/ai';
+import { AiOutlineClose, AiOutlineStar } from 'react-icons/ai';
 // @ts-ignore
 import dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
@@ -22,7 +22,7 @@ const Activity = () => {
   const [activities, setActivities] = useState<IActivity[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [pagination, setPagination] = useState<IPagination>({
-    pageSize: 2,
+    pageSize: 3,
     direction: 'next',
     page: 0,
     totalPages: 0,
@@ -49,11 +49,29 @@ const Activity = () => {
       .then((res) => {
         const { activities, direction, pageSize, page, totalPages } = res.data.data;
         setPagination({ ...pagination, direction, pageSize, page, totalPages });
-        setActivities((prevState) => [...prevState, ...activities]);
+        if (paginate) {
+          setActivities((prevState) => [...prevState, ...activities]);
+        } else {
+          setActivities(activities);
+        }
         setIsLoading(false);
       })
       .catch((err) => {
         setIsLoading(false);
+        throw new Error(err.response.data.message);
+      });
+  };
+
+  const handleOnRemoveActivity = (activityId: number) => {
+    Client.removeActivity(activityId)
+      .then(() => {
+        setActivities((prevState) =>
+          prevState.filter((activity) => activity.activityId !== activityId)
+        );
+        setPagination({ pageSize: 3, direction: 'next', page: 0, totalPages: 0 });
+        getActivities(false, 'next');
+      })
+      .catch((err) => {
         throw new Error(err.response.data.message);
       });
   };
@@ -71,9 +89,18 @@ const Activity = () => {
           return (
             <Box key={activityId}>
               <Flex my="0.5rem" alignItems="center">
-                <Box color="light.primary">
-                  <AiOutlineStar />
-                </Box>
+                <Flex mr="0.25rem" flexDir="column">
+                  <Box color="light.primary">
+                    <AiOutlineStar />
+                  </Box>
+                  <Box
+                    onClick={() => handleOnRemoveActivity(activityId)}
+                    cursor="pointer"
+                    color="black.secondary"
+                  >
+                    <AiOutlineClose />
+                  </Box>
+                </Flex>
                 <Text color="light.primary" fontSize="0.85rem">
                   {text}
                 </Text>

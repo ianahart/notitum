@@ -64,4 +64,12 @@ public class ActivityService {
 
     }
 
+    public void deleteActivity(Long id) {
+        if (id == null) {
+            throw new BadRequestException("Cannot delete acitivty with no id");
+        }
+
+        this.activityRepository.deleteById(id);
+    }
+
 }
