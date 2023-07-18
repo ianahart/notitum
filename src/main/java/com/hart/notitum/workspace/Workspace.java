@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import com.hart.notitum.activity.Activity;
+import com.hart.notitum.list.WorkspaceList;
 import com.hart.notitum.user.User;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -51,9 +52,12 @@ public class Workspace {
     @Enumerated(EnumType.STRING)
     private Visibility visibility;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<WorkspaceList> workspaceLists;
 
     @OneToMany()
     private List<Activity> activities;
@@ -128,6 +132,10 @@ public class Workspace {
         return isStarred;
     }
 
+    public List<WorkspaceList> getWorkspaceLists() {
+        return workspaceLists;
+    }
+
     public Timestamp getCreatedAt() {
         return createdAt;
     }
@@ -150,6 +158,11 @@ public class Workspace {
 
     public void setActivities(List<Activity> activities) {
         this.activities = activities;
+    }
+
+    public void setWorkspaceLists(List<WorkspaceList> workspaceLists) {
+        this.workspaceLists = workspaceLists;
+
     }
 
     public void setDescription(String description) {

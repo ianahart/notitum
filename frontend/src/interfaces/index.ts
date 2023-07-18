@@ -13,6 +13,17 @@ export interface IWorkspaceMenus {
   menu: { name: string; value: string; open: boolean };
 }
 
+export interface IList {
+  [key: string]: any;
+  id: number;
+  createdAt: Date;
+  title: string;
+  index: number;
+  xCoordinate: number;
+  yCoordinate: number;
+  updatedAt: Date;
+}
+
 export interface IPexels {
   id: string;
   background: string;
@@ -87,8 +98,11 @@ export interface IUserContext {
 }
 
 export interface IWorkspaceContext {
+  lists: IList[];
+  setLists: (lists: IList[]) => void;
   workspace: IWorkspace;
   setWorkspace: (workspace: IWorkspace) => void;
   handleUpdateProperty: <T>(value: T, property: string) => void;
   handleUpdateStarred: () => void;
+  updateWorkspaceList: (key: string, title: string, workspaceListId: number) => void;
 }

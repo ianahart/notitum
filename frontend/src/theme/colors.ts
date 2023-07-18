@@ -20,6 +20,9 @@ export const colors = {
   cover: {
     primary: 'rgba(54, 54, 54, 0.8)',
   },
+  transparent: {
+    primary: 'rgba(188, 188, 188, 0.6)',
+  },
   border: {
     primary: '#605e5e',
   },
