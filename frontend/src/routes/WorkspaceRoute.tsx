@@ -8,6 +8,7 @@ import Navbar from '../components/Dashboard/Workspaces/Nav/Navbar';
 import { IWorkspace, IWorkspaceContext } from '../interfaces';
 import { WorkspaceContext } from '../context/workspace';
 import CreateList from '../components/Dashboard/Workspaces/Lists/CreateList';
+import Lists from '../components/Dashboard/Workspaces/Lists/Lists';
 
 const WorkspaceRoute = () => {
   const location = useLocation();
@@ -53,10 +54,17 @@ const WorkspaceRoute = () => {
         backgroundPosition="center"
         backgroundSize="cover"
       >
-        <Navbar />
-        <Flex my="4rem" mx="1rem">
-          <CreateList />
-        </Flex>
+        <Box>
+          <Navbar />
+        </Box>
+        <Box minH="100vh" overflowX="auto" className="overflow-scroll">
+          <Flex my="4rem" mx="1rem">
+            <Box>
+              <Lists />
+            </Box>
+            <CreateList />
+          </Flex>
+        </Box>
       </Box>
     </>
   );

@@ -1,4 +1,4 @@
-import { IWorkspaceContext, IWorkspace } from '../interfaces';
+import { IWorkspaceContext, IWorkspace, IList } from '../interfaces';
 import { createContext, useState } from 'react';
 import { userState, tokenState, workspaceState } from '../state/initialState';
 import { Client } from '../util/client';
@@ -11,6 +11,7 @@ export const WorkspaceContext = createContext<IWorkspaceContext | null>(null);
 
 const WorkspaceContextProvider = ({ children }: IChildren) => {
   const [workspace, setWorkspace] = useState<IWorkspace>(workspaceState);
+  const [lists, setLists] = useState<IList[]>([]);
   const handleUpdateStarred = () => {
     const isStarred = workspace.isStarred ? !workspace.isStarred : true;
     const updatedWorkspace = { ...workspace, isStarred };
@@ -22,6 +23,19 @@ const WorkspaceContextProvider = ({ children }: IChildren) => {
     const updatedWorkspace = { ...workspace, [property]: value };
     setWorkspace(updatedWorkspace);
     updateWorkspace(updatedWorkspace);
+  };
+
+  const updateWorkspaceList = <T,>(key: string, value: T, workspaceListId: number) => {
+    const updatedLists = lists.map((list) => {
+      if (list.id === workspaceListId) {
+        if (typeof key === 'string') {
+          list[key] = value;
+        }
+      }
+      return list;
+    });
+
+    setLists(updatedLists);
   };
 
   const updateWorkspace = (updatedWorkspace: IWorkspace) => {
@@ -37,10 +51,13 @@ const WorkspaceContextProvider = ({ children }: IChildren) => {
   return (
     <WorkspaceContext.Provider
       value={{
+        lists,
+        setLists,
         workspace,
         setWorkspace,
         handleUpdateStarred,
         handleUpdateProperty,
+        updateWorkspaceList,
       }}
     >
       {children}

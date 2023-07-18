@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.hart.notitum.activity.Activity;
+import com.hart.notitum.list.WorkspaceList;
 import com.hart.notitum.passwordreset.PasswordReset;
 import com.hart.notitum.refreshtoken.RefreshToken;
 import com.hart.notitum.token.Token;
@@ -65,6 +66,9 @@ public class User implements UserDetails {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Activity> activities;
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<WorkspaceList> workspaceLists;
+
     public User() {
 
     }
@@ -108,6 +112,10 @@ public class User implements UserDetails {
 
     }
 
+    public List<WorkspaceList> getWorkspaceLists() {
+        return workspaceLists;
+    }
+
     public List<RefreshToken> getRefreshTokens() {
         return refreshTokens;
     }
@@ -142,6 +150,10 @@ public class User implements UserDetails {
 
     public void setTokens(List<Token> tokens) {
         this.tokens = tokens;
+    }
+
+    public void setWorkspaceLists(List<WorkspaceList> workspaceLists) {
+        this.workspaceLists = workspaceLists;
     }
 
     public String getAbbreviation() {

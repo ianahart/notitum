@@ -1,15 +1,23 @@
 import axios from 'axios';
-import { IRegisterForm, IWorkspace } from '../interfaces';
+import { IList, IRegisterForm, IWorkspace } from '../interfaces';
 
 export const http = axios.create({
   baseURL: 'http://localhost:5173/api/v1',
 });
 
 export const Client = {
-  createList: (userId: number, workspaceId: number, title: string) => {
-    return http.post('/lists', { userId, workspaceId, title });
+  updateList(workspaceList: IList, workspaceListId: number, workspaceId: number) {
+    return http.patch(`/lists/${workspaceListId}`, { workspaceList, workspaceId });
   },
-
+  reorderLists: (data: { workspaceListId: number; index: number }[]) => {
+    return http.post('/lists/reorder', { data });
+  },
+  getLists: (userId: number, workspaceId: number) => {
+    return http.get(`/lists?userId=${userId}&workspaceId=${workspaceId}`);
+  },
+  createList: (userId: number, workspaceId: number, title: string, index: number) => {
+    return http.post('/lists', { userId, workspaceId, title, index });
+  },
   getStarredWorkspaces: (userId: number, isStarred: boolean) => {
     return http.get(`/workspaces/starred?userId=${userId}&isStarred=${isStarred}`);
   },

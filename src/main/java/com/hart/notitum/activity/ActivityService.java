@@ -34,20 +34,20 @@ public class ActivityService {
         this.workspaceRepository = workspaceRepository;
     }
 
-    public void createActivity(CreateActivityRequest request) {
-        if (request.getUserId() == null) {
+    public void createActivity(String text, Long userId, Long workspaceId) {
+        if (userId == null) {
             throw new BadRequestException("User id not present in request");
         }
         User user = this.userRepository
-                .findById(request.getUserId())
+                .findById(userId)
                 .orElseThrow(() -> new NotFoundException("User was not found from activity"));
 
         Workspace workspace = this.workspaceRepository
-                .findById(request.getWorkspaceId())
+                .findById(workspaceId)
                 .orElseThrow(() -> new NotFoundException("Workspace was not found from activity"));
 
         this.activityRepository.save(
-                new Activity(request.getText(), user, workspace));
+                new Activity(text, user, workspace));
     }
 
     public PaginationDto getActivities(Long userId, Long workspaceId, int page, String direction, int pageSize) {

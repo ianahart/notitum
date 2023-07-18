@@ -2,29 +2,36 @@ import { Box, Button, Flex, Input, Text } from '@chakra-ui/react';
 import { useContext, useState } from 'react';
 import { AiOutlineClose, AiOutlinePlus } from 'react-icons/ai';
 import { UserContext } from '../../../../context/user';
-import { IUserContext, IWorkspaceContext } from '../../../../interfaces';
+import { IList, IUserContext, IWorkspaceContext } from '../../../../interfaces';
 import { WorkspaceContext } from '../../../../context/workspace';
 import { Client } from '../../../../util/client';
 
 const CreateList = () => {
   const { user } = useContext(UserContext) as IUserContext;
-  const { workspace } = useContext(WorkspaceContext) as IWorkspaceContext;
+  const { workspace, lists, setLists } = useContext(
+    WorkspaceContext
+  ) as IWorkspaceContext;
   const [isOpen, setIsOpen] = useState(false);
   const [listTitle, setListTitle] = useState('');
+  const [error, setError] = useState('');
 
   const handleClose = () => {
     setIsOpen(false);
   };
 
   const addToList = () => {
+    setError('');
     if (listTitle.trim().length === 0) return;
-    Client.createList(user.id, workspace.workspaceId, listTitle)
+    const index = lists.length - 1 === -1 ? 0 : lists.length;
+    Client.createList(user.id, workspace.workspaceId, listTitle, index)
       .then((res) => {
-        console.log(res);
+        const { data } = res.data;
+        setLists([...lists, data]);
+        setListTitle('');
         handleClose();
       })
       .catch((err) => {
-        console.log(err);
+        setError(err.response.data.message);
         throw new Error(err.response.data.message);
       });
   };
@@ -57,6 +64,11 @@ const CreateList = () => {
           p="0.5rem"
           bg="black.primary"
         >
+          {error.length > 0 && (
+            <Text p="0.25rem" color="red.500" fontSize="0.8rem">
+              {error}
+            </Text>
+          )}
           <Input
             onChange={(e) => setListTitle(e.target.value)}
             value={listTitle}

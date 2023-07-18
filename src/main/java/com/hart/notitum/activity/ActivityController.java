@@ -44,7 +44,7 @@ public class ActivityController {
 
     @PostMapping
     public ResponseEntity<CreateActivityResponse> createActivity(@RequestBody CreateActivityRequest request) {
-        this.activityService.createActivity(request);
+        this.activityService.createActivity(request.getText(), request.getUserId(), request.getWorkspaceId());
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(new CreateActivityResponse("success"));
