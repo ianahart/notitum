@@ -40,12 +40,15 @@ const WorkspaceContextProvider = ({ children }: IChildren) => {
 
   const updateWorkspace = (updatedWorkspace: IWorkspace) => {
     Client.updateWorkspace(updatedWorkspace)
-      .then((res) => {
-        console.log(res);
-      })
+      .then(() => {})
       .catch((err) => {
         throw new Error(err.response.data.message);
       });
+  };
+
+  const removeWorkspaceList = (workspaceListId: number) => {
+    const updatedLists = [...lists].filter((list) => list.id !== workspaceListId);
+    setLists(updatedLists);
   };
 
   return (
@@ -58,6 +61,7 @@ const WorkspaceContextProvider = ({ children }: IChildren) => {
         handleUpdateStarred,
         handleUpdateProperty,
         updateWorkspaceList,
+        removeWorkspaceList,
       }}
     >
       {children}

@@ -43,6 +43,13 @@ public class WorkspaceListService {
         this.userService = userService;
     }
 
+    public void removeWorkspaceList(Long id, Long userId) {
+        if (this.userService.getCurrentlyLoggedInUser().getId() != userId) {
+            throw new ForbiddenException("Cannot delete another person's list");
+        }
+        this.workspaceListRepository.deleteById(id);
+    }
+
     public void updateWorkspaceList(WorkspaceList workspaceList, Long workspaceListId, Long workspaceId) {
         WorkspaceList prevWorkspaceList = this.workspaceListRepository.findById(workspaceListId)
                 .orElseThrow(() -> new NotFoundException("WorkspaceList not found"));
@@ -51,15 +58,15 @@ public class WorkspaceListService {
         if (user.getId() != prevWorkspaceList.getUser().getId()) {
             throw new ForbiddenException("Cannot update another person's list");
         }
+        this.activityService.createActivity(
+                user.getFirstName() + " " + user.getLastName() + " changed list title from "
+                        + prevWorkspaceList.getTitle() + " to " + workspaceList.getTitle(),
+                user.getId(), workspaceId);
 
         prevWorkspaceList.setTitle(workspaceList.getTitle());
 
         this.workspaceListRepository.save(prevWorkspaceList);
 
-        this.activityService.createActivity(
-                user.getFirstName() + " " + user.getLastName() + " changed list title from "
-                        + prevWorkspaceList.getTitle() + " to " + workspaceList.getTitle(),
-                user.getId(), workspaceId);
     }
 
     public boolean checkWorkspaceListLimit(Long userId, Long workspaceId, int limit) {

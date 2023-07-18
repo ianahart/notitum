@@ -105,4 +105,5 @@ export interface IWorkspaceContext {
   handleUpdateProperty: <T>(value: T, property: string) => void;
   handleUpdateStarred: () => void;
   updateWorkspaceList: (key: string, title: string, workspaceListId: number) => void;
+  removeWorkspaceList: (workspaceListId: number) => void;
 }

@@ -3,6 +3,7 @@ package com.hart.notitum.list;
 import com.hart.notitum.list.request.CreateWorkspaceListRequest;
 import com.hart.notitum.list.request.ReorderWorkspaceListRequest;
 import com.hart.notitum.list.response.CreateWorkspaceListResponse;
+import com.hart.notitum.list.response.DeleteWorkspaceListResponse;
 import com.hart.notitum.list.response.GetWorkspaceListsResponse;
 import com.hart.notitum.list.response.UpdateWorkspaceListResponse;
 import com.hart.notitum.list.request.UpdateWorkspaceListRequest;
@@ -11,6 +12,7 @@ import com.hart.notitum.list.response.WorkspaceListReorderResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +31,13 @@ public class WorkspaceListController {
     @Autowired
     public WorkspaceListController(WorkspaceListService workspaceListService) {
         this.workspaceListService = workspaceListService;
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<DeleteWorkspaceListResponse> removeList(@PathVariable("id") Long id, 
+            @RequestParam("userId") Long userId) {
+        this.workspaceListService.removeWorkspaceList(id, userId);
+        return ResponseEntity.status(HttpStatus.OK).body(new DeleteWorkspaceListResponse("success"));
     }
 
     @PostMapping("/reorder")

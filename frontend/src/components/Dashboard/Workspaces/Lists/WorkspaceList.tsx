@@ -1,11 +1,11 @@
 import { Box, Text, Flex, Input, FormControl } from '@chakra-ui/react';
 import { IList, IWorkspaceContext } from '../../../../interfaces';
-import { BsThreeDots } from 'react-icons/bs';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { DraggableProvided } from 'react-beautiful-dnd';
 import { RiDraggable } from 'react-icons/ri';
 import { Client } from '../../../../util/client';
 import { WorkspaceContext } from '../../../../context/workspace';
+import ListMenu from './ListMenu';
 
 interface IWorkspaceListProps {
   list: IList;
@@ -40,7 +40,7 @@ const WorkspaceList = ({ list, provided }: IWorkspaceListProps) => {
     Client.updateList({ ...list, title: listTitle }, list.id, workspace.workspaceId)
       .then(() => {
         updateWorkspaceList('title', listTitle, list.id);
-                setListTitle('');
+        setListTitle('');
       })
       .catch((err) => {
         throw new Error(err.response.data.message);
@@ -94,9 +94,7 @@ const WorkspaceList = ({ list, provided }: IWorkspaceListProps) => {
           >
             <RiDraggable />
           </Box>
-          <Box mt="0.5rem" color="light.primary" cursor="pointer">
-            <BsThreeDots />
-          </Box>
+          <ListMenu list={list} />
         </Box>
       </Flex>
     </Box>

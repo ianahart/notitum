@@ -6,6 +6,9 @@ export const http = axios.create({
 });
 
 export const Client = {
+  removeList: (workspaceListId: number, userId: number) => {
+    return http.delete(`/lists/${workspaceListId}?userId=${userId}`);
+  },
   updateList(workspaceList: IList, workspaceListId: number, workspaceId: number) {
     return http.patch(`/lists/${workspaceListId}`, { workspaceList, workspaceId });
   },
