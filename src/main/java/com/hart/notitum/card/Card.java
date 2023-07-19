@@ -48,6 +48,7 @@ public class Card {
     private Timestamp startDate;
     @Column(name = "end_date")
     private Timestamp endDate;
+    @JsonBackReference
     @ManyToOne()
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;

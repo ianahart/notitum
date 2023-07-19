@@ -13,6 +13,19 @@ export interface IWorkspaceMenus {
   menu: { name: string; value: string; open: boolean };
 }
 
+export interface ICard {
+  color: string;
+  createdAt: Date;
+  details: string;
+  endDate: Date;
+  id: number;
+  index: number;
+  label: string;
+  startDate: Date;
+  title: string;
+  updatedAt: Date;
+}
+
 export interface IList {
   [key: string]: any;
   id: number;
@@ -22,6 +35,7 @@ export interface IList {
   xCoordinate: number;
   yCoordinate: number;
   updatedAt: Date;
+  cards: ICard[];
 }
 
 export interface IPexels {
@@ -106,4 +120,5 @@ export interface IWorkspaceContext {
   handleUpdateStarred: () => void;
   updateWorkspaceList: (key: string, title: string, workspaceListId: number) => void;
   removeWorkspaceList: (workspaceListId: number) => void;
+  addCardToWorkspaceList: (workspaceListId: number, card: ICard) => void;
 }

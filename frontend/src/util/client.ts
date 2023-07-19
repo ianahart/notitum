@@ -6,8 +6,8 @@ export const http = axios.create({
 });
 
 export const Client = {
-  addCard: (workspaceListId: number, userId: number, title: string) => {
-    return http.post(`/cards`, { workspaceListId, userId, title });
+  addCard: (workspaceListId: number, userId: number, title: string, index: number) => {
+    return http.post(`/cards`, { workspaceListId, userId, title, index });
   },
   removeList: (workspaceListId: number, userId: number) => {
     return http.delete(`/lists/${workspaceListId}?userId=${userId}`);

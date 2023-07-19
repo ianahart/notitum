@@ -10,32 +10,36 @@ import {
 import { useContext, useState } from 'react';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { UserContext } from '../../../../../context/user';
-import { IUserContext } from '../../../../../interfaces';
+import { IList, IUserContext, IWorkspaceContext } from '../../../../../interfaces';
 import { Client } from '../../../../../util/client';
+import { WorkspaceContext } from '../../../../../context/workspace';
 
 interface IAddCardProps {
   cardInputShowing: boolean;
   handleSetCardInputShowing: (cardInputShowing: boolean) => void;
-  workspaceListId: number;
+  workspaceList: IList;
 }
 
 const AddCard = ({
   cardInputShowing,
   handleSetCardInputShowing,
-  workspaceListId,
+  workspaceList,
 }: IAddCardProps) => {
   const { user } = useContext(UserContext) as IUserContext;
+  const { addCardToWorkspaceList } = useContext(WorkspaceContext) as IWorkspaceContext;
   const [cardTitle, setCardTitle] = useState('');
 
   const addCard = () => {
     if (cardTitle.trim().length === 0) return;
     handleSetCardInputShowing(false);
-    Client.addCard(workspaceListId, user.id, cardTitle)
+
+    const index = workspaceList.cards.length - 1 === -1 ? 0 : workspaceList.cards.length;
+
+    Client.addCard(workspaceList.id, user.id, cardTitle, index)
       .then((res) => {
-        console.log(res);
+        addCardToWorkspaceList(workspaceList.id, res.data.data);
       })
       .catch((err) => {
-        console.log(err);
         throw new Error(err.response.data.message);
       });
   };

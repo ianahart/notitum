@@ -6,6 +6,7 @@ import com.hart.notitum.user.User;
 import com.hart.notitum.user.UserRepository;
 import com.hart.notitum.advice.BadRequestException;
 import com.hart.notitum.advice.NotFoundException;
+import com.hart.notitum.card.dto.CardDto;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ public class CardService {
         this.workspaceListRepository = workspaceListRepository;
     }
 
-    public void createCard(String title, Long userId, Long workspaceListId) {
+    public CardDto createCard(String title, Long userId, Long workspaceListId, Integer index) {
         if (userId == null || workspaceListId == null) {
             throw new BadRequestException("Either user id or workspace list id is null");
         }
@@ -35,6 +36,21 @@ public class CardService {
         WorkspaceList workspaceList = this.workspaceListRepository.findById(workspaceListId)
                 .orElseThrow(() -> new NotFoundException("Workspace Lis not found creating card"));
 
-        this.cardRepository.save(new Card(title, user, workspaceList));
+        Card card = new Card(title, user, workspaceList);
+        card.setIndex(index);
+        this.cardRepository.save(card);
+
+        return new CardDto(
+                card.getId(),
+                card.getCreatedAt(),
+                card.getUpdatedAt(),
+                card.getLabel(),
+                card.getColor(),
+                card.getIndex(),
+                card.getDetails(),
+                card.getStartDate(),
+                card.getEndDate(),
+                card.getTitle());
+
     }
 }

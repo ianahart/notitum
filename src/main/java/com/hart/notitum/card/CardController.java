@@ -25,8 +25,9 @@ public class CardController {
 
     @PostMapping
     public ResponseEntity<CreateCardResponse> createCard(@RequestBody CreateCardRequest request) {
-        this.cardService.createCard(request.getTitle(), request.getUserId(), request.getWorkspaceListId());
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(new CreateCardResponse("success"));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(new CreateCardResponse("success",
+                        this.cardService.createCard(request.getTitle(), request.getUserId(),
+                                request.getWorkspaceListId(), request.getIndex())));
     }
 }

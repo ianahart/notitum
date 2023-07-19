@@ -1,4 +1,4 @@
-import { IWorkspaceContext, IWorkspace, IList } from '../interfaces';
+import { IWorkspaceContext, IWorkspace, IList, ICard } from '../interfaces';
 import { createContext, useState } from 'react';
 import { userState, tokenState, workspaceState } from '../state/initialState';
 import { Client } from '../util/client';
@@ -51,6 +51,17 @@ const WorkspaceContextProvider = ({ children }: IChildren) => {
     setLists(updatedLists);
   };
 
+  const addCardToWorkspaceList = (workspaceListId: number, card: ICard) => {
+    console.log(workspaceListId, card);
+    const updatedLists = lists.map((list) => {
+      if (list.id === workspaceListId) {
+        list.cards.push(card);
+      }
+            return list;
+    });
+    setLists(updatedLists);
+  };
+
   return (
     <WorkspaceContext.Provider
       value={{
@@ -62,6 +73,7 @@ const WorkspaceContextProvider = ({ children }: IChildren) => {
         handleUpdateProperty,
         updateWorkspaceList,
         removeWorkspaceList,
+        addCardToWorkspaceList,
       }}
     >
       {children}

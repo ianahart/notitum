@@ -13,6 +13,7 @@ public class CardDto {
     private String details;
     private Timestamp startDate;
     private Timestamp endDate;
+    private String title;
 
     public CardDto(
             Long id,
@@ -23,7 +24,8 @@ public class CardDto {
             Integer index,
             String details,
             Timestamp startDate,
-            Timestamp endDate) {
+            Timestamp endDate,
+            String title) {
         this.id = id;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -33,10 +35,15 @@ public class CardDto {
         this.details = details;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.title = title;
     }
 
     public Long getId() {
         return id;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     public String getColor() {
@@ -77,6 +84,10 @@ public class CardDto {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public void setIndex(Integer index) {

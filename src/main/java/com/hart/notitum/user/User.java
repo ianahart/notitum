@@ -3,6 +3,7 @@ package com.hart.notitum.user;
 import java.util.Collection;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.hart.notitum.activity.Activity;
 import com.hart.notitum.card.Card;
 import com.hart.notitum.list.WorkspaceList;
@@ -70,6 +71,7 @@ public class User implements UserDetails {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WorkspaceList> workspaceLists;
 
+    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Card> cards;
 

@@ -7,6 +7,7 @@ import { Client } from '../../../../util/client';
 import { WorkspaceContext } from '../../../../context/workspace';
 import ListMenu from './ListMenu';
 import AddCard from './Cards/AddCard';
+import SingleCard from './Cards/SingleCard';
 
 interface IWorkspaceListProps {
   list: IList;
@@ -106,8 +107,19 @@ const WorkspaceList = ({ list, provided }: IWorkspaceListProps) => {
       <AddCard
         handleSetCardInputShowing={handleSetCardInputShowing}
         cardInputShowing={cardInputShowing}
-        workspaceListId={list.id}
+        workspaceList={list}
       />
+      <Flex
+        className="overflow-scroll"
+        height="600px"
+        overflowY="auto"
+        flexDir="column"
+        p="0.5rem"
+      >
+        {list.cards.map((card) => {
+          return <SingleCard key={card.id} card={card} />;
+        })}
+      </Flex>
     </Box>
   );
 };
