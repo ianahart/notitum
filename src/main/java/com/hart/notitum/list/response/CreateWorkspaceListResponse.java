@@ -1,16 +1,17 @@
 package com.hart.notitum.list.response;
 
 import com.hart.notitum.list.dto.WorkspaceListDto;
+import com.hart.notitum.list.dto.WorkspaceListWithCardDto;
 
 public class CreateWorkspaceListResponse {
     private String message;
-    private WorkspaceListDto data;
+    private WorkspaceListWithCardDto data;
 
     public CreateWorkspaceListResponse() {
 
     }
 
-    public CreateWorkspaceListResponse(String message, WorkspaceListDto data) {
+    public CreateWorkspaceListResponse(String message, WorkspaceListWithCardDto data) {
         this.message = message;
         this.data = data;
     }
@@ -19,11 +20,11 @@ public class CreateWorkspaceListResponse {
         return message;
     }
 
-    public WorkspaceListDto getData() {
+    public WorkspaceListWithCardDto getData() {
         return data;
     }
 
-    public void setData(WorkspaceListDto data) {
+    public void setData(WorkspaceListWithCardDto data) {
         this.data = data;
     }
 

@@ -3,6 +3,7 @@ package com.hart.notitum.list;
 import java.util.List;
 
 import com.hart.notitum.list.dto.WorkspaceListDto;
+import com.hart.notitum.list.dto.WorkspaceListIdDto;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -27,15 +28,13 @@ public interface WorkspaceListRepository extends JpaRepository<WorkspaceList, Lo
     Long checkWorkspaceListLimit(@Param("userId") Long userId, @Param("workspaceId") Long workspaceId);
 
     @Query(value = """
-            SELECT new com.hart.notitum.list.dto.WorkspaceListDto(
-               wl.id as id, wl.createdAt as createdAt,
-               wl.xCoordinate as xCoordinate, wl.yCoordinate as yCoordinate,
-               wl.index as index, wl.title as title, wl.updatedAt as updatedAt)
+            SELECT new com.hart.notitum.list.dto.WorkspaceListIdDto(
+               wl.id)
                FROM WorkspaceList wl
                INNER JOIN wl.user u
                INNER JOIN wl.workspace w
                WHERE w.id = :workspaceId
                And u.id = :userId
                ORDER BY wl.index ASC """)
-    List<WorkspaceListDto> getWorkspaceLists(@Param("userId") Long userId, @Param("workspaceId") Long workspaceId);
+    List<WorkspaceListIdDto> getWorkspaceLists(@Param("userId") Long userId, @Param("workspaceId") Long workspaceId);
 }

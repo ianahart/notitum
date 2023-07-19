@@ -3,42 +3,54 @@ package com.hart.notitum.list.dto;
 import java.sql.Timestamp;
 import java.util.List;
 
-public class WorkspaceListDto {
+import com.hart.notitum.card.Card;
+
+public class WorkspaceListWithCardDto {
+    private List<Card> cards;
     private Long id;
     private Timestamp createdAt;
-    private Double xCoordinate;
-    private Double yCoordinate;
+    private Timestamp updatedAt;
     private Integer index;
     private String title;
-    private Timestamp updatedAt;
+    private Double xCoordinate;
+    private Double yCoordinate;
 
-    public WorkspaceListDto() {
+    public WorkspaceListWithCardDto() {
 
     }
 
-    public WorkspaceListDto(
+    public WorkspaceListWithCardDto(List<Card> cards,
             Long id,
             Timestamp createdAt,
-            Double xCoordinate,
-            Double yCoordinate,
+            Timestamp updatedAt,
             Integer index,
             String title,
-            Timestamp updatedAt) {
+            Double xCoordinate,
+            Double yCoordinate) {
+        this.cards = cards;
         this.id = id;
         this.createdAt = createdAt;
-        this.xCoordinate = xCoordinate;
-        this.yCoordinate = yCoordinate;
+        this.updatedAt = updatedAt;
         this.index = index;
         this.title = title;
-        this.updatedAt = updatedAt;
+        this.xCoordinate = xCoordinate;
+        this.yCoordinate = yCoordinate;
+    }
+
+    public List<Card> getCards() {
+        return cards;
+    }
+
+    public void setCards(List<Card> cards) {
+        this.cards = cards;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public Integer getIndex() {
         return index;
-    }
-
-    public Timestamp getUpdatedAt() {
-        return updatedAt;
     }
 
     public String getTitle() {
@@ -49,6 +61,10 @@ public class WorkspaceListDto {
         return createdAt;
     }
 
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
+    }
+
     public Double getxCoordinate() {
         return xCoordinate;
     }
@@ -57,16 +73,12 @@ public class WorkspaceListDto {
         return yCoordinate;
     }
 
-    public Long getId() {
-        return id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void setIndex(Integer index) {
         this.index = index;
-    }
-
-    public void setUpdatedAt(Timestamp updatedAt) {
-        this.updatedAt = updatedAt;
     }
 
     public void setTitle(String title) {
@@ -77,15 +89,15 @@ public class WorkspaceListDto {
         this.createdAt = createdAt;
     }
 
+    public void setUpdatedAt(Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
     public void setxCoordinate(Double xCoordinate) {
         this.xCoordinate = xCoordinate;
     }
 
     public void setyCoordinate(Double yCoordinate) {
         this.yCoordinate = yCoordinate;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 }

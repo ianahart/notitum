@@ -2,10 +2,13 @@ package com.hart.notitum.list;
 
 import com.hart.notitum.list.dto.ReorderWorkspaceListDto;
 import com.hart.notitum.list.dto.WorkspaceListDto;
+import com.hart.notitum.list.dto.WorkspaceListWithCardDto;
 import com.hart.notitum.list.request.CreateWorkspaceListRequest;
 import com.hart.notitum.advice.NotFoundException;
+import com.hart.notitum.card.Card;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import com.hart.notitum.activity.ActivityService;
@@ -77,15 +80,34 @@ public class WorkspaceListService {
         return false;
     }
 
-    public List<WorkspaceListDto> getWorkspaceLists(Long userId, Long workspaceId) {
+    public List<WorkspaceListWithCardDto> getWorkspaceLists(Long userId, Long workspaceId) {
         User user = this.userService.getCurrentlyLoggedInUser();
         if (user.getId() != userId) {
             throw new ForbiddenException("Cannot view another person's lists");
         }
-        return this.workspaceListRepository.getWorkspaceLists(userId, workspaceId);
+        List<Long> ids = this.workspaceListRepository.getWorkspaceLists(userId, workspaceId)
+                .stream()
+                .map(v -> v.getId()).toList();
+        List<WorkspaceList> workspaceLists = this.workspaceListRepository.findAllByIdOrderByIndexASC(ids);
+        List<WorkspaceListWithCardDto> workspaceListWithCards = new ArrayList<>();
+
+        for (WorkspaceList x : workspaceLists) {
+            workspaceListWithCards.add(
+                    new WorkspaceListWithCardDto(
+                            x.getCards(),
+                            x.getId(),
+                            x.getCreatedAt(),
+                            x.getUpdatedAt(),
+                            x.getIndex(),
+                            x.getTitle(),
+                            x.getxCoordinate(),
+                            x.getyCoordinate()));
+        }
+        return workspaceListWithCards;
+
     }
 
-    public WorkspaceListDto createWorkspaceList(CreateWorkspaceListRequest request) {
+    public WorkspaceListWithCardDto createWorkspaceList(CreateWorkspaceListRequest request) {
         User user = this.userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new NotFoundException("User not found creating list"));
 
@@ -107,14 +129,17 @@ public class WorkspaceListService {
         this.workspaceListRepository.save(workspaceList);
         String text = user.getFirstName() + " " + user.getLastName() + " added a list called " + request.getTitle();
         this.activityService.createActivity(text, user.getId(), workspace.getId());
-        return new WorkspaceListDto(
+        List<Card> cards = new ArrayList<>();
+        return new WorkspaceListWithCardDto(
+                cards,
                 workspaceList.getId(),
                 workspaceList.getCreatedAt(),
-                workspaceList.getxCoordinate(),
-                workspaceList.getyCoordinate(),
+                workspaceList.getUpdatedAt(),
                 workspaceList.getIndex(),
                 workspaceList.getTitle(),
-                workspaceList.getUpdatedAt());
+                workspaceList.getxCoordinate(),
+                workspaceList.getyCoordinate());
+
     }
 
     public void reorderWorkspaceLists(List<ReorderWorkspaceListDto> workspaceLists) {

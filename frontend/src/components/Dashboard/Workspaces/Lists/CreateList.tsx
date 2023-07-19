@@ -26,6 +26,7 @@ const CreateList = () => {
     Client.createList(user.id, workspace.workspaceId, listTitle, index)
       .then((res) => {
         const { data } = res.data;
+        console.log(data);
         setLists([...lists, data]);
         setListTitle('');
         handleClose();

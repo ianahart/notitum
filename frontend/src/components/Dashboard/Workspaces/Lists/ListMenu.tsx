@@ -8,9 +8,10 @@ import { WorkspaceContext } from '../../../../context/workspace';
 
 interface IListMenuProps {
   list: IList;
+  handleSetCardInputShowing: (visible: boolean) => void;
 }
 
-const ListMenu = ({ list }: IListMenuProps) => {
+const ListMenu = ({ list, handleSetCardInputShowing }: IListMenuProps) => {
   const { workspace, removeWorkspaceList } = useContext(
     WorkspaceContext
   ) as IWorkspaceContext;
@@ -18,12 +19,10 @@ const ListMenu = ({ list }: IListMenuProps) => {
 
   const handleRemoveList = () => {
     Client.removeList(list.id, user.id)
-      .then((res) => {
-        console.log(res);
+      .then(() => {
         removeWorkspaceList(list.id);
       })
       .catch((err) => {
-        console.log(err);
         throw new Error(err.response.data.message);
       });
   };
@@ -31,7 +30,7 @@ const ListMenu = ({ list }: IListMenuProps) => {
   const handleOnClick = (value: string) => {
     switch (value) {
       case 'add card':
-        //add card()
+        handleSetCardInputShowing(true);
         break;
       case 'remove':
         handleRemoveList();

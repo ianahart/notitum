@@ -1,19 +1,26 @@
 package com.hart.notitum.list;
 
 import java.sql.Timestamp;
+import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.hart.notitum.card.Card;
 import com.hart.notitum.user.User;
 import com.hart.notitum.workspace.Workspace;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
@@ -49,6 +56,10 @@ public class WorkspaceList {
     @JoinColumn(name = "workspace_id", referencedColumnName = "id")
     private Workspace workspace;
 
+    @JsonManagedReference
+    @OneToMany(mappedBy = "workspaceList", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Card> cards;
+
     public WorkspaceList() {
 
     }
@@ -73,6 +84,27 @@ public class WorkspaceList {
     }
 
     public WorkspaceList(
+            Long id,
+            Timestamp createdAt,
+            Timestamp updatedAt,
+            String title,
+            Integer index,
+            Double xCoordinate,
+            Double yCoordinate,
+            List<Card> cards
+
+    ) {
+        this.id = id;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.title = title;
+        this.index = index;
+        this.xCoordinate = xCoordinate;
+        this.yCoordinate = yCoordinate;
+        this.cards = cards;
+    }
+
+    public WorkspaceList(
             String title,
             User user,
             Workspace workspace,
@@ -91,6 +123,10 @@ public class WorkspaceList {
 
     public User getUser() {
         return user;
+    }
+
+    public List<Card> getCards() {
+        return cards;
     }
 
     public Integer getIndex() {
@@ -131,6 +167,10 @@ public class WorkspaceList {
 
     public void setIndex(Integer index) {
         this.index = index;
+    }
+
+    public void setCards(List<Card> cards) {
+        this.cards = cards;
     }
 
     public void setTitle(String title) {

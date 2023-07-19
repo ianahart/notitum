@@ -34,7 +34,7 @@ public class WorkspaceListController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<DeleteWorkspaceListResponse> removeList(@PathVariable("id") Long id, 
+    public ResponseEntity<DeleteWorkspaceListResponse> removeList(@PathVariable("id") Long id,
             @RequestParam("userId") Long userId) {
         this.workspaceListService.removeWorkspaceList(id, userId);
         return ResponseEntity.status(HttpStatus.OK).body(new DeleteWorkspaceListResponse("success"));

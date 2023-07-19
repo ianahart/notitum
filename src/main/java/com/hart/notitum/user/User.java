@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.hart.notitum.activity.Activity;
+import com.hart.notitum.card.Card;
 import com.hart.notitum.list.WorkspaceList;
 import com.hart.notitum.passwordreset.PasswordReset;
 import com.hart.notitum.refreshtoken.RefreshToken;
@@ -69,6 +70,9 @@ public class User implements UserDetails {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WorkspaceList> workspaceLists;
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Card> cards;
+
     public User() {
 
     }
@@ -110,6 +114,10 @@ public class User implements UserDetails {
     public Long getId() {
         return id;
 
+    }
+
+    public List<Card> getCards() {
+        return cards;
     }
 
     public List<WorkspaceList> getWorkspaceLists() {
@@ -218,6 +226,10 @@ public class User implements UserDetails {
 
     public void setRefreshTokens(List<RefreshToken> refreshTokens) {
         this.refreshTokens = refreshTokens;
+    }
+
+    public void setCards(List<Card> cards) {
+        this.cards = cards;
     }
 
     @Override

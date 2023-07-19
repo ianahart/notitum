@@ -6,6 +6,7 @@ import { RiDraggable } from 'react-icons/ri';
 import { Client } from '../../../../util/client';
 import { WorkspaceContext } from '../../../../context/workspace';
 import ListMenu from './ListMenu';
+import AddCard from './Cards/AddCard';
 
 interface IWorkspaceListProps {
   list: IList;
@@ -20,6 +21,11 @@ const WorkspaceList = ({ list, provided }: IWorkspaceListProps) => {
   const [inputShowing, setInputShowing] = useState(false);
   const shouldRun = useRef(true);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [cardInputShowing, setCardInputShowing] = useState(false);
+
+  const handleSetCardInputShowing = (visible: boolean) => {
+    setCardInputShowing(visible);
+  };
 
   useEffect(() => {
     if (shouldRun.current) {
@@ -60,7 +66,7 @@ const WorkspaceList = ({ list, provided }: IWorkspaceListProps) => {
 
   return (
     <Box minW="250px" minH="150px" mx="1rem" bg="black.primary" borderRadius={8}>
-      <Flex justify="space-between" p="0.75rem">
+      <Flex justify="space-between" p="0.75rem" pb="0">
         <Box position="relative">
           {!inputShowing && (
             <Text onClick={showInput} wordBreak="break-all" color="light.primary">
@@ -94,9 +100,14 @@ const WorkspaceList = ({ list, provided }: IWorkspaceListProps) => {
           >
             <RiDraggable />
           </Box>
-          <ListMenu list={list} />
+          <ListMenu list={list} handleSetCardInputShowing={handleSetCardInputShowing} />
         </Box>
       </Flex>
+      <AddCard
+        handleSetCardInputShowing={handleSetCardInputShowing}
+        cardInputShowing={cardInputShowing}
+        workspaceListId={list.id}
+      />
     </Box>
   );
 };

@@ -17,6 +17,7 @@ const Lists = () => {
   const getLists = () => {
     Client.getLists(user.id, workspace.workspaceId)
       .then((res) => {
+        console.log(res);
         const { data } = res.data;
         setLists(data);
       })
