@@ -57,7 +57,7 @@ const WorkspaceContextProvider = ({ children }: IChildren) => {
       if (list.id === workspaceListId) {
         list.cards.push(card);
       }
-            return list;
+      return list;
     });
     setLists(updatedLists);
   };

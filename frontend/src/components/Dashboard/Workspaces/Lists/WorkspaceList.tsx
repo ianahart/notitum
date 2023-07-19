@@ -1,7 +1,7 @@
 import { Box, Text, Flex, Input, FormControl } from '@chakra-ui/react';
 import { IList, IWorkspaceContext } from '../../../../interfaces';
 import { useContext, useEffect, useRef, useState } from 'react';
-import { DraggableProvided } from 'react-beautiful-dnd';
+import { Draggable, DraggableProvided, Droppable } from 'react-beautiful-dnd';
 import { RiDraggable } from 'react-icons/ri';
 import { Client } from '../../../../util/client';
 import { WorkspaceContext } from '../../../../context/workspace';
@@ -109,17 +109,27 @@ const WorkspaceList = ({ list, provided }: IWorkspaceListProps) => {
         cardInputShowing={cardInputShowing}
         workspaceList={list}
       />
-      <Flex
-        className="overflow-scroll"
-        height="600px"
-        overflowY="auto"
-        flexDir="column"
-        p="0.5rem"
-      >
-        {list.cards.map((card) => {
-          return <SingleCard key={card.id} card={card} />;
-        })}
-      </Flex>
+      <Droppable droppableId={list.id.toString()} type="list">
+        {(provided) => (
+          <Flex
+            flexDir="column"
+            p="0.5rem"
+            {...provided.droppableProps}
+            ref={provided.innerRef}
+          >
+            {list.cards.map((card, index) => (
+              <Draggable draggableId={card.id.toString()} key={card.id} index={index}>
+                {(provided) => (
+                  <Box {...provided.draggableProps} ref={provided.innerRef}>
+                    <SingleCard provided={provided} card={card} />
+                  </Box>
+                )}
+              </Draggable>
+            ))}
+            {provided.placeholder}
+          </Flex>
+        )}
+      </Droppable>
     </Box>
   );
 };

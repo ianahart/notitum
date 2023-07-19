@@ -3,12 +3,14 @@ import { ICard } from '../../../../../interfaces';
 import { AiOutlineEdit } from 'react-icons/ai';
 import { useState } from 'react';
 import { RiDraggable } from 'react-icons/ri';
+import { DraggableProvided } from 'react-beautiful-dnd';
 
 interface ICardProps {
   card: ICard;
+  provided: DraggableProvided;
 }
 
-const SingleCard = ({ card }: ICardProps) => {
+const SingleCard = ({ card, provided }: ICardProps) => {
   const [isEditShowing, setIsEditShowing] = useState(false);
 
   const handleOnMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -42,7 +44,7 @@ const SingleCard = ({ card }: ICardProps) => {
       bg="#38383c"
     >
       <Flex justify="flex-end">
-        <Box color="light.primary" fontSize="1.2rem">
+        <Box {...provided.dragHandleProps} color="light.primary" fontSize="1.2rem">
           <RiDraggable />
         </Box>
       </Flex>

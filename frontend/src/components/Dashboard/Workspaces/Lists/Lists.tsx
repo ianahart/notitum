@@ -34,6 +34,40 @@ const Lists = () => {
     )
       return;
 
+    if (type === 'list') {
+      const cardSourceIndex = source.index;
+      const cardDestinationIndex = destination.index;
+      const listSourceIndex = lists.findIndex(
+        (list) => list.id === parseInt(source.droppableId)
+      );
+      const listDestinationIndex = lists.findIndex(
+        (list) => list.id === parseInt(destination.droppableId)
+      );
+
+      const newSourceCards = [...lists[listSourceIndex].cards];
+      const newDestinationCards =
+        source.droppableId !== destination.droppableId
+          ? [...lists[listDestinationIndex].cards]
+          : newSourceCards;
+
+      const [deletedCard] = newSourceCards.splice(cardSourceIndex, 1);
+      newDestinationCards.splice(cardDestinationIndex, 0, deletedCard);
+
+      const reorderedLists = [...lists];
+
+      reorderedLists[listSourceIndex] = {
+        ...lists[listSourceIndex],
+        cards: newSourceCards,
+      };
+
+      reorderedLists[listDestinationIndex] = {
+        ...lists[listDestinationIndex],
+        cards: newDestinationCards,
+      };
+
+      setLists(reorderedLists);
+    }
+
     if (type === 'group') {
       const reorderedLists = [...lists];
       const [removedList] = reorderedLists.splice(source.index, 1);
