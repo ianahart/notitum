@@ -4,9 +4,14 @@ import com.hart.notitum.list.WorkspaceList;
 import com.hart.notitum.list.WorkspaceListRepository;
 import com.hart.notitum.user.User;
 import com.hart.notitum.user.UserRepository;
+
+import java.util.List;
+import java.util.Optional;
+
 import com.hart.notitum.advice.BadRequestException;
 import com.hart.notitum.advice.NotFoundException;
 import com.hart.notitum.card.dto.CardDto;
+import com.hart.notitum.card.dto.ReorderCardDto;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,5 +57,27 @@ public class CardService {
                 card.getEndDate(),
                 card.getTitle());
 
+    }
+
+    public void reorderCards(List<ReorderCardDto> data) {
+        System.out.println(data);
+
+        List<Long> ids = data.stream().map(v -> v.getId()).toList();
+        List<Card> cards = this.cardRepository.findAllByIdOrderByIndexASC(ids);
+
+        for (int i = 0; i < data.size(); i++) {
+            int index = i;
+            Optional<ReorderCardDto> card = data.stream().filter(v -> v.getId() == cards.get(index).getId())
+                    .findFirst();
+
+            if (card.isPresent()) {
+                cards.get(index).setIndex(card.get().getIndex());
+                WorkspaceList wl = this.workspaceListRepository.findById(card.get().getWorkspaceListId())
+                        .orElseThrow(() -> new NotFoundException("workspace list not found reordering cards"));
+                cards.get(index).setWorkspaceList(wl);
+
+            }
+        }
+        this.cardRepository.saveAll(cards);
     }
 }

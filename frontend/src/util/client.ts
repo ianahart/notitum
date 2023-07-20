@@ -6,6 +6,9 @@ export const http = axios.create({
 });
 
 export const Client = {
+  reorderCards: (data: { id: number; index: number; workspaceListId: number }[]) => {
+    return http.post('/cards/reorder', { data });
+  },
   addCard: (workspaceListId: number, userId: number, title: string, index: number) => {
     return http.post(`/cards`, { workspaceListId, userId, title, index });
   },

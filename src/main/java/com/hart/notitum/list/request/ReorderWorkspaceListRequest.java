@@ -22,4 +22,5 @@ public class ReorderWorkspaceListRequest {
     public void setData(List<ReorderWorkspaceListDto> data) {
         this.data = data;
     }
+
 }

@@ -1,7 +1,9 @@
 package com.hart.notitum.card;
 
 import com.hart.notitum.card.request.CreateCardRequest;
+import com.hart.notitum.card.request.ReorderCardsRequest;
 import com.hart.notitum.card.response.CreateCardResponse;
+import com.hart.notitum.card.response.ReorderCardsResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +23,12 @@ public class CardController {
     @Autowired
     public CardController(CardService cardService) {
         this.cardService = cardService;
+    }
+
+    @PostMapping("/reorder")
+    public ResponseEntity<ReorderCardsResponse> reorderCards(@RequestBody ReorderCardsRequest request) {
+        this.cardService.reorderCards(request.getData());
+        return ResponseEntity.status(HttpStatus.OK).body(new ReorderCardsResponse("success"));
     }
 
     @PostMapping

@@ -53,7 +53,6 @@ const Lists = () => {
       const [deletedCard] = newSourceCards.splice(cardSourceIndex, 1);
       newDestinationCards.splice(cardDestinationIndex, 0, deletedCard);
 
-
       const reorderedLists = [...lists];
 
       reorderedLists[listSourceIndex] = {
@@ -71,21 +70,13 @@ const Lists = () => {
 
       setLists(reorderedLists);
 
-      //      const updatedLists = reorderedLists.map((list) => {
-      //        return list.cards.map(({ id, index }) => {
-      //          return { workspacelistId: list.id, id, index };
-      //        });
-      //      });
-      //
-      // console.log(updatedLists);
+      const updatedLists = reorderedLists.map((list) => {
+        return list.cards.map(({ id, index }) => {
+          return { workspaceListId: list.id, id, index };
+        });
+      });
 
-      Client.reorderCards(
-        reorderedLists.map(({ id, index }) => ({
-          id,
-          index,
-        })),
-        reorderedLists[listDestinationIndex].id
-      )
+      Client.reorderCards(updatedLists.flat(1))
         .then((res) => {
           console.log(res);
         })

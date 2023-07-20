@@ -1,7 +1,9 @@
 package com.hart.notitum.list;
 
 import java.sql.Timestamp;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -126,7 +128,9 @@ public class WorkspaceList {
     }
 
     public List<Card> getCards() {
-        return cards;
+        return cards.stream()
+        .sorted(Comparator.comparingInt(Card::getIndex))
+        .collect(Collectors.toList());
     }
 
     public Integer getIndex() {
