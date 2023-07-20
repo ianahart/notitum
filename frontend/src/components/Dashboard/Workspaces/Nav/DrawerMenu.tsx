@@ -117,6 +117,7 @@ const DrawerMenu = ({ isOpen, onClose, menuBtnRef }: IDrawerMenuProps) => {
                     <Flex alignItems="center">
                       {workspace.background.startsWith('#') ? (
                         <Box
+                          bg={workspace.background}
                           mr="0.25rem"
                           width="25px"
                           height="25px"
