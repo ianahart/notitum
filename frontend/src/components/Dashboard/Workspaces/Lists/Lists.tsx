@@ -53,6 +53,7 @@ const Lists = () => {
       const [deletedCard] = newSourceCards.splice(cardSourceIndex, 1);
       newDestinationCards.splice(cardDestinationIndex, 0, deletedCard);
 
+
       const reorderedLists = [...lists];
 
       reorderedLists[listSourceIndex] = {
@@ -62,10 +63,35 @@ const Lists = () => {
 
       reorderedLists[listDestinationIndex] = {
         ...lists[listDestinationIndex],
-        cards: newDestinationCards,
+        cards: newDestinationCards.map((card, index) => {
+          card.index = index;
+          return card;
+        }),
       };
 
       setLists(reorderedLists);
+
+      //      const updatedLists = reorderedLists.map((list) => {
+      //        return list.cards.map(({ id, index }) => {
+      //          return { workspacelistId: list.id, id, index };
+      //        });
+      //      });
+      //
+      // console.log(updatedLists);
+
+      Client.reorderCards(
+        reorderedLists.map(({ id, index }) => ({
+          id,
+          index,
+        })),
+        reorderedLists[listDestinationIndex].id
+      )
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          throw new Error(err.response.data.message);
+        });
     }
 
     if (type === 'group') {
