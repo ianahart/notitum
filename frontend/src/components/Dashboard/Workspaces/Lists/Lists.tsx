@@ -77,9 +77,7 @@ const Lists = () => {
       });
 
       Client.reorderCards(updatedLists.flat(1))
-        .then((res) => {
-          console.log(res);
-        })
+        .then(() => {})
         .catch((err) => {
           throw new Error(err.response.data.message);
         });
@@ -108,6 +106,7 @@ const Lists = () => {
       shouldRun.current = false;
       getLists();
     }
+    return () => setLists([]);
   }, [shouldRun.current, user.id, workspace.workspaceId]);
 
   return (

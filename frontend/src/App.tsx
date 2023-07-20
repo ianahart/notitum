@@ -35,7 +35,9 @@ function App() {
   }, []);
 
   useEffectOnce(() => {
-    storeUser();
+    if (retreiveTokens()?.token) {
+      storeUser();
+    }
   });
 
   return (

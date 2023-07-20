@@ -1,9 +1,10 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
-import { IUserContext, IWorkspace } from '../../../interfaces';
+import { IUserContext, IWorkspace, IWorkspaceContext } from '../../../interfaces';
 import { useNavigate } from 'react-router-dom';
 import { slugifyTitle, slugify } from '../../../util';
 import { useContext, useState } from 'react';
 import { UserContext } from '../../../context/user';
+import { WorkspaceContext } from '../../../context/workspace';
 
 interface IPreviewProps {
   workspace: IWorkspace;

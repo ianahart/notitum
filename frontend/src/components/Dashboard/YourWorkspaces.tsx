@@ -1,15 +1,18 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { UserContext } from '../../context/user';
-import { IUserContext, IWorkspace } from '../../interfaces';
+import { IUserContext, IWorkspace, IWorkspaceContext } from '../../interfaces';
 import FirstInitial from './WorkspaceCreation/FirstInitial';
 import CreateWorkspace from './WorkspaceCreation/CreateWorkspace';
 import { Client } from '../../util/client';
 import BasicSpinner from '../Shared/BasicSpinner';
 import Preview from './Workspaces/Preview';
+import { workspaceState } from '../../state/initialState';
+import { WorkspaceContext } from '../../context/workspace';
 
 const YourWorkspaces = () => {
   const { user } = useContext(UserContext) as IUserContext;
+  const { setWorkspace } = useContext(WorkspaceContext) as IWorkspaceContext;
   const [workspaces, setWorkspaces] = useState<IWorkspace[]>([]);
   const [msg, setMsg] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -20,6 +23,7 @@ const YourWorkspaces = () => {
       shouldRun.current = false;
       fetchYourWorkspaces(user.id);
     }
+    return () => setWorkspace(workspaceState);
   }, [shouldRun.current, user.id]);
 
   const fetchYourWorkspaces = (userId: number) => {

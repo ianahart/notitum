@@ -52,7 +52,6 @@ const WorkspaceContextProvider = ({ children }: IChildren) => {
   };
 
   const addCardToWorkspaceList = (workspaceListId: number, card: ICard) => {
-    console.log(workspaceListId, card);
     const updatedLists = lists.map((list) => {
       if (list.id === workspaceListId) {
         list.cards.push(card);
