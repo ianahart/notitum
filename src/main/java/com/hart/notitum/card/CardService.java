@@ -7,6 +7,7 @@ import com.hart.notitum.user.UserRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.ArrayList;
 
 import com.hart.notitum.advice.BadRequestException;
 import com.hart.notitum.advice.NotFoundException;
@@ -40,6 +41,12 @@ public class CardService {
                 .orElseThrow(() -> new NotFoundException("User not found creating card"));
         WorkspaceList workspaceList = this.workspaceListRepository.findById(workspaceListId)
                 .orElseThrow(() -> new NotFoundException("Workspace Lis not found creating card"));
+
+        int countOfCardsInList = this.cardRepository.checkCardLimit(user.getId(), workspaceList.getId());
+        if (countOfCardsInList > 10) {
+            System.out.println("DSFDSJKFDSJFKLDSJFSLKDJFDSKLFJDSLKFSDJFLKSDFJDSKLFJDSKLFSDJL");
+            throw new BadRequestException("You can only have 10 cards in a list for now.");
+        }
 
         Card card = new Card(title, user, workspaceList);
         card.setIndex(index);

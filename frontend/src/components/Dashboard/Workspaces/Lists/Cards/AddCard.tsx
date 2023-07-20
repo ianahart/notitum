@@ -28,18 +28,22 @@ const AddCard = ({
   const { user } = useContext(UserContext) as IUserContext;
   const { addCardToWorkspaceList } = useContext(WorkspaceContext) as IWorkspaceContext;
   const [cardTitle, setCardTitle] = useState('');
+  const [error, setError] = useState('');
 
   const addCard = () => {
+    setError('');
     if (cardTitle.trim().length === 0) return;
-    handleSetCardInputShowing(false);
 
     const index = workspaceList.cards.length - 1 === -1 ? 0 : workspaceList.cards.length;
 
     Client.addCard(workspaceList.id, user.id, cardTitle, index)
       .then((res) => {
         addCardToWorkspaceList(workspaceList.id, res.data.data);
+        setCardTitle('');
+        handleSetCardInputShowing(false);
       })
       .catch((err) => {
+        setError(err.response.data.message);
         throw new Error(err.response.data.message);
       });
   };
@@ -76,6 +80,13 @@ const AddCard = ({
               type="text"
             />
           </FormControl>
+          {error.length > 0 && (
+            <Box my="0.25rem">
+              <Text fontSize="0.8rem" textAlign="center" color="red.500">
+                {error}
+              </Text>
+            </Box>
+          )}
           <ButtonGroup mt="0.5rem">
             <Button onClick={addCard} colorScheme="blue">
               Add card

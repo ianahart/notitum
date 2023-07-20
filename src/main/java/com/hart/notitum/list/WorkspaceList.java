@@ -5,8 +5,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.hart.notitum.card.Card;
 import com.hart.notitum.user.User;
 import com.hart.notitum.workspace.Workspace;
@@ -58,7 +56,6 @@ public class WorkspaceList {
     @JoinColumn(name = "workspace_id", referencedColumnName = "id")
     private Workspace workspace;
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "workspaceList", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Card> cards;
 
@@ -129,8 +126,8 @@ public class WorkspaceList {
 
     public List<Card> getCards() {
         return cards.stream()
-        .sorted(Comparator.comparingInt(Card::getIndex))
-        .collect(Collectors.toList());
+                .sorted(Comparator.comparingInt(Card::getIndex))
+                .collect(Collectors.toList());
     }
 
     public Integer getIndex() {

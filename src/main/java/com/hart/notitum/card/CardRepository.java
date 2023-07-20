@@ -14,4 +14,12 @@ public interface CardRepository extends JpaRepository<Card, Long> {
             """)
     List<Card> findAllByIdOrderByIndexASC(@Param("cardIds") List<Long> cardIds);
 
+    @Query(value = """
+             SELECT COUNT(*) FROM Card c
+             INNER JOIN c.user u
+             INNER JOIN c.workspaceList wl
+             WHERE u.id = :userId
+             AND  wl.id = :workspaceListId
+            """)
+    int checkCardLimit(@Param("userId") Long userId, @Param("workspaceListId") Long workspaceListId);
 }
