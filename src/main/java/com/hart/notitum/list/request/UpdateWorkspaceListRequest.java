@@ -1,21 +1,22 @@
 package com.hart.notitum.list.request;
 
 import com.hart.notitum.list.WorkspaceList;
+import com.hart.notitum.list.dto.WorkspaceListDto;
 
 public class UpdateWorkspaceListRequest {
-    private WorkspaceList workspaceList;
+    private WorkspaceListDto workspaceList;
     private Long workspaceId;
 
     public UpdateWorkspaceListRequest() {
 
     }
 
-    public UpdateWorkspaceListRequest(WorkspaceList workspaceList, Long workspaceId) {
+    public UpdateWorkspaceListRequest(WorkspaceListDto workspaceList, Long workspaceId) {
         this.workspaceList = workspaceList;
         this.workspaceId = workspaceId;
     }
 
-    public WorkspaceList getWorkspaceList() {
+    public WorkspaceListDto getWorkspaceList() {
         return workspaceList;
     }
 
@@ -27,7 +28,7 @@ public class UpdateWorkspaceListRequest {
         this.workspaceId = workspaceId;
     }
 
-    public void setWorkspaceList(WorkspaceList workspaceList) {
+    public void setWorkspaceList(WorkspaceListDto workspaceList) {
         this.workspaceList = workspaceList;
     }
 }

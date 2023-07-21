@@ -53,7 +53,7 @@ public class WorkspaceListService {
         this.workspaceListRepository.deleteById(id);
     }
 
-    public void updateWorkspaceList(WorkspaceList workspaceList, Long workspaceListId, Long workspaceId) {
+    public void updateWorkspaceList(WorkspaceListDto workspaceList, Long workspaceListId, Long workspaceId) {
         WorkspaceList prevWorkspaceList = this.workspaceListRepository.findById(workspaceListId)
                 .orElseThrow(() -> new NotFoundException("WorkspaceList not found"));
 
