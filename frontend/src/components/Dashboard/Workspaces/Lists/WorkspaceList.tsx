@@ -121,7 +121,12 @@ const WorkspaceList = ({ list, provided }: IWorkspaceListProps) => {
               <Draggable draggableId={card.id.toString()} key={card.id} index={index}>
                 {(provided) => (
                   <Box {...provided.draggableProps} ref={provided.innerRef}>
-                    <SingleCard provided={provided} card={card} />
+                    <SingleCard
+                      workspaceListId={list.id}
+                      workspaceListTitle={list.title}
+                      provided={provided}
+                      card={card}
+                    />
                   </Box>
                 )}
               </Draggable>

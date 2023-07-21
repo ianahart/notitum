@@ -4,10 +4,10 @@ import com.hart.notitum.list.WorkspaceList;
 import com.hart.notitum.list.WorkspaceListRepository;
 import com.hart.notitum.user.User;
 import com.hart.notitum.user.UserRepository;
+import org.modelmapper.ModelMapper;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.ArrayList;
 
 import com.hart.notitum.advice.BadRequestException;
 import com.hart.notitum.advice.NotFoundException;
@@ -23,14 +23,31 @@ public class CardService {
     private final CardRepository cardRepository;
     private final UserRepository userRepository;
     private final WorkspaceListRepository workspaceListRepository;
+    private final ModelMapper modelMapper;
 
     @Autowired
     public CardService(CardRepository cardRepository,
             UserRepository userRepository,
-            WorkspaceListRepository workspaceListRepository) {
+            WorkspaceListRepository workspaceListRepository,
+            ModelMapper modelMapper) {
         this.cardRepository = cardRepository;
         this.userRepository = userRepository;
         this.workspaceListRepository = workspaceListRepository;
+        this.modelMapper = modelMapper;
+    }
+
+    public void updateCard(CardDto card, Long workspaceListId, Long userId) {
+        Card cardToUpdate = modelMapper.map(card, Card.class);
+        WorkspaceList wl = this.workspaceListRepository.findById(workspaceListId)
+                .orElseThrow(() -> new NotFoundException("Workspace list not found"));
+
+        User user = this.userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("User not found"));
+
+        cardToUpdate.setUser(user);
+        cardToUpdate.setWorkspaceList(wl);
+
+        this.cardRepository.save(cardToUpdate);
     }
 
     public CardDto createCard(String title, Long userId, Long workspaceListId, Integer index) {

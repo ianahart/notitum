@@ -1,11 +1,14 @@
 import axios from 'axios';
-import { IList, IRegisterForm, IWorkspace } from '../interfaces';
+import { ICard, IList, IRegisterForm, IWorkspace } from '../interfaces';
 
 export const http = axios.create({
   baseURL: 'http://localhost:5173/api/v1',
 });
 
 export const Client = {
+  updateCard: (card: ICard, workspaceListId: number, userId: number) => {
+    return http.patch(`/cards/${card.id}`, { card, workspaceListId, userId });
+  },
   reorderCards: (data: { id: number; index: number; workspaceListId: number }[]) => {
     return http.post('/cards/reorder', { data });
   },
@@ -15,7 +18,9 @@ export const Client = {
   removeList: (workspaceListId: number, userId: number) => {
     return http.delete(`/lists/${workspaceListId}?userId=${userId}`);
   },
-  updateList(workspaceList: IList, workspaceListId: number, workspaceId: number) {
+  updateList(list: IList, workspaceListId: number, workspaceId: number) {
+    const workspaceList = { ...list } as any;
+    delete workspaceList.cards;
     return http.patch(`/lists/${workspaceListId}`, { workspaceList, workspaceId });
   },
   reorderLists: (data: { workspaceListId: number; index: number }[]) => {

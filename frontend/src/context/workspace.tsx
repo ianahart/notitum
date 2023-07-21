@@ -12,6 +12,22 @@ export const WorkspaceContext = createContext<IWorkspaceContext | null>(null);
 const WorkspaceContextProvider = ({ children }: IChildren) => {
   const [workspace, setWorkspace] = useState<IWorkspace>(workspaceState);
   const [lists, setLists] = useState<IList[]>([]);
+
+  const updateCard = <T,>(
+    property: string,
+    value: T,
+    workspaceListId: number,
+    cardId: number
+  ) => {
+    const workspaceListIndex = lists.findIndex((list) => list.id === workspaceListId);
+    let updatedLists = [...lists];
+    const cards = updatedLists[workspaceListIndex].cards.map((card) =>
+      card.id === cardId ? { ...card, [property]: value } : card
+    );
+    updatedLists[workspaceListIndex].cards = [...cards];
+    setLists(updatedLists);
+  };
+
   const handleUpdateStarred = () => {
     const isStarred = workspace.isStarred ? !workspace.isStarred : true;
     const updatedWorkspace = { ...workspace, isStarred };
@@ -73,6 +89,7 @@ const WorkspaceContextProvider = ({ children }: IChildren) => {
         updateWorkspaceList,
         removeWorkspaceList,
         addCardToWorkspaceList,
+        updateCard,
       }}
     >
       {children}

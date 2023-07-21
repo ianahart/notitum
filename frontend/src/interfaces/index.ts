@@ -121,4 +121,10 @@ export interface IWorkspaceContext {
   updateWorkspaceList: (key: string, title: string, workspaceListId: number) => void;
   removeWorkspaceList: (workspaceListId: number) => void;
   addCardToWorkspaceList: (workspaceListId: number, card: ICard) => void;
+  updateCard: <T>(
+    property: string,
+    value: T,
+    workspaceListId: number,
+    cardId: number
+  ) => void;
 }
