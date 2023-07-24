@@ -108,11 +108,7 @@ const SingleCard = ({
           </ModalHeader>
           <ModalCloseButton color="light.primary" />
           <ModalBody>
-            <CardDetails
-              workspaceListId={workspaceListId}
-              workspaceListTitle={workspaceListTitle}
-              card={card}
-            />
+            <CardDetails workspaceListId={workspaceListId} card={card} />
           </ModalBody>
         </ModalContent>
       </Modal>

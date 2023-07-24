@@ -34,11 +34,10 @@ const Description = ({ card, workspaceListId }: IDescriptionProps) => {
     updateCard('details', newDescription, workspaceListId, card.id);
     Client.updateCard({ ...card, details: newDescription }, workspaceListId, user.id)
       .then((res) => {
-        console.log(res);
         setIsQuillShowing(false);
       })
       .catch((err) => {
-        console.log(err);
+        throw new Error(err.response.data.message);
       });
   };
 
@@ -61,7 +60,6 @@ const Description = ({ card, workspaceListId }: IDescriptionProps) => {
           mt="3rem"
           mb="2rem"
           width="90%"
-          bg="border.primary"
           borderRadius={4}
           p="1rem"
         >
