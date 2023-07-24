@@ -4,6 +4,7 @@ import com.hart.notitum.list.dto.ReorderWorkspaceListDto;
 import com.hart.notitum.list.dto.WorkspaceListDto;
 import com.hart.notitum.list.dto.WorkspaceListWithCardDto;
 import com.hart.notitum.list.request.CreateWorkspaceListRequest;
+import com.hart.notitum.member.MemberService;
 import com.hart.notitum.advice.NotFoundException;
 import com.hart.notitum.card.Card;
 
@@ -31,6 +32,7 @@ public class WorkspaceListService {
     private final WorkspaceListRepository workspaceListRepository;
     private final ActivityService activityService;
     private final UserService userService;
+    private final MemberService memberService;
 
     @Autowired
     public WorkspaceListService(
@@ -38,16 +40,20 @@ public class WorkspaceListService {
             WorkspaceRepository workspaceRepository,
             WorkspaceListRepository workspaceListRepository,
             ActivityService activityService,
-            UserService userService) {
+            UserService userService,
+            MemberService memberService) {
         this.userRepository = userRepository;
         this.workspaceRepository = workspaceRepository;
         this.workspaceListRepository = workspaceListRepository;
         this.activityService = activityService;
         this.userService = userService;
+        this.memberService = memberService;
     }
 
     public void removeWorkspaceList(Long id, Long userId) {
-        if (this.userService.getCurrentlyLoggedInUser().getId() != userId) {
+        WorkspaceList workspaceList = this.workspaceListRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("workspace list id not found deleting"));
+        if (this.userService.getCurrentlyLoggedInUser().getId() != workspaceList.getUser().getId()) {
             throw new ForbiddenException("Cannot delete another person's list");
         }
         this.workspaceListRepository.deleteById(id);
@@ -58,6 +64,10 @@ public class WorkspaceListService {
                 .orElseThrow(() -> new NotFoundException("WorkspaceList not found"));
 
         User user = this.userService.getCurrentlyLoggedInUser();
+        if (user.getId() != prevWorkspaceList.getUser().getId()) {
+            throw new ForbiddenException("Cannot update another person's list even if you are a member");
+        }
+
         if (user.getId() != prevWorkspaceList.getUser().getId()) {
             throw new ForbiddenException("Cannot update another person's list");
         }
@@ -80,12 +90,12 @@ public class WorkspaceListService {
         return false;
     }
 
-    public List<WorkspaceListWithCardDto> getWorkspaceLists(Long userId, Long workspaceId) {
+    public List<WorkspaceListWithCardDto> getWorkspaceLists(Long userId, Long workspaceId, Long workspaceUserId) {
         User user = this.userService.getCurrentlyLoggedInUser();
-        if (user.getId() != userId) {
+        if (user.getId() != userId && !this.memberService.checkIfMemberExists(workspaceId, user.getId())) {
             throw new ForbiddenException("Cannot view another person's lists");
         }
-        List<Long> ids = this.workspaceListRepository.getWorkspaceLists(userId, workspaceId)
+        List<Long> ids = this.workspaceListRepository.getWorkspaceLists(workspaceUserId, workspaceId)
                 .stream()
                 .map(v -> v.getId()).toList();
         List<WorkspaceList> workspaceLists = this.workspaceListRepository.findAllByIdOrderByIndexASC(ids);
@@ -113,6 +123,10 @@ public class WorkspaceListService {
 
         Workspace workspace = this.workspaceRepository.findById(request.getWorkspaceId())
                 .orElseThrow(() -> new NotFoundException("Workspace not found creating list"));
+
+        if (this.userService.getCurrentlyLoggedInUser().getId() != workspace.getUser().getId()) {
+            throw new ForbiddenException("Cannot create a list on another person's workspace even if you're a member");
+        }
 
         if (request.getTitle() == null || request.getTitle().length() == 0) {
             throw new BadRequestException("Title missing creating list");
@@ -142,7 +156,10 @@ public class WorkspaceListService {
 
     }
 
-    public void reorderWorkspaceLists(List<ReorderWorkspaceListDto> workspaceLists) {
+    public void reorderWorkspaceLists(List<ReorderWorkspaceListDto> workspaceLists, Long workspaceUserId) {
+        if (this.userService.getCurrentlyLoggedInUser().getId() != workspaceUserId) {
+            throw new ForbiddenException("Cannot reorder another person's lists");
+        }
 
         List<Long> workspaceListIds = workspaceLists.stream().map(v -> v.getWorkspaceListId()).toList();
 

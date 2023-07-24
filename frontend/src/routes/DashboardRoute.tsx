@@ -1,6 +1,7 @@
 import { Box } from '@chakra-ui/react';
 import RecentlyViewed from '../components/Dashboard/RecentlyViewed';
 import YourWorkspaces from '../components/Dashboard/YourWorkspaces';
+import MemberWorkspaces from '../components/Dashboard/MemberWorkspaces';
 
 const DashboardRoute = () => {
   return (
@@ -8,6 +9,7 @@ const DashboardRoute = () => {
       <Box>
         <RecentlyViewed />
         <YourWorkspaces />
+        <MemberWorkspaces />
       </Box>
     </Box>
   );

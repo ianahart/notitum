@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.hart.notitum.advice.BadRequestException;
 import com.hart.notitum.advice.NotFoundException;
+import com.hart.notitum.member.MemberService;
 import com.hart.notitum.advice.ForbiddenException;
 import com.hart.notitum.user.User;
 import com.hart.notitum.user.UserRepository;
@@ -24,14 +25,17 @@ public class WorkspaceService {
     private final WorkspaceRepository workspaceRepository;
     private final UserRepository userRepository;
     private final UserService userService;
+    private final MemberService memberService;
 
     @Autowired
     public WorkspaceService(WorkspaceRepository workspaceRepository,
             UserRepository userRepository,
-            UserService userService) {
+            UserService userService,
+            MemberService memberService) {
         this.workspaceRepository = workspaceRepository;
         this.userRepository = userRepository;
         this.userService = userService;
+        this.memberService = memberService;
     }
 
     public void validateWorkspaceProperties(UpdateWorkspaceRequest request) {
@@ -103,7 +107,11 @@ public class WorkspaceService {
         if (workspaceId == null || userId == null) {
             throw new BadRequestException("Workspace id or user id is missing");
         }
-        checkOwnerShip(userId);
+
+        if (!this.memberService.checkIfMemberExists(workspaceId, this.userService.getCurrentlyLoggedInUser().getId())) {
+            checkOwnerShip(userId);
+        }
+
         updateTimestamp(workspaceId);
         return this.workspaceRepository.getWorkspace(workspaceId);
     }

@@ -44,7 +44,7 @@ public class WorkspaceListController {
     public ResponseEntity<WorkspaceListReorderResponse> reorderWorkspaceLists(
             @RequestBody ReorderWorkspaceListRequest request) {
 
-        this.workspaceListService.reorderWorkspaceLists(request.getData());
+        this.workspaceListService.reorderWorkspaceLists(request.getData(), request.getWorkspaceUserId());
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -53,12 +53,13 @@ public class WorkspaceListController {
 
     @GetMapping
     public ResponseEntity<GetWorkspaceListsResponse> getWorkspaceLists(
-            @RequestParam("userId") Long userId, @RequestParam("workspaceId") Long workspaceId) {
+            @RequestParam("userId") Long userId, @RequestParam("workspaceId") Long workspaceId,
+            @RequestParam("workspaceUserId") Long workspaceUserId) {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(new GetWorkspaceListsResponse("success",
-                        this.workspaceListService.getWorkspaceLists(userId, workspaceId)));
+                        this.workspaceListService.getWorkspaceLists(userId, workspaceId, workspaceUserId)));
     }
 
     @PostMapping

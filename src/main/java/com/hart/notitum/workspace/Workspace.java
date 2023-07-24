@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.hart.notitum.activity.Activity;
 import com.hart.notitum.list.WorkspaceList;
+import com.hart.notitum.member.Member;
 import com.hart.notitum.user.User;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -62,6 +63,9 @@ public class Workspace {
     @OneToMany()
     private List<Activity> activities;
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Member> members;
+
     public Workspace() {
 
     }
@@ -106,6 +110,10 @@ public class Workspace {
 
     public Long getId() {
         return id;
+    }
+
+    public List<Member> getMembers() {
+        return members;
     }
 
     public User getUser() {
@@ -163,6 +171,10 @@ public class Workspace {
     public void setWorkspaceLists(List<WorkspaceList> workspaceLists) {
         this.workspaceLists = workspaceLists;
 
+    }
+
+    public void setMembers(List<Member> members) {
+        this.members = members;
     }
 
     public void setDescription(String description) {

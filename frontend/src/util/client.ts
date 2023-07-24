@@ -6,11 +6,17 @@ export const http = axios.create({
 });
 
 export const Client = {
+  getMemberWorkspaces: (userId: number) => {
+    return http.get(`/members/workspaces?userId=${userId}`);
+  },
   updateCard: (card: ICard, workspaceListId: number, userId: number) => {
     return http.patch(`/cards/${card.id}`, { card, workspaceListId, userId });
   },
-  reorderCards: (data: { id: number; index: number; workspaceListId: number }[]) => {
-    return http.post('/cards/reorder', { data });
+  reorderCards: (
+    data: { id: number; index: number; workspaceListId: number }[],
+    workspaceUserId: number
+  ) => {
+    return http.post('/cards/reorder', { data, workspaceUserId });
   },
   addCard: (workspaceListId: number, userId: number, title: string, index: number) => {
     return http.post(`/cards`, { workspaceListId, userId, title, index });
@@ -23,11 +29,16 @@ export const Client = {
     delete workspaceList.cards;
     return http.patch(`/lists/${workspaceListId}`, { workspaceList, workspaceId });
   },
-  reorderLists: (data: { workspaceListId: number; index: number }[]) => {
-    return http.post('/lists/reorder', { data });
+  reorderLists: (
+    data: { workspaceListId: number; index: number }[],
+    workspaceUserId: number
+  ) => {
+    return http.post('/lists/reorder', { data, workspaceUserId });
   },
-  getLists: (userId: number, workspaceId: number) => {
-    return http.get(`/lists?userId=${userId}&workspaceId=${workspaceId}`);
+  getLists: (userId: number, workspaceId: number, workspaceUserId: number) => {
+    return http.get(
+      `/lists?userId=${userId}&workspaceId=${workspaceId}&workspaceUserId=${workspaceUserId}`
+    );
   },
   createList: (userId: number, workspaceId: number, title: string, index: number) => {
     return http.post('/lists', { userId, workspaceId, title, index });

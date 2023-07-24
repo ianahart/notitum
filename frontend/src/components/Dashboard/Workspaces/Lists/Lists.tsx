@@ -15,7 +15,7 @@ const Lists = () => {
   const shouldRun = useRef(true);
 
   const getLists = () => {
-    Client.getLists(user.id, workspace.workspaceId)
+    Client.getLists(user.id, workspace.workspaceId, workspace.userId)
       .then((res) => {
         const { data } = res.data;
         setLists(data);
@@ -76,7 +76,7 @@ const Lists = () => {
         });
       });
 
-      Client.reorderCards(updatedLists.flat(1))
+      Client.reorderCards(updatedLists.flat(1), workspace.userId)
         .then(() => {})
         .catch((err) => {
           throw new Error(err.response.data.message);
@@ -92,7 +92,8 @@ const Lists = () => {
         [...reorderedLists].map(({ id }, index) => ({
           workspaceListId: id,
           index,
-        }))
+        })),
+        workspace.userId
       )
         .then(() => {})
         .catch((err) => {

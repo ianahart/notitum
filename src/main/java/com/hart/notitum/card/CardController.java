@@ -42,7 +42,7 @@ public class CardController {
 
     @PostMapping("/reorder")
     public ResponseEntity<ReorderCardsResponse> reorderCards(@RequestBody ReorderCardsRequest request) {
-        this.cardService.reorderCards(request.getData());
+        this.cardService.reorderCards(request.getData(), request.getWorkspaceUserId());
         return ResponseEntity.status(HttpStatus.OK).body(new ReorderCardsResponse("success"));
     }
 
