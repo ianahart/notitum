@@ -88,6 +88,10 @@ const Members = () => {
       });
   };
 
+  const addMember = (member: IMember) => {
+    setMembers((prevState) => [...prevState, member]);
+  };
+
   return (
     <Box position="relative">
       <Popover>
@@ -180,7 +184,7 @@ const Members = () => {
                       </Flex>
                     )}
                 </Box>
-                <AddMember />
+                <AddMember addMember={addMember} />
               </>
             )}
           </PopoverBody>

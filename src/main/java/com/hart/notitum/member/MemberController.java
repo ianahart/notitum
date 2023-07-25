@@ -1,6 +1,8 @@
 package com.hart.notitum.member;
 
+import com.hart.notitum.member.request.CreateMemberRequest;
 import com.hart.notitum.member.request.SearchMembersRequest;
+import com.hart.notitum.member.response.CreateMemberResponse;
 import com.hart.notitum.member.response.GetMemberWorkspaceResponse;
 import com.hart.notitum.member.response.GetMembersResponse;
 import com.hart.notitum.member.response.SearchMembersResponse;
@@ -24,6 +26,12 @@ public class MemberController {
     @Autowired
     public MemberController(MemberService memberService) {
         this.memberService = memberService;
+    }
+
+    @PostMapping
+    public ResponseEntity<CreateMemberResponse> createMember(@RequestBody CreateMemberRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(new CreateMemberResponse("success",
+                this.memberService.createMember(request.getEmail(), request.getWorkspaceId())));
     }
 
     @PostMapping("/search")
