@@ -10,7 +10,7 @@ interface IPanelProps {
 const Panel = ({ card, workspaceListId }: IPanelProps) => {
   return (
     <Box>
-      <Members card={card} workspaceListId={workspaceListId} />
+      <Members />
     </Box>
   );
 };

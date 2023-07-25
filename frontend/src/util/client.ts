@@ -6,6 +6,20 @@ export const http = axios.create({
 });
 
 export const Client = {
+  searchMembers: (query: string, workspaceId: number) => {
+    return http.post('/members/search', { query, workspaceId });
+  },
+
+  getMembers: (
+    workspaceId: number,
+    page: number,
+    direction: string,
+    pageSize: number
+  ) => {
+    return http.get(
+      `/members?workspaceId=${workspaceId}&page=${page}&direction=${direction}&pageSize=${pageSize}`
+    );
+  },
   getMemberWorkspaces: (userId: number) => {
     return http.get(`/members/workspaces?userId=${userId}`);
   },

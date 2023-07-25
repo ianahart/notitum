@@ -26,6 +26,13 @@ export interface ICard {
   updatedAt: Date;
 }
 
+export interface IMember {
+  id: number;
+  firstName: string;
+  lastName: string;
+  userId: number;
+}
+
 export interface IList {
   [key: string]: any;
   id: number;
