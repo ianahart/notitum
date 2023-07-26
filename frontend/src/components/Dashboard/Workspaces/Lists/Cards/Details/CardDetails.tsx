@@ -2,66 +2,20 @@ import { Box, Text, Flex } from '@chakra-ui/react';
 import { IActiveLabel, ICard } from '../../../../../../interfaces';
 import Description from './Description';
 import Panel from './Panel';
-import { Client } from '../../../../../../util/client';
-import { useEffect, useRef, useState } from 'react';
 
 interface ICardDetailsProps {
   workspaceListId: number;
   card: ICard;
+  handleActiveLabel: (labelId: number, checked: boolean) => void;
+  activeLabels: IActiveLabel[];
 }
 
-const CardDetails = ({ workspaceListId, card }: ICardDetailsProps) => {
-  const shouldRun = useRef(true);
-  const [activeLabels, setActiveLabels] = useState<IActiveLabel[]>([]);
-
-  useEffect(() => {
-    if (shouldRun.current) {
-      shouldRun.current = false;
-      getActiveLabels();
-    }
-  }, [shouldRun.current]);
-
-  const getActiveLabels = () => {
-    Client.getActiveLabels(card.id)
-      .then((res) => {
-        setActiveLabels(res.data.data);
-      })
-      .catch((err) => {
-        throw new Error(err.response.data.message);
-      });
-  };
-
-  const handleActiveLabel = (labelId: number, checked: boolean) => {
-    checked ? addActiveLabel(labelId, checked) : removeActiveLabel(labelId);
-  };
-
-  const addActiveLabel = (labelId: number, checked: boolean) => {
-    Client.createActiveLabel(labelId, checked, card.id)
-      .then((res) => {
-        setActiveLabels((prevState) => [...prevState, res.data.data]);
-      })
-      .catch((err) => {
-        throw new Error(err.response.data.message);
-      });
-  };
-
-  const removeActiveLabel = (labelId: number) => {
-    const activeLabel = activeLabels.find(
-      (activeLabel) => activeLabel.labelId === labelId
-    );
-    if (!activeLabel) return;
-    Client.removeActiveLabel(activeLabel.id, card.id)
-      .then(() => {
-        const filteredActiveLabels = activeLabels.filter(
-          (activeLabel) => activeLabel.labelId !== labelId
-        );
-        setActiveLabels(filteredActiveLabels);
-      })
-      .catch((err) => {
-        throw new Error(err.response.data.message);
-      });
-  };
-
+const CardDetails = ({
+  card,
+  workspaceListId,
+  activeLabels,
+  handleActiveLabel,
+}: ICardDetailsProps) => {
   return (
     <Box color="light.primary">
       <Flex flexDir={['column', 'column', 'row']}>
