@@ -35,10 +35,9 @@ const Panel = ({
 
   const removeCard = () => {
     Client.removeCard(card.id)
-            .then(() => {
-                    removeLocalCard();
-
-            })
+      .then(() => {
+        removeLocalCard();
+      })
       .catch((err) => {
         throw new Error(err.response.data.message);
       });

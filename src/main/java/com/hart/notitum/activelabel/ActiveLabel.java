@@ -2,6 +2,8 @@ package com.hart.notitum.activelabel;
 
 import java.sql.Timestamp;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.hart.notitum.card.Card;
 import com.hart.notitum.label.Label;
 
@@ -33,7 +35,9 @@ public class ActiveLabel {
     @ManyToOne
     @JoinColumn(name = "label_id", referencedColumnName = "id")
     private Label label;
-    @ManyToOne
+
+    @JsonBackReference
+    @ManyToOne()
     @JoinColumn(name = "card_id", referencedColumnName = "id")
     private Card card;
 
