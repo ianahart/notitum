@@ -4,16 +4,17 @@ import com.hart.notitum.card.request.CreateCardRequest;
 import com.hart.notitum.card.request.ReorderCardsRequest;
 import com.hart.notitum.card.request.UpdateCardRequest;
 import com.hart.notitum.card.response.CreateCardResponse;
+import com.hart.notitum.card.response.DeleteCardResponse;
 import com.hart.notitum.card.response.ReorderCardsResponse;
 import com.hart.notitum.card.response.UpdateCardResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,6 +29,12 @@ public class CardController {
     @Autowired
     public CardController(CardService cardService) {
         this.cardService = cardService;
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<DeleteCardResponse> deleteCard(@PathVariable("id") Long id) {
+        this.cardService.deleteCard(id);
+        return ResponseEntity.status(HttpStatus.OK).body(new DeleteCardResponse("success"));
     }
 
     @PatchMapping("/{id}")

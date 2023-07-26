@@ -36,7 +36,14 @@ public class ActiveLabelService {
         this.userService = userService;
     }
 
-    public void deleteActiveLabel(Long id) {
+    public void deleteActiveLabel(Long id, Long cardId) {
+        Card card = this.cardRepository.findById(cardId)
+                .orElseThrow(() -> new NotFoundException("card not found deleting active label"));
+
+        if (card.getUser().getId() != this.userService.getCurrentlyLoggedInUser().getId()) {
+            throw new ForbiddenException("Only owner of workspace can remove labels");
+        }
+
         this.activeLabelRepository.deleteById(id);
     }
 

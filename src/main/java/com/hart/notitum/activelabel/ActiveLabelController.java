@@ -28,8 +28,9 @@ public class ActiveLabelController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<DeleteActiveLabelResponse> deleteActiveLabel(@PathVariable("id") Long id) {
-        this.activeLabelService.deleteActiveLabel(id);
+    public ResponseEntity<DeleteActiveLabelResponse> deleteActiveLabel(@PathVariable("id") Long id,
+            @RequestParam("cardId") Long cardId) {
+        this.activeLabelService.deleteActiveLabel(id, cardId);
         return ResponseEntity.status(HttpStatus.OK).body(new DeleteActiveLabelResponse("success"));
     }
 

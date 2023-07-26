@@ -49,10 +49,7 @@ public class LabelService {
             throw new ForbiddenException("Cannot create label unless you are the workspace owner");
         }
 
-        Card card = this.cardRepository.findById(request.getCardId())
-                .orElseThrow(() -> new NotFoundException("Card not found creating label"));
-
-        this.labelRepository.save(new Label(this.userService.getCurrentlyLoggedInUser(), workspace, card,
+        this.labelRepository.save(new Label(this.userService.getCurrentlyLoggedInUser(), workspace,
                 request.getTitle(), request.getColor(), false));
     }
 }

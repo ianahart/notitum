@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.hart.notitum.label.Label;
+import com.hart.notitum.activelabel.ActiveLabel;
 import com.hart.notitum.list.WorkspaceList;
 import com.hart.notitum.user.User;
 
@@ -61,8 +61,8 @@ public class Card {
     @JoinColumn(name = "workspace_list_id", referencedColumnName = "id")
     private WorkspaceList workspaceList;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Label> labels;
+    @OneToMany(mappedBy = "card", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ActiveLabel> activeLabels;
 
     public Card() {
 
@@ -99,8 +99,8 @@ public class Card {
         return id;
     }
 
-    public List<Label> getLabels() {
-        return labels;
+    public List<ActiveLabel> getActiveLabels() {
+        return activeLabels;
     }
 
     public User getUser() {
@@ -155,8 +155,8 @@ public class Card {
         this.user = user;
     }
 
-    public void setLabels(List<Label> labels) {
-        this.labels = labels;
+    public void setActiveLabels(List<ActiveLabel> activeLabels) {
+        this.activeLabels = activeLabels;
     }
 
     public void setColor(String color) {

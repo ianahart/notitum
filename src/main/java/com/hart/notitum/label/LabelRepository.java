@@ -19,7 +19,6 @@ public interface LabelRepository extends JpaRepository<Label, Long> {
             )
             FROM Label l
             INNER JOIN l.workspace w
-            INNER JOIN l.card c
             WHERE w.id = :workspaceId
             """)
     List<LabelDto> getLabels(@Param("workspaceId") Long workspaceId);

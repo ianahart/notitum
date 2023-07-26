@@ -4,7 +4,6 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import com.hart.notitum.activelabel.ActiveLabel;
-import com.hart.notitum.card.Card;
 import com.hart.notitum.user.User;
 import com.hart.notitum.workspace.Workspace;
 
@@ -49,9 +48,6 @@ public class Label {
     @ManyToOne
     @JoinColumn(name = "workspace_id", referencedColumnName = "id")
     private Workspace workspace;
-    @ManyToOne()
-    @JoinColumn(name = "card_id", referencedColumnName = "id")
-    private Card card;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ActiveLabel> activeLabels;
 
@@ -77,13 +73,11 @@ public class Label {
     public Label(
             User user,
             Workspace workspace,
-            Card card,
             String title,
             String color,
             Boolean isChecked) {
         this.user = user;
         this.workspace = workspace;
-        this.card = card;
         this.title = title;
         this.color = color;
         this.isChecked = isChecked;
@@ -91,10 +85,6 @@ public class Label {
 
     public Long getId() {
         return id;
-    }
-
-    public Card getCard() {
-        return card;
     }
 
     public List<ActiveLabel> getActiveLabels() {
@@ -131,10 +121,6 @@ public class Label {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public void setCard(Card card) {
-        this.card = card;
     }
 
     public void setActiveLabels(List<ActiveLabel> activeLabels) {

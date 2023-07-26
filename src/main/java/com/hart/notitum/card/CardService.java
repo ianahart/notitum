@@ -11,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import java.util.List;
 import java.util.Optional;
 
+import com.hart.notitum.activelabel.ActiveLabelRepository;
 import com.hart.notitum.advice.BadRequestException;
 import com.hart.notitum.advice.ForbiddenException;
 import com.hart.notitum.advice.NotFoundException;
@@ -28,18 +29,29 @@ public class CardService {
     private final WorkspaceListRepository workspaceListRepository;
     private final ModelMapper modelMapper;
     private final UserService userService;
+    private final ActiveLabelRepository activeLabelRepository;
 
     @Autowired
     public CardService(CardRepository cardRepository,
             UserRepository userRepository,
             WorkspaceListRepository workspaceListRepository,
             ModelMapper modelMapper,
-            UserService userService) {
+            UserService userService,
+            ActiveLabelRepository activeLabelRepository) {
         this.cardRepository = cardRepository;
         this.userRepository = userRepository;
         this.workspaceListRepository = workspaceListRepository;
         this.modelMapper = modelMapper;
         this.userService = userService;
+        this.activeLabelRepository = activeLabelRepository;
+    }
+
+    public void deleteCard(Long id) {
+        Card card = this.cardRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Card not found deleting card"));
+        List<Long> activeLabelIds = card.getActiveLabels().stream().map(v -> v.getId()).toList();
+        this.activeLabelRepository.deleteAllById(activeLabelIds);
+        this.cardRepository.deleteById(id);
     }
 
     public void updateCard(CardDto card, Long workspaceListId, Long userId) {

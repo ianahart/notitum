@@ -6,10 +6,12 @@ export const http = axios.create({
 });
 
 export const Client = {
-  removeActiveLabel: (labelId: number) => {
-    return http.delete(`/active-labels/${labelId}`);
+  removeCard: (cardId: number) => {
+    return http.delete(`/cards/${cardId}`);
   },
-
+  removeActiveLabel: (labelId: number, cardId: number) => {
+    return http.delete(`/active-labels/${labelId}?cardId=${cardId}`);
+  },
   getActiveLabels: (cardId: number) => {
     return http.get(`/active-labels?cardId=${cardId}`);
   },

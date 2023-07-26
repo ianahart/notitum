@@ -1,6 +1,5 @@
 import { Box, Text, Flex } from '@chakra-ui/react';
 import { IActiveLabel, ICard } from '../../../../../../interfaces';
-import Header from './Header';
 import Description from './Description';
 import Panel from './Panel';
 import { Client } from '../../../../../../util/client';
@@ -8,7 +7,6 @@ import { useEffect, useRef, useState } from 'react';
 
 interface ICardDetailsProps {
   workspaceListId: number;
-  workspaceListTitle: string;
   card: ICard;
 }
 
@@ -52,7 +50,7 @@ const CardDetails = ({ workspaceListId, card }: ICardDetailsProps) => {
       (activeLabel) => activeLabel.labelId === labelId
     );
     if (!activeLabel) return;
-    Client.removeActiveLabel(activeLabel.id)
+    Client.removeActiveLabel(activeLabel.id, card.id)
       .then(() => {
         const filteredActiveLabels = activeLabels.filter(
           (activeLabel) => activeLabel.labelId !== labelId
