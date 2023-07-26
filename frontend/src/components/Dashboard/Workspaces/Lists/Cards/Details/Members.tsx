@@ -13,12 +13,7 @@ import {
 } from '@chakra-ui/react';
 import CardButton from './CardButton';
 import { AiOutlineUser } from 'react-icons/ai';
-import {
-  ICard,
-  IMember,
-  IUserContext,
-  IWorkspaceContext,
-} from '../../../../../../interfaces';
+import { IMember, IUserContext, IWorkspaceContext } from '../../../../../../interfaces';
 import { useState, useCallback, useContext, useEffect, useRef } from 'react';
 import { debounce } from 'lodash';
 import Avatar from '../../../../../Shared/Avatar';

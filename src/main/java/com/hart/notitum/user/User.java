@@ -6,6 +6,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.hart.notitum.activity.Activity;
 import com.hart.notitum.card.Card;
+import com.hart.notitum.label.Label;
 import com.hart.notitum.list.WorkspaceList;
 import com.hart.notitum.member.Member;
 import com.hart.notitum.passwordreset.PasswordReset;
@@ -79,6 +80,9 @@ public class User implements UserDetails {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Member> members;
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Label> labels;
+
     public User() {
 
     }
@@ -120,6 +124,10 @@ public class User implements UserDetails {
     public Long getId() {
         return id;
 
+    }
+
+    public List<Label> getLabels() {
+        return labels;
     }
 
     public List<Member> getMembers() {
@@ -168,6 +176,10 @@ public class User implements UserDetails {
 
     public void setTokens(List<Token> tokens) {
         this.tokens = tokens;
+    }
+
+    public void setLabels(List<Label> labels) {
+        this.labels = labels;
     }
 
     public void setWorkspaceLists(List<WorkspaceList> workspaceLists) {

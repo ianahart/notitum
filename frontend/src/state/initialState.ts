@@ -20,6 +20,24 @@ export const colorsState = [
   { id: nanoid(), background: '#FF55BB' },
 ];
 
+export const labelColors = [
+  { id: nanoid(), background: '#F1C93B' },
+  { id: nanoid(), background: '#1A5D1A' },
+  { id: nanoid(), background: '#A2FF86' },
+  { id: nanoid(), background: '#B31312' },
+  { id: nanoid(), background: '#E8A9A9' },
+  { id: nanoid(), background: '#068FFF' },
+  { id: nanoid(), background: '#090580' },
+  { id: nanoid(), background: '#E57C23' },
+  { id: nanoid(), background: '#FF55BB' },
+  { id: nanoid(), background: '#a229ec' },
+  { id: nanoid(), background: '#59652a' },
+  { id: nanoid(), background: '#021f27' },
+  { id: nanoid(), background: '#9acbae' },
+  { id: nanoid(), background: '#32bcdf' },
+  { id: nanoid(), background: '#ccc5b9' },
+];
+
 export const workspaceMenuState = {
   description: { name: 'description', value: 'About this workspace', open: false },
   background: { name: 'background', value: 'Change background', open: false },

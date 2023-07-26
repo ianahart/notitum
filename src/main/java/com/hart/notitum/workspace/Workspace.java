@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import com.hart.notitum.activity.Activity;
+import com.hart.notitum.label.Label;
 import com.hart.notitum.list.WorkspaceList;
 import com.hart.notitum.member.Member;
 import com.hart.notitum.user.User;
@@ -66,6 +67,9 @@ public class Workspace {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Member> members;
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Label> labels;
+
     public Workspace() {
 
     }
@@ -110,6 +114,10 @@ public class Workspace {
 
     public Long getId() {
         return id;
+    }
+
+    public List<Label> getLabels() {
+        return labels;
     }
 
     public List<Member> getMembers() {
@@ -162,6 +170,10 @@ public class Workspace {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void setLabels(List<Label> labels) {
+        this.labels = labels;
     }
 
     public void setActivities(List<Activity> activities) {

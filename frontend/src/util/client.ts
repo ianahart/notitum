@@ -6,6 +6,23 @@ export const http = axios.create({
 });
 
 export const Client = {
+  removeActiveLabel: (labelId: number) => {
+    return http.delete(`/active-labels/${labelId}`);
+  },
+
+  getActiveLabels: (cardId: number) => {
+    return http.get(`/active-labels?cardId=${cardId}`);
+  },
+  createActiveLabel: (labelId: number, checked: boolean, cardId: number) => {
+    return http.post('/active-labels', { labelId, checked, cardId });
+  },
+  getLabels: (workspaceId: number, cardId: number) => {
+    return http.get(`/labels?workspaceId=${workspaceId}&cardId=${cardId}`);
+  },
+  createLabel: (workspaceId: number, cardId: number, color: string, title: string) => {
+    return http.post('/labels', { workspaceId, cardId, color, title });
+  },
+
   createMember: (email: string, workspaceId: number) => {
     return http.post('/members', { email, workspaceId });
   },

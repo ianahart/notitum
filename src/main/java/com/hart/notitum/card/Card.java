@@ -1,20 +1,24 @@
 package com.hart.notitum.card;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.hart.notitum.label.Label;
 import com.hart.notitum.list.WorkspaceList;
 import com.hart.notitum.user.User;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
@@ -57,6 +61,9 @@ public class Card {
     @JoinColumn(name = "workspace_list_id", referencedColumnName = "id")
     private WorkspaceList workspaceList;
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Label> labels;
+
     public Card() {
 
     }
@@ -90,6 +97,10 @@ public class Card {
 
     public Long getId() {
         return id;
+    }
+
+    public List<Label> getLabels() {
+        return labels;
     }
 
     public User getUser() {
@@ -142,6 +153,10 @@ public class Card {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public void setLabels(List<Label> labels) {
+        this.labels = labels;
     }
 
     public void setColor(String color) {

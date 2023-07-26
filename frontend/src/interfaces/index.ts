@@ -13,6 +13,18 @@ export interface IWorkspaceMenus {
   menu: { name: string; value: string; open: boolean };
 }
 
+export interface IActiveLabel extends ILabel {
+  labelId: number;
+}
+
+export interface ILabel {
+  id: number;
+  isChecked: boolean;
+  title: string;
+  color: string;
+  createdAt: Date;
+}
+
 export interface ICard {
   color: string;
   createdAt: Date;
