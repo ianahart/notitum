@@ -48,10 +48,16 @@ public class WorkspaceService {
             Long userId) {
         int currentPage = MyUtils.paginate(page, direction);
         Pageable paging = PageRequest.of(currentPage, pageSize, Sort.by("id"));
-        Page<SearchWorkspaceDto> result = this.workspaceRepository.searchWorkspaces(query.toLowerCase(), userId,
+        Page<SearchWorkspaceDto> result = this.workspaceRepository.searchWorkspaces(query.toLowerCase(),
                 paging);
 
-        return new SearchWorkspacesPaginationDto(result.getContent(), pageSize, currentPage, direction,
+        List<SearchWorkspaceDto> workspaces = result.getContent().stream()
+                .filter(w -> w.getVisibility() == Visibility.PUBLIC || w.getUserId() == userId ||
+                        this.memberService.getMemberUserIds(w.getWorkspaceId()).contains(userId)
+                                && w.getVisibility() != Visibility.PRIVATE)
+                .toList();
+
+        return new SearchWorkspacesPaginationDto(workspaces, pageSize, currentPage, direction,
                 result.getTotalPages());
 
     }

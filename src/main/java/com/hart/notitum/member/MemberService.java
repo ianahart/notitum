@@ -43,7 +43,7 @@ public class MemberService {
     }
 
     public List<Long> getMemberUserIds(Long workspaceId) {
-          return this.memberRepository.getMemberUserIds(workspaceId);
+        return this.memberRepository.getMemberUserIds(workspaceId);
     }
 
     public MemberDto createMember(String email, Long workspaceId) {

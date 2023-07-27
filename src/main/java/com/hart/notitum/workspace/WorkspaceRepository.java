@@ -91,10 +91,10 @@ public interface WorkspaceRepository extends JpaRepository<Workspace, Long> {
             ) FROM
                     Workspace w
                     INNER JOIN w.user u
-                    WHERE LOWER(w.title) LIKE %:query% AND visibility = 'PUBLIC'
-                    OR LOWER(w.title) LIKE %:query% AND u.id = :userId
+                    WHERE LOWER(w.title) LIKE %:query%
+                    ORDER BY w.id DESC
                     """)
-    Page<SearchWorkspaceDto> searchWorkspaces(@Param("query") String query, @Param("userId") Long userId,
+    Page<SearchWorkspaceDto> searchWorkspaces(@Param("query") String query,
             Pageable paging);
 
 }
