@@ -15,6 +15,14 @@ import org.springframework.stereotype.Repository;
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
     @Query(value = """
+              SELECT u.id FROM Member m
+              INNER JOIN m.user u
+              INNER JOIN m.workspace w
+              WHERE w.id = :workspaceId
+            """)
+    List<Long> getMemberUserIds(@Param("workspaceId") Long workspaceId);
+
+    @Query(value = """
                  SELECT new com.hart.notitum.member.dto.MemberDto(
                   m.id AS id, u.firstName AS firstName, u.lastName AS lastName,
                   u.id AS userId

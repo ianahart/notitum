@@ -42,6 +42,10 @@ public class MemberService {
         this.userService = userService;
     }
 
+    public List<Long> getMemberUserIds(Long workspaceId) {
+          return this.memberRepository.getMemberUserIds(workspaceId);
+    }
+
     public MemberDto createMember(String email, Long workspaceId) {
         User user = this.userRepository.findByEmail(email)
                 .orElseThrow(() -> new NotFoundException("That email does not exist"));
