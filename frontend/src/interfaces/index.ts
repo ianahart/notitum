@@ -17,6 +17,14 @@ export interface IActiveLabel extends ILabel {
   labelId: number;
 }
 
+export interface ISearchWorkspace {
+  workspaceId: number;
+  background: string;
+  title: string;
+  visibility: string;
+  userId: number;
+}
+
 export interface ILabel {
   id: number;
   isChecked: boolean;

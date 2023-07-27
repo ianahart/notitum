@@ -1,17 +1,17 @@
 import { Box, Flex } from '@chakra-ui/react';
 import { useContext, useEffect, useRef, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { Client } from '../util/client';
-import { workspaceState } from '../state/initialState';
 import BasicSpinner from '../components/Shared/BasicSpinner';
 import Navbar from '../components/Dashboard/Workspaces/Nav/Navbar';
-import { IWorkspace, IWorkspaceContext } from '../interfaces';
+import { IWorkspaceContext } from '../interfaces';
 import { WorkspaceContext } from '../context/workspace';
 import CreateList from '../components/Dashboard/Workspaces/Lists/CreateList';
 import Lists from '../components/Dashboard/Workspaces/Lists/Lists';
 
 const WorkspaceRoute = () => {
   const location = useLocation();
+  const { title } = useParams();
   const { workspaceId, userId } = location.state;
   const { workspace, setWorkspace } = useContext(WorkspaceContext) as IWorkspaceContext;
   const [isLoading, setIsLoading] = useState(false);
@@ -34,11 +34,8 @@ const WorkspaceRoute = () => {
   };
 
   useEffect(() => {
-    if (shouldRun.current) {
-      shouldRun.current = false;
-      getWorkspace(workspaceId, userId);
-    }
-  }, [workspaceId, userId]);
+    getWorkspace(workspaceId, userId);
+  }, [workspaceId, userId, title]);
 
   return (
     <>

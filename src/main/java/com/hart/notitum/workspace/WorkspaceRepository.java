@@ -2,8 +2,11 @@ package com.hart.notitum.workspace;
 
 import java.util.List;
 
+import com.hart.notitum.workspace.dto.SearchWorkspaceDto;
 import com.hart.notitum.workspace.dto.WorkspaceDto;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -80,4 +83,20 @@ public interface WorkspaceRepository extends JpaRepository<Workspace, Long> {
                     ORDER BY w.id DESC
                     """)
     List<WorkspaceDto> getWorkspaces(@Param("userId") Long userId);
+
+    @Query(value = """
+            SELECT new com.hart.notitum.workspace.dto.SearchWorkspaceDto(
+             w.id as workspaceId, w.background as background,
+             w.title as title, w.visibility as visibility, u.id as userId
+            ) FROM
+                    Workspace w
+                    INNER JOIN w.user u
+                    INNER JOIN member m
+                    WHERE LOWER(w.title) LIKE %:query% AND visibility = 'PUBLIC'
+                    OR LOWER(w.title) LIKE %:query% AND u.id = :userId
+                    ORDER BY w.id DESC
+                    """)
+    Page<SearchWorkspaceDto> searchWorkspaces(@Param("query") String query, @Param("userId") Long userId,
+            Pageable paging);
+
 }

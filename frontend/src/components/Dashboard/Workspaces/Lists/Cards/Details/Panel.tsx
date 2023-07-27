@@ -22,6 +22,7 @@ const Panel = ({
   activeLabels,
 }: IPanelProps) => {
   const { lists, setLists } = useContext(WorkspaceContext) as IWorkspaceContext;
+  const { workspace } = useContext(WorkspaceContext) as IWorkspaceContext;
 
   const removeLocalCard = () => {
     const newLists = [...lists];
@@ -34,7 +35,7 @@ const Panel = ({
   };
 
   const removeCard = () => {
-    Client.removeCard(card.id)
+    Client.removeCard(card.id, workspace.userId)
       .then(() => {
         removeLocalCard();
       })

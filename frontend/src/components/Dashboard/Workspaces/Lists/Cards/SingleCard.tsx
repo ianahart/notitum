@@ -117,7 +117,7 @@ const SingleCard = ({
       _hover={{ background: '#3f3f44' }}
       bg="#38383c"
     >
-      <Flex justify="space-between">
+      <Flex justify={activeLabels.length > 0 ? 'space-between' : 'flex-end'}>
         {activeLabels.length > 0 && (
           <Box bg={activeLabels[0].color} p="0.25rem" borderRadius={8}>
             <Text color="light.primary" fontWeight="bold" fontSize="0.8rem">

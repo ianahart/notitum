@@ -81,7 +81,7 @@ const Visibility = () => {
           <VisibilitySelectOption
             visibility={workspace.visibility}
             title="workspace"
-            text={`All users of ${user.firstName} ${user.lastName}'s workspace can view and edit this workspace.`}
+            text={`All users of ${user.firstName} ${user.lastName}'s workspace can view this workspace.`}
             icon={<FiUsers />}
             handleMenuOpen={handleMenuOpen}
             handleVisibility={handleVisibility}
@@ -97,7 +97,7 @@ const Visibility = () => {
           <VisibilitySelectOption
             visibility={workspace.visibility}
             title="public"
-            text="Anyone on the internet can view this workspace, only members can edit this workspace."
+            text="Anyone on the internet can view this workspace"
             icon={<RiEarthLine />}
             handleMenuOpen={handleMenuOpen}
             handleVisibility={handleVisibility}

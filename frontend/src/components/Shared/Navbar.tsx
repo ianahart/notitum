@@ -8,6 +8,7 @@ import { useContext } from 'react';
 import { UserContext } from '../../context/user';
 import { IUserContext } from '../../interfaces';
 import { slugify } from '../../util';
+import SearchBar from './SearchBar';
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -51,7 +52,12 @@ const Navbar = () => {
             <MobileNavMenus styles={mobileNavMenuStyles} />
           </Box>
         </Flex>
-        <AccountMenu />
+        <Flex>
+          <Box mr="0.5rem" display={['none', 'none', 'block']}>
+            <SearchBar />
+          </Box>
+          <AccountMenu />
+        </Flex>
       </Flex>
     </Box>
   );

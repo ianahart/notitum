@@ -46,7 +46,10 @@ public class CardService {
         this.activeLabelRepository = activeLabelRepository;
     }
 
-    public void deleteCard(Long id) {
+    public void deleteCard(Long id, Long workspaceUserId) {
+        if (workspaceUserId != this.userService.getCurrentlyLoggedInUser().getId()) {
+            throw new ForbiddenException("Cannot delete another person's card");
+        }
         Card card = this.cardRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Card not found deleting card"));
         List<Long> activeLabelIds = card.getActiveLabels().stream().map(v -> v.getId()).toList();

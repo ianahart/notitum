@@ -6,8 +6,20 @@ export const http = axios.create({
 });
 
 export const Client = {
-  removeCard: (cardId: number) => {
-    return http.delete(`/cards/${cardId}`);
+  searchWorkspaces: (
+    query: string,
+    pageSize: number,
+    page: number,
+    direction: string,
+    userId: number
+  ) => {
+    return http.get(
+      `/workspaces/search?query=${query}&pageSize=${pageSize}&page=${page}&direction=${direction}&userId=${userId}`
+    );
+  },
+
+  removeCard: (cardId: number, workspaceUserId: number) => {
+    return http.delete(`/cards/${cardId}?workspaceUserId=${workspaceUserId}`);
   },
   removeActiveLabel: (labelId: number, cardId: number) => {
     return http.delete(`/active-labels/${labelId}?cardId=${cardId}`);

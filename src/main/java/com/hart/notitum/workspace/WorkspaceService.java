@@ -1,5 +1,7 @@
 package com.hart.notitum.workspace;
 
+import com.hart.notitum.workspace.dto.SearchWorkspaceDto;
+import com.hart.notitum.workspace.dto.SearchWorkspacesPaginationDto;
 import com.hart.notitum.workspace.dto.WorkspaceDto;
 import com.hart.notitum.workspace.request.CreateWorkspaceRequest;
 import com.hart.notitum.workspace.request.UpdateWorkspaceRequest;
@@ -17,6 +19,10 @@ import com.hart.notitum.user.UserRepository;
 import com.hart.notitum.util.MyUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -36,6 +42,18 @@ public class WorkspaceService {
         this.userRepository = userRepository;
         this.userService = userService;
         this.memberService = memberService;
+    }
+
+    public SearchWorkspacesPaginationDto searchWorkspaces(String query, int pageSize, int page, String direction,
+            Long userId) {
+        int currentPage = MyUtils.paginate(page, direction);
+        Pageable paging = PageRequest.of(currentPage, pageSize, Sort.by("id"));
+        Page<SearchWorkspaceDto> result = this.workspaceRepository.searchWorkspaces(query.toLowerCase(), userId,
+                paging);
+
+        return new SearchWorkspacesPaginationDto(result.getContent(), pageSize, currentPage, direction,
+                result.getTotalPages());
+
     }
 
     public void validateWorkspaceProperties(UpdateWorkspaceRequest request) {
@@ -58,6 +76,10 @@ public class WorkspaceService {
                 .orElseThrow(() -> new NotFoundException("Work space not found with id " + id));
 
         User user = this.userService.getCurrentlyLoggedInUser();
+
+        if (user.getId() != workspace.getUser().getId()) {
+            throw new ForbiddenException("Cannot update another person's workspace");
+        }
 
         if (request.getTitle() != null && request.getBackground() != null && request.getDescription() != null) {
             validateWorkspaceProperties(request);
@@ -108,12 +130,15 @@ public class WorkspaceService {
             throw new BadRequestException("Workspace id or user id is missing");
         }
 
-        if (!this.memberService.checkIfMemberExists(workspaceId, this.userService.getCurrentlyLoggedInUser().getId())) {
+        WorkspaceDto workspace = this.workspaceRepository.getWorkspace(workspaceId);
+
+        if (!this.memberService.checkIfMemberExists(workspaceId, this.userService.getCurrentlyLoggedInUser().getId())
+                && workspace.getVisibility() != Visibility.PUBLIC) {
             checkOwnerShip(userId);
         }
 
         updateTimestamp(workspaceId);
-        return this.workspaceRepository.getWorkspace(workspaceId);
+        return workspace;
     }
 
     public List<WorkspaceDto> getWorkspaces(Long userId) {
