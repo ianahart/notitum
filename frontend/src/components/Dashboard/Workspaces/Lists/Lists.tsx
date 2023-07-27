@@ -6,8 +6,10 @@ import { UserContext } from '../../../../context/user';
 import { Client } from '../../../../util/client';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import WorkspaceList from './WorkspaceList';
+import { useParams } from 'react-router-dom';
 
 const Lists = () => {
+  const { title } = useParams();
   const { workspace, lists, setLists } = useContext(
     WorkspaceContext
   ) as IWorkspaceContext;
@@ -103,12 +105,11 @@ const Lists = () => {
   };
 
   useEffect(() => {
-    if (shouldRun.current && user.id !== 0 && workspace.workspaceId !== 0) {
-      shouldRun.current = false;
+    if (user.id !== 0 && workspace.workspaceId !== 0) {
       getLists();
     }
     return () => setLists([]);
-  }, [shouldRun.current, user.id, workspace.workspaceId]);
+  }, [shouldRun.current, user.id, workspace.workspaceId, title]);
 
   return (
     <Flex>
