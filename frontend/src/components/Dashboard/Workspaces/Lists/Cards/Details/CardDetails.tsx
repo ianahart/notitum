@@ -36,6 +36,7 @@ const CardDetails = ({
             })}
           </Flex>
           <Description card={card} workspaceListId={workspaceListId} />
+          {/*CHECKLISTS GO HERE*/}
         </Box>
         <Box minH="700px" minW="200px" flexGrow="1">
           <Box>

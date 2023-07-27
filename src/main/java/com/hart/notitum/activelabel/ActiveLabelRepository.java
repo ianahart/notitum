@@ -13,6 +13,13 @@ import org.springframework.stereotype.Repository;
 public interface ActiveLabelRepository extends JpaRepository<ActiveLabel, Long> {
 
     @Query(value = """
+              SELECT al FROM ActiveLabel al
+              INNER JOIN al.card c
+              WHERE c.id = :cardId
+            """)
+    List<ActiveLabel> findActiveLabelsById(@Param("cardId") Long cardId);
+
+    @Query(value = """
             SELECT new com.hart.notitum.activelabel.dto.ActiveLabelDto(
               al.id AS id, l.isChecked AS isChecked, l.title AS title,
               l.color AS color, al.createdAt AS createdAt, l.id AS labelId

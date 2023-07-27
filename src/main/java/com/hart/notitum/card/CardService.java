@@ -56,6 +56,7 @@ public class CardService {
 
     public void updateCard(CardDto card, Long workspaceListId, Long userId) {
         Card cardToUpdate = modelMapper.map(card, Card.class);
+
         WorkspaceList wl = this.workspaceListRepository.findById(workspaceListId)
                 .orElseThrow(() -> new NotFoundException("Workspace list not found"));
 
@@ -68,9 +69,10 @@ public class CardService {
 
         cardToUpdate.setUser(user);
         cardToUpdate.setWorkspaceList(wl);
+        cardToUpdate.setActiveLabels(this.activeLabelRepository.findActiveLabelsById(card.getId()));
 
         this.cardRepository.save(cardToUpdate);
-    }
+    }//
 
     public CardDto createCard(String title, Long userId, Long workspaceListId, Integer index) {
         if (userId == null || workspaceListId == null) {
