@@ -40,15 +40,22 @@ public class ChecklistService {
         this.workspaceService = workspaceService;
     }
 
+    private String updateChecklistActivity(String title, String curTitle, User user) {
+        return user.getFirstName() + " " + user.getLastName() + " updated checklist title from " + curTitle + " to "
+                + title;
+    }
+
     public void updateChecklist(Long checklistId, String title, Long workspaceId) {
-        if (workspaceService.getWorkspaceById(workspaceId).getUser().getId() != this.userService
-                .getCurrentlyLoggedInUser().getId()) {
+        User user = this.userService.getCurrentlyLoggedInUser();
+        if (workspaceService.getWorkspaceById(workspaceId).getUser().getId() != user.getId()) {
             throw new ForbiddenException("Only the owner of the workspace can update a checklists's title");
         }
 
         Checklist checklist = this.checklistRepository.findById(checklistId)
                 .orElseThrow(() -> new NotFoundException("Checklist not found"));
 
+        this.activityService.createActivity(updateChecklistActivity(title, checklist.getTitle(), user), user.getId(),
+                workspaceId);
         checklist.setTitle(title);
 
         this.checklistRepository.save(checklist);
