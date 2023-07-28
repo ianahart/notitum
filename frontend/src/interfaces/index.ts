@@ -17,6 +17,14 @@ export interface IActiveLabel extends ILabel {
   labelId: number;
 }
 
+export interface IChecklist {
+  createdAt: Date;
+  updatedAt: Date;
+  title: string;
+  isComplete: boolean;
+  id: number;
+}
+
 export interface ISearchWorkspace {
   workspaceId: number;
   background: string;

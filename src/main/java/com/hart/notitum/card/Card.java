@@ -6,6 +6,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.hart.notitum.activelabel.ActiveLabel;
+import com.hart.notitum.checklist.Checklist;
 import com.hart.notitum.list.WorkspaceList;
 import com.hart.notitum.user.User;
 
@@ -67,6 +68,10 @@ public class Card {
     @JsonManagedReference
     private List<ActiveLabel> activeLabels;
 
+    @OneToMany(mappedBy = "card", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Checklist> checklists;
+
     public Card() {
 
     }
@@ -122,6 +127,10 @@ public class Card {
         return label;
     }
 
+    public List<Checklist> getChecklists() {
+        return checklists;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -160,6 +169,10 @@ public class Card {
 
     public void setActiveLabels(List<ActiveLabel> activeLabels) {
         this.activeLabels = activeLabels;
+    }
+
+    public void setChecklists(List<Checklist> checklists) {
+        this.checklists = checklists;
     }
 
     public void setColor(String color) {

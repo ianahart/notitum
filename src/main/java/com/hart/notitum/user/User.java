@@ -6,6 +6,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.hart.notitum.activity.Activity;
 import com.hart.notitum.card.Card;
+import com.hart.notitum.checklist.Checklist;
 import com.hart.notitum.label.Label;
 import com.hart.notitum.list.WorkspaceList;
 import com.hart.notitum.member.Member;
@@ -77,6 +78,10 @@ public class User implements UserDetails {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Card> cards;
 
+    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Checklist> checklists;
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Member> members;
 
@@ -128,6 +133,10 @@ public class User implements UserDetails {
 
     public List<Label> getLabels() {
         return labels;
+    }
+
+    public List<Checklist> getChecklists() {
+        return checklists;
     }
 
     public List<Member> getMembers() {
@@ -204,6 +213,10 @@ public class User implements UserDetails {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void setChecklists(List<Checklist> checklists) {
+        this.checklists = checklists;
     }
 
     public void setWorkspaces(List<Workspace> workspaces) {

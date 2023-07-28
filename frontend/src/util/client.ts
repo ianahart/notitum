@@ -6,6 +6,19 @@ export const http = axios.create({
 });
 
 export const Client = {
+  updateChecklist: (title: string, checklistId: number, workspaceId: number) => {
+    return http.patch(`/checklists/${checklistId}`, { title, workspaceId });
+  },
+  removeChecklist: (checklistId: number, workspaceId: number) => {
+    return http.delete(`/checklists/${checklistId}?workspaceId=${workspaceId}`);
+  },
+  getChecklists: (cardId: number) => {
+    return http.get(`/checklists?cardId=${cardId}`);
+  },
+
+  createChecklist: (title: string, cardId: number) => {
+    return http.post('/checklists', { title, cardId });
+  },
   searchWorkspaces: (
     query: string,
     pageSize: number,

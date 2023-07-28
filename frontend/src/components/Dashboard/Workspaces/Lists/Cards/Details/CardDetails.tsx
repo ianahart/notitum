@@ -1,7 +1,16 @@
 import { Box, Text, Flex } from '@chakra-ui/react';
-import { IActiveLabel, ICard } from '../../../../../../interfaces';
+import {
+  IActiveLabel,
+  ICard,
+  IChecklist,
+  IWorkspaceContext,
+} from '../../../../../../interfaces';
 import Description from './Description';
 import Panel from './Panel';
+import { Client } from '../../../../../../util/client';
+import { useContext, useEffect, useRef, useState } from 'react';
+import Checklist from './Checklist';
+import { WorkspaceContext } from '../../../../../../context/workspace';
 
 interface ICardDetailsProps {
   workspaceListId: number;
@@ -16,6 +25,74 @@ const CardDetails = ({
   activeLabels,
   handleActiveLabel,
 }: ICardDetailsProps) => {
+  const { workspace } = useContext(WorkspaceContext) as IWorkspaceContext;
+  const [createChecklistError, setCreateChecklistError] = useState('');
+  const [checklists, setChecklists] = useState<IChecklist[]>([]);
+  const shouldRun = useRef(true);
+
+  useEffect(() => {
+    if (shouldRun.current && card.id !== 0) {
+      shouldRun.current = false;
+      getChecklists(card.id);
+    }
+  }, [shouldRun.current, card.id]);
+
+  const getChecklists = (cardId: number) => {
+    Client.getChecklists(cardId)
+      .then((res) => {
+        setChecklists((prevState) => [...prevState, ...res.data.data]);
+      })
+      .catch((err) => {
+        throw new Error(err.response.data.message);
+      });
+  };
+
+  const createChecklist = (title: string) => {
+    setCreateChecklistError('');
+    Client.createChecklist(title, card.id)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        setCreateChecklistError(err.response.data.message);
+        throw new Error(err.response.data.message);
+      });
+  };
+
+  const filterOutChecklist = (id: number) => {
+    setChecklists(checklists.filter((cl) => cl.id !== id));
+  };
+
+  const removeChecklist = (id: number) => {
+    Client.removeChecklist(id, workspace.workspaceId)
+      .then(() => {
+        filterOutChecklist(id);
+      })
+      .catch((err) => {
+        throw new Error(err.response.data.message);
+      });
+  };
+
+  const updateChecklist = (title: string, id: number) => {
+        Client.updateChecklist(title, id, workspace.workspaceId).then(() => {
+    changeTitle(title, id);
+
+        }).catch((err) => {
+                throw new Error(err.response.data.message);
+            })
+  };
+
+  const changeTitle = (title: string, id: number) => {
+    setChecklists(
+      checklists.map((cl) => {
+        if (cl.id === id) {
+          cl.title = title;
+        }
+        return cl;
+      })
+    );
+  };
+
   return (
     <Box color="light.primary">
       <Flex flexDir={['column', 'column', 'row']}>
@@ -36,7 +113,18 @@ const CardDetails = ({
             })}
           </Flex>
           <Description card={card} workspaceListId={workspaceListId} />
-          {/*CHECKLISTS GO HERE*/}
+          <Box className="checklists">
+            {checklists.map((checklist) => {
+              return (
+                <Checklist
+                  updateChecklist={updateChecklist}
+                  removeChecklist={removeChecklist}
+                  checklist={checklist}
+                  key={checklist.id}
+                />
+              );
+            })}
+          </Box>
         </Box>
         <Box minH="700px" minW="200px" flexGrow="1">
           <Box>
@@ -44,6 +132,8 @@ const CardDetails = ({
               Add to card
             </Text>
             <Panel
+              createChecklistError={createChecklistError}
+              createChecklist={createChecklist}
               handleActiveLabel={handleActiveLabel}
               activeLabels={activeLabels}
               workspaceListId={workspaceListId}

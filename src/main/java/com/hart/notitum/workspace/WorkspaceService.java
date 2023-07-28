@@ -44,6 +44,11 @@ public class WorkspaceService {
         this.memberService = memberService;
     }
 
+    public Workspace getWorkspaceById(Long workspaceId) {
+        return this.workspaceRepository.findById(workspaceId)
+                .orElseThrow(() -> new NotFoundException("Workspace with id " + workspaceId + " not found"));
+    }
+
     public SearchWorkspacesPaginationDto searchWorkspaces(String query, int pageSize, int page, String direction,
             Long userId) {
         int currentPage = MyUtils.paginate(page, direction);

@@ -7,19 +7,24 @@ import { AiOutlineClose } from 'react-icons/ai';
 import { Client } from '../../../../../../util/client';
 import { useContext } from 'react';
 import { WorkspaceContext } from '../../../../../../context/workspace';
+import AddCheckList from './AddCheckList';
 
 interface IPanelProps {
+  createChecklistError: string;
   card: ICard;
   workspaceListId: number;
   handleActiveLabel: (labelId: number, checked: boolean) => void;
   activeLabels: IActiveLabel[];
+  createChecklist: (title: string) => void;
 }
 
 const Panel = ({
+  createChecklistError,
   card,
   workspaceListId,
   handleActiveLabel,
   activeLabels,
+  createChecklist,
 }: IPanelProps) => {
   const { lists, setLists } = useContext(WorkspaceContext) as IWorkspaceContext;
   const { workspace } = useContext(WorkspaceContext) as IWorkspaceContext;
@@ -51,6 +56,10 @@ const Panel = ({
         activeLabels={activeLabels}
         card={card}
         handleActiveLabel={handleActiveLabel}
+      />
+      <AddCheckList
+        createChecklistError={createChecklistError}
+        createChecklist={createChecklist}
       />
       <Box onClick={removeCard}>
         <CardButton title="Remove card" icon={<AiOutlineClose />} />
