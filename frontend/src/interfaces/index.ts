@@ -17,12 +17,21 @@ export interface IActiveLabel extends ILabel {
   labelId: number;
 }
 
+export interface IChecklistItem {
+  createdAt: Date;
+  id: number;
+  isComplete: boolean;
+  title: string;
+  updatedAt: Date;
+}
+
 export interface IChecklist {
   createdAt: Date;
   updatedAt: Date;
   title: string;
   isComplete: boolean;
   id: number;
+  checklistItems: IChecklistItem[];
 }
 
 export interface ISearchWorkspace {

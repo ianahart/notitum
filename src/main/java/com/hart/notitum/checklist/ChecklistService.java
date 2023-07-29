@@ -1,7 +1,7 @@
 package com.hart.notitum.checklist;
 
-import java.util.FormatterClosedException;
 import java.util.List;
+import java.util.ArrayList;
 
 import com.hart.notitum.activity.ActivityService;
 import com.hart.notitum.advice.BadRequestException;
@@ -9,6 +9,8 @@ import com.hart.notitum.advice.ForbiddenException;
 import com.hart.notitum.advice.NotFoundException;
 import com.hart.notitum.card.Card;
 import com.hart.notitum.card.CardService;
+import com.hart.notitum.checklist.dto.ChecklistWithItemsDto;
+import com.hart.notitum.checklistitem.ChecklistItem;
 import com.hart.notitum.user.User;
 import com.hart.notitum.user.UserService;
 import com.hart.notitum.workspace.Workspace;
@@ -38,6 +40,11 @@ public class ChecklistService {
         this.cardService = cardService;
         this.activityService = activityService;
         this.workspaceService = workspaceService;
+    }
+
+    public Checklist getChecklistById(Long checklistId) {
+        return this.checklistRepository.findById(checklistId)
+                .orElseThrow(() -> new NotFoundException("Checklist with id " + checklistId + " not found"));
     }
 
     private String updateChecklistActivity(String title, String curTitle, User user) {
@@ -75,9 +82,11 @@ public class ChecklistService {
         if (cardId == null) {
             throw new BadRequestException("Card id was not present in the request");
         }
-        List<Checklist> checklists = this.checklistRepository.getChecklists(cardId);
-
-        return checklists;
+        List<Checklist> results = this.checklistRepository.getChecklists(cardId);
+        for (Checklist x : results) {
+            x.setChecklistItems(x.getChecklistItems());
+        }
+        return results;
     }
 
     private void validateChecklist(String title, Long cardId) {
@@ -114,6 +123,8 @@ public class ChecklistService {
         this.checklistRepository.save(checklist);
         this.activityService.createActivity(createChecklistActivity(user, card, title), user.getId(),
                 card.getWorkspaceList().getWorkspace().getId());
+        List<ChecklistItem> checklistItems = new ArrayList<>();
+        checklist.setChecklistItems(checklistItems);
         return checklist;
     }
 }

@@ -6,6 +6,16 @@ export const http = axios.create({
 });
 
 export const Client = {
+  updateChecklistItem: (checklistItemId: number, isComplete: boolean, userId: number) => {
+    return http.patch(`/checklist-items/${checklistItemId}`, { isComplete, userId });
+  },
+  createChecklistItem: (
+    checklistItemTitle: string,
+    checklistId: number,
+    userId: number
+  ) => {
+    return http.post('/checklist-items', { checklistItemTitle, checklistId, userId });
+  },
   updateChecklist: (title: string, checklistId: number, workspaceId: number) => {
     return http.patch(`/checklists/${checklistId}`, { title, workspaceId });
   },

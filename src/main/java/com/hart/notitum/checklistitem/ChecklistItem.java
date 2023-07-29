@@ -1,37 +1,31 @@
-package com.hart.notitum.checklist;
+package com.hart.notitum.checklistitem;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.hart.notitum.card.Card;
-import com.hart.notitum.checklistitem.ChecklistItem;
+import com.hart.notitum.checklist.Checklist;
 import com.hart.notitum.user.User;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
+import jakarta.persistence.GenerationType;
 
 @Entity()
-@Table(name = "checklist")
-public class Checklist {
+@Table(name = "checklist_item")
+public class ChecklistItem {
 
     @Id
-    @SequenceGenerator(name = "checklist_sequence", sequenceName = "checklist_sequence", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "checklist_sequence")
+    @SequenceGenerator(name = "checklist_item_sequence", sequenceName = "checklist_item_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "checklist_item_sequence")
     @Column(name = "id")
     private Long id;
     @CreationTimestamp
@@ -47,68 +41,56 @@ public class Checklist {
 
     @JsonBackReference
     @ManyToOne()
-    @JoinColumn(name = "card_id", referencedColumnName = "id")
-    private Card card;
-
-    @JsonBackReference
-    @ManyToOne()
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @JsonManagedReference
-    @OneToMany(mappedBy = "checklist", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ChecklistItem> checklistItems;
+    @JsonBackReference
+    @ManyToOne()
+    @JoinColumn(name = "checklist_id", referencedColumnName = "id")
+    private Checklist checklist;
 
-    public Checklist() {
+    public ChecklistItem() {
 
     }
 
-    public Checklist(
+    public ChecklistItem(
             Long id,
             Timestamp createdAt,
             Timestamp updatedAt,
             String title,
             Boolean isComplete) {
         this.id = id;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.title = title;
-        this.isComplete = isComplete;
     }
 
-    public Checklist(
+    public ChecklistItem(
             String title,
             Boolean isComplete,
-            Card card,
-            User user) {
+            User user,
+            Checklist checklist) {
         this.title = title;
         this.isComplete = isComplete;
-        this.card = card;
         this.user = user;
+        this.checklist = checklist;
     }
 
     public Long getId() {
         return id;
     }
 
-    public Card getCard() {
-        return card;
-    }
-
     public User getUser() {
         return user;
     }
 
-    public List<ChecklistItem> getChecklistItems() {
-        return checklistItems;
+    public String getTitle() {
+        return title;
+    }
+
+    public Checklist getChecklist() {
+        return checklist;
     }
 
     public Timestamp getCreatedAt() {
         return createdAt;
-    }
-
-    public String getTitle() {
-        return title;
     }
 
     public Timestamp getUpdatedAt() {
@@ -123,20 +105,16 @@ public class Checklist {
         this.id = id;
     }
 
-    public void setCard(Card card) {
-        this.card = card;
-    }
-
-    public void setChecklistItems(List<ChecklistItem> checklistItems) {
-        this.checklistItems = checklistItems;
-    }
-
     public void setUser(User user) {
         this.user = user;
     }
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public void setChecklist(Checklist checklist) {
+        this.checklist = checklist;
     }
 
     public void setCreatedAt(Timestamp createdAt) {
@@ -150,5 +128,4 @@ public class Checklist {
     public void setIsComplete(Boolean isComplete) {
         this.isComplete = isComplete;
     }
-
 }
