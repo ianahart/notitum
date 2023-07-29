@@ -52,6 +52,7 @@ const CardDetails = ({
     Client.createChecklist(title, card.id)
       .then((res) => {
         console.log(res);
+        setChecklists((prevState) => [...prevState, res.data.data]);
       })
       .catch((err) => {
         setCreateChecklistError(err.response.data.message);
@@ -74,12 +75,13 @@ const CardDetails = ({
   };
 
   const updateChecklist = (title: string, id: number) => {
-        Client.updateChecklist(title, id, workspace.workspaceId).then(() => {
-    changeTitle(title, id);
-
-        }).catch((err) => {
-                throw new Error(err.response.data.message);
-            })
+    Client.updateChecklist(title, id, workspace.workspaceId)
+      .then(() => {
+        changeTitle(title, id);
+      })
+      .catch((err) => {
+        throw new Error(err.response.data.message);
+      });
   };
 
   const changeTitle = (title: string, id: number) => {

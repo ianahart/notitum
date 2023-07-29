@@ -98,7 +98,7 @@ public class ChecklistService {
         return this.checklistRepository.countChecklists(cardId);
     }
 
-    public void createChecklist(String title, Long cardId) {
+    public Checklist createChecklist(String title, Long cardId) {
         if (countChecklists(cardId) >= 10) {
             throw new BadRequestException("Can only have 10 checklists per card");
         }
@@ -110,8 +110,10 @@ public class ChecklistService {
             throw new ForbiddenException("Cannot create a checklist on another person's workspace card");
         }
 
-        this.checklistRepository.save(new Checklist(title, false, card, user));
+        Checklist checklist = new Checklist(title, false, card, user);
+        this.checklistRepository.save(checklist);
         this.activityService.createActivity(createChecklistActivity(user, card, title), user.getId(),
                 card.getWorkspaceList().getWorkspace().getId());
+        return checklist;
     }
 }

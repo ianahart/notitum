@@ -58,7 +58,7 @@ public class ChecklistController {
 
     @PostMapping
     public ResponseEntity<CreateChecklistResponse> createChecklist(@RequestBody CreateChecklistRequest request) {
-        this.checklistService.createChecklist(request.getTitle(), request.getCardId());
-        return ResponseEntity.status(HttpStatus.CREATED).body(new CreateChecklistResponse("success"));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new CreateChecklistResponse("success",
+                this.checklistService.createChecklist(request.getTitle(), request.getCardId())));
     }
 }
