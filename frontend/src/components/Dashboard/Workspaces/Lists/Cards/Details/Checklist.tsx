@@ -10,7 +10,7 @@ import {
 } from '@chakra-ui/react';
 import { IChecklist, IChecklistItem } from '../../../../../../interfaces';
 import { GoChecklist } from 'react-icons/go';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 interface IChecklistProps {
   checklist: IChecklist;
@@ -40,6 +40,15 @@ const Checklist = ({
   const [checklistTitle, setChecklistTitle] = useState('');
   const [checklistItem, setChecklistItem] = useState('');
   const shouldRun = useRef(true);
+
+  const completedChecklistItems = checklist.checklistItems.filter(
+    (cli) => cli.isComplete
+  ).length;
+
+  const progress =
+    completedChecklistItems > 0
+      ? Math.floor((completedChecklistItems / checklist.checklistItems.length) * 100)
+      : 0;
 
   useEffect(() => {
     if (shouldRun.current) {
@@ -131,9 +140,14 @@ const Checklist = ({
         </form>
       )}
       <Flex my="0.5rem" alignItems="center">
-        <Text mr="0.5rem">0%</Text>
+        <Text mr="0.5rem">{progress}%</Text>
         <Box height="10px" borderRadius="20px" width="100%" bg="black.tertiary">
-          <Box height="10px" bg="green.500" borderRadius="20px" width="50%"></Box>
+          <Box
+            height="10px"
+            bg="green.500"
+            borderRadius="20px"
+            width={`${progress}%`}
+          ></Box>
         </Box>
       </Flex>
       <Box my="1rem">

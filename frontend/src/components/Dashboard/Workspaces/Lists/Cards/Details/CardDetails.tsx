@@ -9,7 +9,7 @@ import {
 import Description from './Description';
 import Panel from './Panel';
 import { Client } from '../../../../../../util/client';
-import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import Checklist from './Checklist';
 import { WorkspaceContext } from '../../../../../../context/workspace';
 import BasicSpinner from '../../../../../Shared/BasicSpinner';

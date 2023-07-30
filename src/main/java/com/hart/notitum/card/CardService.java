@@ -17,6 +17,7 @@ import com.hart.notitum.advice.ForbiddenException;
 import com.hart.notitum.advice.NotFoundException;
 import com.hart.notitum.card.dto.CardDto;
 import com.hart.notitum.card.dto.ReorderCardDto;
+import com.hart.notitum.checklist.ChecklistRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,7 @@ public class CardService {
     private final ModelMapper modelMapper;
     private final UserService userService;
     private final ActiveLabelRepository activeLabelRepository;
+    private final ChecklistRepository checklistRepository;
 
     @Autowired
     public CardService(CardRepository cardRepository,
@@ -37,13 +39,15 @@ public class CardService {
             WorkspaceListRepository workspaceListRepository,
             ModelMapper modelMapper,
             UserService userService,
-            ActiveLabelRepository activeLabelRepository) {
+            ActiveLabelRepository activeLabelRepository,
+            ChecklistRepository checklistRepository) {
         this.cardRepository = cardRepository;
         this.userRepository = userRepository;
         this.workspaceListRepository = workspaceListRepository;
         this.modelMapper = modelMapper;
         this.userService = userService;
         this.activeLabelRepository = activeLabelRepository;
+        this.checklistRepository = checklistRepository;
     }
 
     public Card getCardById(Long cardId) {
@@ -78,6 +82,7 @@ public class CardService {
         cardToUpdate.setUser(user);
         cardToUpdate.setWorkspaceList(wl);
         cardToUpdate.setActiveLabels(this.activeLabelRepository.findActiveLabelsById(card.getId()));
+        cardToUpdate.setChecklists(this.checklistRepository.getChecklists(card.getId()));
 
         this.cardRepository.save(cardToUpdate);
     }//
