@@ -11,8 +11,10 @@ import { IChecklist } from '../../../../../../interfaces';
 import { GoChecklist } from 'react-icons/go';
 import { useEffect, useRef, useState } from 'react';
 import ChecklistItem from './ChecklistItem';
+import ChecklistItemMembers from './ChecklistItemMembers';
 
 interface IChecklistProps {
+  handleSetChecklistItemMembers: () => void;
   checklist: IChecklist;
   removeChecklist: (id: number) => void;
   updateChecklist: (title: string, id: number) => void;
@@ -25,9 +27,11 @@ interface IChecklistProps {
     checklistId: number
   ) => void;
   removeChecklistItem: (checklistId: number, checklistItemId: number) => void;
+  addMemberToChecklistItem: (id: number, firstName: string, lastName: string) => void;
 }
 
 const Checklist = ({
+  handleSetChecklistItemMembers,
   checklist,
   removeChecklist,
   updateChecklist,
@@ -36,6 +40,7 @@ const Checklist = ({
   handleSetCreateChecklistItemError,
   updateChecklistItem,
   removeChecklistItem,
+  addMemberToChecklistItem,
 }: IChecklistProps) => {
   const [checklistTitleFormShowing, setChecklistTitleFormShowing] = useState(false);
   const [checklistItemFormShowing, setChecklistItemFormShowing] = useState(false);
@@ -85,6 +90,7 @@ const Checklist = ({
 
   const handleChecklistItemFormClose = () => {
     setChecklistItemFormShowing(false);
+    handleSetChecklistItemMembers();
     handleSetCreateChecklistItemError();
   };
 
@@ -207,12 +213,23 @@ const Checklist = ({
               borderColor="black.tertiary"
             />
           </FormControl>
-          <ButtonGroup my="1rem">
-            <Button colorScheme="blue" type="submit">
-              Create
-            </Button>
-            <Button onClick={handleChecklistItemFormClose}>Cancel</Button>
-          </ButtonGroup>
+          <Flex alignItems="center" justify="space-between">
+            <ButtonGroup my="1rem">
+              <Button fontSize="0.85rem" colorScheme="blue" type="submit">
+                Create
+              </Button>
+              <Button
+                fontSize="0.85rem"
+                color="light.primary"
+                _hover={{ background: 'transparent' }}
+                bg="transparent"
+                onClick={handleChecklistItemFormClose}
+              >
+                Cancel
+              </Button>
+            </ButtonGroup>
+            <ChecklistItemMembers addMemberToChecklistItem={addMemberToChecklistItem} />
+          </Flex>
         </form>
       )}
     </Box>

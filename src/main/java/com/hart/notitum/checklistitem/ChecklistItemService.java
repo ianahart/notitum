@@ -51,7 +51,8 @@ public class ChecklistItemService {
         }
     }
 
-    public ChecklistItem createChecklistItem(String checklistItemTitle, Long checklistId, Long userId) {
+    public ChecklistItem createChecklistItem(String checklistItemTitle, Long checklistId, Long userId,
+            String assignees) {
         validateCreateChecklistItem(checklistItemTitle, checklistId, userId);
         if (countChecklistItems(checklistId) >= 10) {
             throw new BadRequestException("Can only have 10 checklist items per checklist for now");
@@ -61,7 +62,8 @@ public class ChecklistItemService {
                 checklistItemTitle,
                 false,
                 this.userService.getCurrentlyLoggedInUser(),
-                this.checklistService.getChecklistById(checklistId)));
+                this.checklistService.getChecklistById(checklistId),
+                assignees));
 
         return checklistItem;
     }

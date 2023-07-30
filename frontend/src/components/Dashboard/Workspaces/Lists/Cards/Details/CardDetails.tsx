@@ -4,6 +4,7 @@ import {
   ICard,
   IChecklist,
   IChecklistItem,
+  IChecklistItemMember,
   IWorkspaceContext,
 } from '../../../../../../interfaces';
 import Description from './Description';
@@ -31,6 +32,9 @@ const CardDetails = ({
   const [createChecklistError, setCreateChecklistError] = useState('');
   const [createChecklistItemError, setCreateChecklistItemError] = useState('');
   const [checklists, setChecklists] = useState<IChecklist[]>([]);
+  const [checklistItemMembers, setChecklistItemMembers] = useState<
+    IChecklistItemMember[]
+  >([]);
   const [isLoading, setIsLoading] = useState(false);
   const shouldRun = useRef(true);
 
@@ -113,14 +117,24 @@ const CardDetails = ({
 
   const createChecklistItem = (checklistItem: string, checklistId: number) => {
     setCreateChecklistItemError('');
-    Client.createChecklistItem(checklistItem, checklistId, workspace.userId)
+    Client.createChecklistItem(
+      checklistItem,
+      checklistId,
+      workspace.userId,
+      checklistItemMembers
+    )
       .then((res) => {
         addChecklistItem(checklistId, res.data.data);
+        setChecklistItemMembers([]);
       })
       .catch((err) => {
         setCreateChecklistItemError(err.response.data.message);
         throw new Error(err.response.data.message);
       });
+  };
+
+  const handleSetChecklistItemMembers = () => {
+    setChecklistItemMembers([]);
   };
 
   const handleSetCreateChecklistItemError = () => {
@@ -172,9 +186,12 @@ const CardDetails = ({
         setChecklists(newChecklists);
       })
       .catch((err) => {
-        console.log(err);
         throw new Error(err.response.data.message);
       });
+  };
+
+  const addMemberToChecklistItem = (id: number, firstName: string, lastName: string) => {
+    setChecklistItemMembers((prevState) => [...prevState, { id, firstName, lastName }]);
   };
 
   return (
@@ -197,11 +214,17 @@ const CardDetails = ({
             })}
           </Flex>
           <Description card={card} workspaceListId={workspaceListId} />
-          {isLoading && <BasicSpinner />}
+          {isLoading && (
+            <Flex justify="center">
+              <BasicSpinner />
+            </Flex>
+          )}
           <Box className="checklists">
             {checklists.map((checklist) => {
               return (
                 <Checklist
+                  handleSetChecklistItemMembers={handleSetChecklistItemMembers}
+                  addMemberToChecklistItem={addMemberToChecklistItem}
                   removeChecklistItem={removeChecklistItem}
                   updateChecklistItem={updateChecklistItem}
                   handleSetCreateChecklistItemError={handleSetCreateChecklistItemError}

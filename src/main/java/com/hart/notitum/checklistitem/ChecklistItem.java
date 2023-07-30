@@ -39,6 +39,9 @@ public class ChecklistItem {
     @Column(name = "is_complete")
     private Boolean isComplete;
 
+    @Column(name = "assignees")
+    private String assignees;
+
     @JsonBackReference
     @ManyToOne()
     @JoinColumn(name = "user_id", referencedColumnName = "id")
@@ -58,19 +61,27 @@ public class ChecklistItem {
             Timestamp createdAt,
             Timestamp updatedAt,
             String title,
-            Boolean isComplete) {
+            Boolean isComplete,
+            String assignees) {
         this.id = id;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.title = title;
+        this.isComplete = isComplete;
+        this.assignees = assignees;
     }
 
     public ChecklistItem(
             String title,
             Boolean isComplete,
             User user,
-            Checklist checklist) {
+            Checklist checklist,
+            String assignees) {
         this.title = title;
         this.isComplete = isComplete;
         this.user = user;
         this.checklist = checklist;
+        this.assignees = assignees;
     }
 
     public Long getId() {
@@ -79,6 +90,10 @@ public class ChecklistItem {
 
     public User getUser() {
         return user;
+    }
+
+    public String getAssignees() {
+        return assignees;
     }
 
     public String getTitle() {
@@ -119,6 +134,10 @@ public class ChecklistItem {
 
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public void setAssignees(String assignees) {
+        this.assignees = assignees;
     }
 
     public void setUpdatedAt(Timestamp updatedAt) {

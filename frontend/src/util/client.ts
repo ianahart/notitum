@@ -1,5 +1,11 @@
 import axios from 'axios';
-import { ICard, IList, IRegisterForm, IWorkspace } from '../interfaces';
+import {
+  ICard,
+  IChecklistItemMember,
+  IList,
+  IRegisterForm,
+  IWorkspace,
+} from '../interfaces';
 
 export const http = axios.create({
   baseURL: 'http://localhost:5173/api/v1',
@@ -17,9 +23,19 @@ export const Client = {
   createChecklistItem: (
     checklistItemTitle: string,
     checklistId: number,
-    userId: number
+    userId: number,
+    checklistItemMembers: IChecklistItemMember[]
   ) => {
-    return http.post('/checklist-items', { checklistItemTitle, checklistId, userId });
+    const assignees = JSON.stringify(
+      checklistItemMembers.length ? checklistItemMembers : []
+    );
+    checklistItemMembers;
+    return http.post('/checklist-items', {
+      checklistItemTitle,
+      checklistId,
+      userId,
+      assignees,
+    });
   },
   updateChecklist: (title: string, checklistId: number, workspaceId: number) => {
     return http.patch(`/checklists/${checklistId}`, { title, workspaceId });

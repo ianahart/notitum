@@ -54,6 +54,7 @@ public class ChecklistItemController {
                 .body(new CreateChecklistItemResponse("success",
                         this.checklistItemService.createChecklistItem(request.getChecklistItemTitle(),
                                 request.getChecklistId(),
-                                request.getUserId())));
+                                request.getUserId(),
+                                request.getAssignees())));
     }
 }

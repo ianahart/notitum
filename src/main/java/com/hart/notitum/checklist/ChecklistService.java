@@ -9,7 +9,6 @@ import com.hart.notitum.advice.ForbiddenException;
 import com.hart.notitum.advice.NotFoundException;
 import com.hart.notitum.card.Card;
 import com.hart.notitum.card.CardService;
-import com.hart.notitum.checklist.dto.ChecklistWithItemsDto;
 import com.hart.notitum.checklistitem.ChecklistItem;
 import com.hart.notitum.user.User;
 import com.hart.notitum.user.UserService;

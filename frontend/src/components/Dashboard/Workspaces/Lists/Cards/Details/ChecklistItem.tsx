@@ -1,8 +1,8 @@
-import { Box, Text, Flex, Checkbox } from '@chakra-ui/react';
-import { IChecklistItem, IWorkspaceContext } from '../../../../../../interfaces';
+import { Box, Text, Flex, Checkbox, Tooltip } from '@chakra-ui/react';
+import { IChecklistItem, IChecklistItemMember } from '../../../../../../interfaces';
 import { AiOutlineClose } from 'react-icons/ai';
-import { useContext } from 'react';
-import { WorkspaceContext } from '../../../../../../context/workspace';
+import Avatar from '../../../../../Shared/Avatar';
+import { abbreviate } from '../../../../../../util';
 
 interface IChecklistItemProps {
   checklistId: number;
@@ -21,14 +21,13 @@ const ChecklistItem = ({
   updateChecklistItem,
   removeChecklistItem,
 }: IChecklistItemProps) => {
-  const { workspace } = useContext(WorkspaceContext) as IWorkspaceContext;
-
   const handleOnCheckboxChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     cli: IChecklistItem
   ) => {
     updateChecklistItem(cli.id, e.target.checked, checklistId);
   };
+  const members = JSON.parse(checklistItem.assignees) as IChecklistItemMember[];
 
   const handleRemoveChecklistItem = () => {
     removeChecklistItem(checklistId, checklistItem.id);
@@ -51,7 +50,16 @@ const ChecklistItem = ({
             {checklistItem.title}
           </Text>
         </Flex>
-        <Box>
+        <Flex alignItems="center">
+          {members.map((member) => {
+            return (
+              <Tooltip label={`${member.firstName} ${member.lastName}`} key={member.id}>
+                <span>
+                  <Avatar abbreviation={abbreviate(member.firstName, member.lastName)} />
+                </span>
+              </Tooltip>
+            );
+          })}
           <Box
             onClick={handleRemoveChecklistItem}
             cursor="pointer"
@@ -60,7 +68,7 @@ const ChecklistItem = ({
           >
             <AiOutlineClose />
           </Box>
-        </Box>
+        </Flex>
       </Flex>
     </Box>
   );
