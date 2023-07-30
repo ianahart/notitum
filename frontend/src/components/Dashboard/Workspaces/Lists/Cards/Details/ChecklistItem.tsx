@@ -12,7 +12,7 @@ interface IChecklistItemProps {
     isComplete: boolean,
     checklistId: number
   ) => void;
-    removeChecklistItem: (checklistId:number,  checklistItemId: number) => void;
+  removeChecklistItem: (checklistId: number, checklistItemId: number) => void;
 }
 
 const ChecklistItem = ({
@@ -43,7 +43,11 @@ const ChecklistItem = ({
             mr="1rem"
             isChecked={checklistItem.isComplete}
           />
-          <Text fontSize="0.85rem" color="light.primary">
+          <Text
+            textDecoration={checklistItem.isComplete ? 'line-through' : 'unset'}
+            fontSize="0.85rem"
+            color="light.primary"
+          >
             {checklistItem.title}
           </Text>
         </Flex>

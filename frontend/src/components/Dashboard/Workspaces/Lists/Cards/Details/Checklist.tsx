@@ -6,9 +6,8 @@ import {
   FormControl,
   Input,
   ButtonGroup,
-  Checkbox,
 } from '@chakra-ui/react';
-import { IChecklist, IChecklistItem } from '../../../../../../interfaces';
+import { IChecklist } from '../../../../../../interfaces';
 import { GoChecklist } from 'react-icons/go';
 import { useEffect, useRef, useState } from 'react';
 import ChecklistItem from './ChecklistItem';
@@ -40,6 +39,7 @@ const Checklist = ({
 }: IChecklistProps) => {
   const [checklistTitleFormShowing, setChecklistTitleFormShowing] = useState(false);
   const [checklistItemFormShowing, setChecklistItemFormShowing] = useState(false);
+  const [hideCheckedItems, setHideCheckedItems] = useState(false);
   const [checklistTitle, setChecklistTitle] = useState('');
   const [checklistItem, setChecklistItem] = useState('');
   const shouldRun = useRef(true);
@@ -105,14 +105,28 @@ const Checklist = ({
             </Text>
           </Flex>
           <Box>
-            <Button
-              onClick={() => removeChecklist(checklist.id)}
-              color="light.primary"
-              _hover={{ background: 'black.tertiary', opacity: '0.8' }}
-              bg="black.tertiary"
-            >
-              Delete
-            </Button>
+            <ButtonGroup>
+              {completedChecklistItems >= 1 && (
+                <Button
+                  onClick={() => setHideCheckedItems(hideCheckedItems ? false : true)}
+                  fontSize="0.85rem"
+                  color="light.primary"
+                  _hover={{ background: 'black.tertiary', opacity: '0.8' }}
+                  bg="black.tertiary"
+                >
+                  {hideCheckedItems ? 'Show checked items' : 'Hide checked items'}
+                </Button>
+              )}
+              <Button
+                fontSize="0.85rem"
+                onClick={() => removeChecklist(checklist.id)}
+                color="light.primary"
+                _hover={{ background: 'black.tertiary', opacity: '0.8' }}
+                bg="black.tertiary"
+              >
+                Delete
+              </Button>
+            </ButtonGroup>
           </Box>
         </Flex>
       )}
@@ -149,13 +163,18 @@ const Checklist = ({
       <Box my="1rem">
         {checklist.checklistItems.map((cli) => {
           return (
-            <ChecklistItem
-              key={cli.id}
-              checklistId={checklist.id}
-              checklistItem={cli}
-              updateChecklistItem={updateChecklistItem}
-              removeChecklistItem={removeChecklistItem}
-            />
+            <Box key={cli.id}>
+              {hideCheckedItems && cli.isComplete ? (
+                <></>
+              ) : (
+                <ChecklistItem
+                  checklistId={checklist.id}
+                  checklistItem={cli}
+                  updateChecklistItem={updateChecklistItem}
+                  removeChecklistItem={removeChecklistItem}
+                />
+              )}
+            </Box>
           );
         })}
       </Box>
@@ -165,6 +184,7 @@ const Checklist = ({
             onClick={() => setChecklistItemFormShowing(true)}
             color="light.primary"
             _hover={{ background: 'black.tertiary', opacity: '0.8' }}
+            fontSize="0.85rem"
             bg="black.tertiary"
           >
             Add item
