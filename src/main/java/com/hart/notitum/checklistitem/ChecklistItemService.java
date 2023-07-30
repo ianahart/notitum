@@ -26,6 +26,15 @@ public class ChecklistItemService {
         this.checklistService = checklistService;
     }
 
+    public void deleteChecklistItem(Long checklistItemId, Long workspaceUserId) {
+        if (this.userService.getCurrentlyLoggedInUser().getId() != workspaceUserId) {
+            throw new ForbiddenException("Only the owner of the workspace can delete checklist items");
+        }
+
+        this.checklistItemRepository.deleteById(checklistItemId);
+
+    }
+
     private int countChecklistItems(Long checklistId) {
         return this.checklistItemRepository.countChecklistItems(checklistId);
     }

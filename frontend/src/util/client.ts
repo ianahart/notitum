@@ -6,6 +6,11 @@ export const http = axios.create({
 });
 
 export const Client = {
+  removeChecklistItem: (checklistItemId: number, workspaceUserId: number) => {
+    return http.delete(
+      `/checklist-items/${checklistItemId}?workspaceUserId=${workspaceUserId}`
+    );
+  },
   updateChecklistItem: (checklistItemId: number, isComplete: boolean, userId: number) => {
     return http.patch(`/checklist-items/${checklistItemId}`, { isComplete, userId });
   },

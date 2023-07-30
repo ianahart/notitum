@@ -3,16 +3,19 @@ package com.hart.notitum.checklistitem;
 import com.hart.notitum.checklistitem.request.CreateChecklistItemRequest;
 import com.hart.notitum.checklistitem.request.UpdateChecklistItemRequest;
 import com.hart.notitum.checklistitem.response.CreateChecklistItemResponse;
+import com.hart.notitum.checklistitem.response.DeleteChecklistItemResponse;
 import com.hart.notitum.checklistitem.response.UpdateChecklistItemResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -24,6 +27,15 @@ public class ChecklistItemController {
     @Autowired
     public ChecklistItemController(ChecklistItemService checklistItemService) {
         this.checklistItemService = checklistItemService;
+    }
+
+    @DeleteMapping("/{checklistItemId}")
+    public ResponseEntity<DeleteChecklistItemResponse> deleteChecklistItem(
+            @PathVariable("checklistItemId") Long checklistItemId,
+            @RequestParam("workspaceUserId") Long workspaceUserId) {
+
+        this.checklistItemService.deleteChecklistItem(checklistItemId, workspaceUserId);
+        return ResponseEntity.status(HttpStatus.OK).body(new DeleteChecklistItemResponse("success"));
     }
 
     @PatchMapping("/{checklistItemId}")

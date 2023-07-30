@@ -10,7 +10,8 @@ import {
 } from '@chakra-ui/react';
 import { IChecklist, IChecklistItem } from '../../../../../../interfaces';
 import { GoChecklist } from 'react-icons/go';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import ChecklistItem from './ChecklistItem';
 
 interface IChecklistProps {
   checklist: IChecklist;
@@ -24,6 +25,7 @@ interface IChecklistProps {
     isComplete: boolean,
     checklistId: number
   ) => void;
+  removeChecklistItem: (checklistId: number, checklistItemId: number) => void;
 }
 
 const Checklist = ({
@@ -34,6 +36,7 @@ const Checklist = ({
   createChecklistItemError,
   handleSetCreateChecklistItemError,
   updateChecklistItem,
+  removeChecklistItem,
 }: IChecklistProps) => {
   const [checklistTitleFormShowing, setChecklistTitleFormShowing] = useState(false);
   const [checklistItemFormShowing, setChecklistItemFormShowing] = useState(false);
@@ -83,13 +86,6 @@ const Checklist = ({
   const handleChecklistItemFormClose = () => {
     setChecklistItemFormShowing(false);
     handleSetCreateChecklistItemError();
-  };
-
-  const handleOnCheckboxChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    cli: IChecklistItem
-  ) => {
-    updateChecklistItem(cli.id, e.target.checked, checklist.id);
   };
 
   return (
@@ -153,18 +149,13 @@ const Checklist = ({
       <Box my="1rem">
         {checklist.checklistItems.map((cli) => {
           return (
-            <Box key={cli.id} my="0.5rem">
-              <Flex alignItems="center">
-                <Checkbox
-                  onChange={(e) => handleOnCheckboxChange(e, cli)}
-                  mr="1rem"
-                  isChecked={cli.isComplete}
-                />
-                <Text fontSize="0.85rem" color="light.primary">
-                  {cli.title}
-                </Text>
-              </Flex>
-            </Box>
+            <ChecklistItem
+              key={cli.id}
+              checklistId={checklist.id}
+              checklistItem={cli}
+              updateChecklistItem={updateChecklistItem}
+              removeChecklistItem={removeChecklistItem}
+            />
           );
         })}
       </Box>

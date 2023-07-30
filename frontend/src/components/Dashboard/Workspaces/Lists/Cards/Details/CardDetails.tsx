@@ -45,7 +45,6 @@ const CardDetails = ({
     setIsLoading(true);
     Client.getChecklists(cardId)
       .then((res) => {
-        console.log(res);
         setChecklists((prevState) => [...prevState, ...res.data.data]);
         setIsLoading(false);
       })
@@ -160,6 +159,24 @@ const CardDetails = ({
     setChecklists(newChecklists);
   };
 
+  const removeChecklistItem = (checklistId: number, checklistItemId: number) => {
+    Client.removeChecklistItem(checklistItemId, workspace.userId)
+      .then(() => {
+        const newChecklists = [...checklists];
+        const checklistIndex = newChecklists.findIndex((cl) => cl.id === checklistId);
+        const checklistItems = newChecklists[checklistIndex].checklistItems.filter(
+          (cli) => cli.id !== checklistItemId
+        );
+        newChecklists[checklistIndex].checklistItems = [...checklistItems];
+
+        setChecklists(newChecklists);
+      })
+      .catch((err) => {
+        console.log(err);
+        throw new Error(err.response.data.message);
+      });
+  };
+
   return (
     <Box color="light.primary">
       <Flex flexDir={['column', 'column', 'row']}>
@@ -185,6 +202,7 @@ const CardDetails = ({
             {checklists.map((checklist) => {
               return (
                 <Checklist
+                  removeChecklistItem={removeChecklistItem}
                   updateChecklistItem={updateChecklistItem}
                   handleSetCreateChecklistItemError={handleSetCreateChecklistItemError}
                   createChecklistItemError={createChecklistItemError}
