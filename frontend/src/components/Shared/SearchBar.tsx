@@ -5,12 +5,14 @@ import { debounce } from 'lodash';
 import { AiOutlineSearch } from 'react-icons/ai';
 import ClickAwayMenu from './ClickAwayMenu';
 import { Client } from '../../util/client';
-import { ISearchWorkspace, IUserContext } from '../../interfaces';
+import { ISearchWorkspace, IUserContext, IWorkspaceContext } from '../../interfaces';
 import { UserContext } from '../../context/user';
 import { slugify, slugifyTitle } from '../../util';
+import { WorkspaceContext } from '../../context/workspace';
 const SearchBar = () => {
   const navigate = useNavigate();
   const { user } = useContext(UserContext) as IUserContext;
+  const { setWorkspace } = useContext(WorkspaceContext) as IWorkspaceContext;
   const triggerRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const paginationState = { pageSize: 2, page: 0, direction: 'next', totalPages: 0 };
@@ -64,15 +66,23 @@ const SearchBar = () => {
           : setResults(workspaces);
       })
       .catch((err) => {
-        console.log(err);
         throw new Error(err.response.data.message);
       });
   };
 
   const goToWorkspace = (workspaceId: number, title: string, userId: number) => {
-    navigate(`/${slugify(user.firstName, user.lastName)}/${slugifyTitle(title)}`, {
-      state: { workspaceId: workspaceId, userId },
-    });
+    const selectedWorkspace = results.find((w) => w.workspaceId === workspaceId);
+    if (!selectedWorkspace) return;
+    Client.getWorkspace(selectedWorkspace?.workspaceId, selectedWorkspace?.userId)
+      .then((res) => {
+        setWorkspace(res.data.workspace);
+        navigate(`/${slugify(user.firstName, user.lastName)}/${slugifyTitle(title)}`, {
+          state: { workspaceId: res.data.workspace.workspaceId, userId },
+        });
+      })
+      .catch((err) => {
+        throw new Error(err.response.data.message);
+      });
   };
 
   return (

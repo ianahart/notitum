@@ -53,6 +53,10 @@ public class UserService {
 
     }
 
+    public User getUserById(Long id) {
+        return this.userRepository.findById(id).orElseThrow(() -> new NotFoundException("User not found"));
+    }
+
     public User getUserByEmail(String email) {
         return this.userRepository.findByEmail(email)
                 .orElseThrow(() -> new NotFoundException("User not found"));

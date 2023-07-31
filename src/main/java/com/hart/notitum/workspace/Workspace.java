@@ -3,6 +3,7 @@ package com.hart.notitum.workspace;
 import java.sql.Timestamp;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.hart.notitum.activity.Activity;
 import com.hart.notitum.label.Label;
 import com.hart.notitum.list.WorkspaceList;
@@ -64,7 +65,8 @@ public class Workspace {
     @OneToMany()
     private List<Activity> activities;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    @OneToMany(mappedBy = "workspace", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Member> members;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)

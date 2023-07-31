@@ -12,6 +12,35 @@ export const http = axios.create({
 });
 
 export const Client = {
+  removeComment: (commentId: number, userId: number, workspaceId: number) => {
+    return http.delete(
+      `/comments/${commentId}?userId=${userId}&workspaceId=${workspaceId}`
+    );
+  },
+  updateComment: (
+    text: string,
+    userId: number,
+    cardId: number,
+    workspaceId: number,
+    commentId: number
+  ) => {
+    return http.patch(`/comments/${commentId}`, { text, userId, cardId, workspaceId });
+  },
+
+  getComments: (pageSize: number, page: number, direction: string, cardId: number) => {
+    return http.get(
+      `/comments?pageSize=${pageSize}&page=${page}&direction=${direction}&cardId=${cardId}`
+    );
+  },
+  createComment: (
+    comment: string,
+    userId: number,
+    cardId: number,
+    workspaceId: number
+  ) => {
+    return http.post('/comments', { comment, userId, cardId, workspaceId });
+  },
+
   removeChecklistItem: (checklistItemId: number, workspaceUserId: number) => {
     return http.delete(
       `/checklist-items/${checklistItemId}?workspaceUserId=${workspaceUserId}`

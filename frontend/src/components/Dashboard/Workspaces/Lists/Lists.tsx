@@ -109,7 +109,7 @@ const Lists = () => {
       getLists();
     }
     return () => setLists([]);
-  }, [shouldRun.current, user.id, workspace.workspaceId, title]);
+  }, [user.id, workspace.workspaceId, title]);
 
   return (
     <Flex>

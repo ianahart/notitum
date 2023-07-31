@@ -14,6 +14,7 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import Checklist from './Checklist';
 import { WorkspaceContext } from '../../../../../../context/workspace';
 import BasicSpinner from '../../../../../Shared/BasicSpinner';
+import Comments from './Comments';
 
 interface ICardDetailsProps {
   workspaceListId: number;
@@ -238,6 +239,7 @@ const CardDetails = ({
               );
             })}
           </Box>
+          <Comments cardId={card.id} />
         </Box>
         <Box minH="700px" minW="200px" flexGrow="1">
           <Box>

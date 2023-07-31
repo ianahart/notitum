@@ -2,11 +2,13 @@ package com.hart.notitum.card;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.ArrayList;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.hart.notitum.activelabel.ActiveLabel;
 import com.hart.notitum.checklist.Checklist;
+import com.hart.notitum.comment.Comment;
 import com.hart.notitum.list.WorkspaceList;
 import com.hart.notitum.user.User;
 
@@ -72,6 +74,10 @@ public class Card {
     @JsonManagedReference
     private List<Checklist> checklists;
 
+    @OneToMany(mappedBy = "card", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Comment> comments = new ArrayList<>();
+
     public Card() {
 
     }
@@ -135,6 +141,10 @@ public class Card {
         return title;
     }
 
+    public List<Comment> getComments() {
+        return comments;
+    }
+
     public String getDetails() {
         return details;
     }
@@ -185,6 +195,10 @@ public class Card {
 
     public void setLabel(String label) {
         this.label = label;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 
     public void setTitle(String title) {

@@ -17,6 +17,15 @@ export interface IActiveLabel extends ILabel {
   labelId: number;
 }
 
+export interface IComment {
+  id: number;
+  createdAt: Date;
+  text: string;
+  firstName: string;
+  lastName: string;
+  isOpen: boolean;
+}
+
 export interface IChecklistItemMember {
   id: number;
   firstName: string;

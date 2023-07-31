@@ -33,7 +33,7 @@ const Description = ({ card, workspaceListId }: IDescriptionProps) => {
   const saveDescription = () => {
     updateCard('details', newDescription, workspaceListId, card.id);
     Client.updateCard({ ...card, details: newDescription }, workspaceListId, user.id)
-      .then((res) => {
+      .then(() => {
         setIsQuillShowing(false);
       })
       .catch((err) => {
