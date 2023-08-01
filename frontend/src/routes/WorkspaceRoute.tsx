@@ -34,7 +34,6 @@ const WorkspaceRoute = () => {
   };
 
   useEffect(() => {
-    console.log('fired');
     getWorkspace(workspaceId, userId);
   }, [workspaceId, userId, title]);
 

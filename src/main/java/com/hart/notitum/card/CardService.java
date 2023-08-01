@@ -10,8 +10,10 @@ import org.modelmapper.ModelMapper;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.ArrayList;
 
 import com.hart.notitum.activelabel.ActiveLabelRepository;
+import com.hart.notitum.activelabel.dto.ActiveLabelDto;
 import com.hart.notitum.advice.BadRequestException;
 import com.hart.notitum.advice.ForbiddenException;
 import com.hart.notitum.advice.NotFoundException;
@@ -85,7 +87,7 @@ public class CardService {
         cardToUpdate.setChecklists(this.checklistRepository.getChecklists(card.getId()));
 
         this.cardRepository.save(cardToUpdate);
-    }//
+    }
 
     public CardDto createCard(String title, Long userId, Long workspaceListId, Integer index) {
         if (userId == null || workspaceListId == null) {
@@ -110,8 +112,9 @@ public class CardService {
         Card card = new Card(title, user, workspaceList);
         card.setIndex(index);
         this.cardRepository.save(card);
-
+        List<ActiveLabelDto> emptyList = new ArrayList<>();
         return new CardDto(
+                emptyList,
                 card.getId(),
                 card.getCreatedAt(),
                 card.getUpdatedAt(),

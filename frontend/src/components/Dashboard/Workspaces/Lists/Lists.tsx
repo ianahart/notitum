@@ -14,11 +14,11 @@ const Lists = () => {
     WorkspaceContext
   ) as IWorkspaceContext;
   const { user } = useContext(UserContext) as IUserContext;
-  const shouldRun = useRef(true);
 
   const getLists = () => {
     Client.getLists(user.id, workspace.workspaceId, workspace.userId)
       .then((res) => {
+        console.log(res);
         const { data } = res.data;
         setLists(data);
       })

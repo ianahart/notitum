@@ -5,8 +5,10 @@ import java.util.List;
 import java.util.ArrayList;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.hart.notitum.activelabel.ActiveLabel;
+import com.hart.notitum.activelabel.dto.ActiveLabelDto;
 import com.hart.notitum.checklist.Checklist;
 import com.hart.notitum.comment.Comment;
 import com.hart.notitum.list.WorkspaceList;
@@ -71,11 +73,11 @@ public class Card {
     private List<ActiveLabel> activeLabels;
 
     @OneToMany(mappedBy = "card", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+    @JsonIgnore
     private List<Checklist> checklists;
 
     @OneToMany(mappedBy = "card", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+    @JsonIgnore
     private List<Comment> comments = new ArrayList<>();
 
     public Card() {
@@ -113,8 +115,22 @@ public class Card {
         return id;
     }
 
-    public List<ActiveLabel> getActiveLabels() {
-        return activeLabels;
+    public List<ActiveLabelDto> getActiveLabels() {
+        List<ActiveLabelDto> als = new ArrayList<>();
+        if (activeLabels == null) {
+            return als;
+        }
+        for (ActiveLabel al : activeLabels) {
+            als.add(new ActiveLabelDto(
+                    al.getId(),
+                    al.getLabel().getIsChecked(),
+                    al.getLabel().getTitle(),
+                    al.getLabel().getColor(),
+                    al.getCreatedAt(),
+                    al.getLabel().getId()));
+
+        }
+        return als;
     }
 
     public User getUser() {

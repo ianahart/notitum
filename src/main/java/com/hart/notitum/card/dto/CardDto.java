@@ -1,9 +1,13 @@
 package com.hart.notitum.card.dto;
 
 import java.sql.Timestamp;
+import java.util.List;
+
+import com.hart.notitum.activelabel.dto.ActiveLabelDto;
 
 public class CardDto {
 
+    private List<ActiveLabelDto> activeLabels;
     private Long id;
     private Timestamp createdAt;
     private Timestamp updatedAt;
@@ -16,6 +20,7 @@ public class CardDto {
     private String title;
 
     public CardDto(
+            List<ActiveLabelDto> activeLabels,
             Long id,
             Timestamp createdAt,
             Timestamp updatedAt,
@@ -26,6 +31,7 @@ public class CardDto {
             Timestamp startDate,
             Timestamp endDate,
             String title) {
+        this.activeLabels = activeLabels;
         this.id = id;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -40,6 +46,10 @@ public class CardDto {
 
     public Long getId() {
         return id;
+    }
+
+    public List<ActiveLabelDto> getActiveLabels() {
+        return activeLabels;
     }
 
     public String getTitle() {
@@ -84,6 +94,10 @@ public class CardDto {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public void setActiveLabels(List<ActiveLabelDto> activeLabels) {
+        this.activeLabels = activeLabels;
     }
 
     public void setTitle(String title) {

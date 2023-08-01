@@ -77,6 +77,7 @@ export interface ICard {
   startDate: Date;
   title: string;
   updatedAt: Date;
+activeLabels: IActiveLabel[];
 }
 
 export interface IMember {
