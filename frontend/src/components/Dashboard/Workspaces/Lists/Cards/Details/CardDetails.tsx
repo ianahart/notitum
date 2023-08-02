@@ -15,6 +15,10 @@ import Checklist from './Checklist';
 import { WorkspaceContext } from '../../../../../../context/workspace';
 import BasicSpinner from '../../../../../Shared/BasicSpinner';
 import Comments from './Comments';
+import DueDate from './DueDate';
+
+type ValuePiece = Date | null;
+type DateValue = ValuePiece | [ValuePiece, ValuePiece];
 
 interface ICardDetailsProps {
   workspaceListId: number;
@@ -29,7 +33,9 @@ const CardDetails = ({
   activeLabels,
   handleActiveLabel,
 }: ICardDetailsProps) => {
-  const { workspace } = useContext(WorkspaceContext) as IWorkspaceContext;
+  const { workspace, setLists, lists } = useContext(
+    WorkspaceContext
+  ) as IWorkspaceContext;
   const [createChecklistError, setCreateChecklistError] = useState('');
   const [createChecklistItemError, setCreateChecklistItemError] = useState('');
   const [checklists, setChecklists] = useState<IChecklist[]>([]);
@@ -195,6 +201,32 @@ const CardDetails = ({
     setChecklistItemMembers((prevState) => [...prevState, { id, firstName, lastName }]);
   };
 
+  const updateDates = (action: string, values: DateValue) => {
+    const dates = values as Date[];
+    Client.updateDates(action, dates, card.id, workspace.userId)
+      .then(() => {
+        updatedDates(action, dates);
+      })
+      .catch((err) => {
+        throw new Error(err.response.data.message);
+      });
+  };
+
+  const updatedDates = (action: string, dates: Date[]) => {
+    const updatedLists = [...lists];
+    const workspaceListIndex = updatedLists.findIndex((l) => l.id === workspaceListId);
+    const updatedCards = updatedLists[workspaceListIndex].cards.map((c) => {
+      if (c.id === card.id) {
+        const [startDate, endDate] = dates;
+        c.startDate = action.toLowerCase() === 'add' ? startDate : null;
+        c.endDate = action.toLowerCase() === 'add' ? endDate : null;
+      }
+      return c;
+    });
+    updatedLists[workspaceListIndex].cards = [...updatedCards];
+    setLists(updatedLists);
+  };
+
   return (
     <Box color="light.primary">
       <Flex flexDir={['column', 'column', 'row']}>
@@ -214,6 +246,10 @@ const CardDetails = ({
               );
             })}
           </Flex>
+          <Box my="1rem">
+            <DueDate startDate={card.startDate} endDate={card.endDate} />
+          </Box>
+
           <Description card={card} workspaceListId={workspaceListId} />
           {isLoading && (
             <Flex justify="center">
@@ -247,6 +283,7 @@ const CardDetails = ({
               Add to card
             </Text>
             <Panel
+              updateDates={updateDates}
               createChecklistError={createChecklistError}
               createChecklist={createChecklist}
               handleActiveLabel={handleActiveLabel}

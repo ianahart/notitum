@@ -10,16 +10,16 @@ import {
   ModalCloseButton,
   useDisclosure,
 } from '@chakra-ui/react';
-import { IActiveLabel, ICard, IWorkspaceContext } from '../../../../../interfaces';
+import { ICard, IWorkspaceContext } from '../../../../../interfaces';
 import { AiOutlineEdit } from 'react-icons/ai';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useState } from 'react';
 import { RiDraggable } from 'react-icons/ri';
 import { DraggableProvided } from 'react-beautiful-dnd';
 import CardDetails from './Details/CardDetails';
 import Header from './Details/Header';
 import { Client } from '../../../../../util/client';
-import Workspace from '../../../../Navbar/Workspace';
 import { WorkspaceContext } from '../../../../../context/workspace';
+import DueDate from './Details/DueDate';
 
 interface ICardProps {
   card: ICard;
@@ -55,9 +55,7 @@ const SingleCard = ({
           }
           return c;
         });
-
         updatedLists[workspaceListIndex].cards = [...updatedCards];
-
         setLists(updatedLists);
       })
       .catch((err) => {
@@ -125,7 +123,14 @@ const SingleCard = ({
       _hover={{ background: '#3f3f44' }}
       bg="#38383c"
     >
-      <Flex justify={card.activeLabels.length > 0 ? 'space-between' : 'flex-end'}>
+      <Flex
+        ml="auto"
+        justify={
+          card.activeLabels.length > 0 || card.startDate !== null
+            ? 'flex-start'
+            : 'flex-end'
+        }
+      >
         {card.activeLabels.length > 0 && (
           <Box bg={card.activeLabels[0].color} p="0.25rem" borderRadius={8}>
             <Text color="light.primary" fontWeight="bold" fontSize="0.8rem">
@@ -133,9 +138,17 @@ const SingleCard = ({
             </Text>
           </Box>
         )}
-        <Box {...provided.dragHandleProps} color="light.primary" fontSize="1.2rem">
+        <DueDate startDate={card.startDate} endDate={card.endDate} />
+
+        <Flex
+          justify="flex-end"
+          ml="auto"
+          {...provided.dragHandleProps}
+          color="light.primary"
+          fontSize="1.2rem"
+        >
           <RiDraggable />
-        </Box>
+        </Flex>
       </Flex>
       <Flex justify="space-between">
         <Text wordBreak="break-all" color="light.primary">

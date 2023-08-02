@@ -2,10 +2,12 @@ package com.hart.notitum.card;
 
 import com.hart.notitum.card.request.CreateCardRequest;
 import com.hart.notitum.card.request.ReorderCardsRequest;
+import com.hart.notitum.card.request.UpdateCardDatesRequest;
 import com.hart.notitum.card.request.UpdateCardRequest;
 import com.hart.notitum.card.response.CreateCardResponse;
 import com.hart.notitum.card.response.DeleteCardResponse;
 import com.hart.notitum.card.response.ReorderCardsResponse;
+import com.hart.notitum.card.response.UpdateCardDatesResponse;
 import com.hart.notitum.card.response.UpdateCardResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,5 +63,13 @@ public class CardController {
                 .body(new CreateCardResponse("success",
                         this.cardService.createCard(request.getTitle(), request.getUserId(),
                                 request.getWorkspaceListId(), request.getIndex())));
+    }
+
+    @PatchMapping("/{id}/dates")
+    public ResponseEntity<UpdateCardDatesResponse> updateCardDates(@PathVariable("id") Long id,
+            @RequestBody UpdateCardDatesRequest request) {
+
+        this.cardService.updateCardDates(id, request.getAction(), request.getValues(), request.getWorkspaceUserId());
+        return ResponseEntity.status(HttpStatus.OK).body(new UpdateCardDatesResponse("success"));
     }
 }

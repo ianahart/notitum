@@ -8,6 +8,10 @@ import { Client } from '../../../../../../util/client';
 import { useContext } from 'react';
 import { WorkspaceContext } from '../../../../../../context/workspace';
 import AddCheckList from './AddCheckList';
+import Dates from './Dates';
+
+type ValuePiece = Date | null;
+type DateValue = ValuePiece | [ValuePiece, ValuePiece];
 
 interface IPanelProps {
   createChecklistError: string;
@@ -15,6 +19,7 @@ interface IPanelProps {
   workspaceListId: number;
   handleActiveLabel: (labelId: number, checked: boolean) => void;
   activeLabels: IActiveLabel[];
+  updateDates: (action: string, values: DateValue) => void;
   createChecklist: (title: string) => void;
 }
 
@@ -25,6 +30,7 @@ const Panel = ({
   handleActiveLabel,
   activeLabels,
   createChecklist,
+  updateDates,
 }: IPanelProps) => {
   const { lists, setLists } = useContext(WorkspaceContext) as IWorkspaceContext;
   const { workspace } = useContext(WorkspaceContext) as IWorkspaceContext;
@@ -60,6 +66,11 @@ const Panel = ({
       <AddCheckList
         createChecklistError={createChecklistError}
         createChecklist={createChecklist}
+      />
+      <Dates
+        startDate={card.startDate}
+        endDate={card.endDate}
+        updateDates={updateDates}
       />
       <Box onClick={removeCard}>
         <CardButton title="Remove card" icon={<AiOutlineClose />} />

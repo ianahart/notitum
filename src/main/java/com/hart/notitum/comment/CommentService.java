@@ -87,7 +87,8 @@ public class CommentService {
                 comment.getText(),
                 user.getFirstName(),
                 user.getLastName(),
-                comment.getIsOpen());
+                comment.getIsOpen(),
+                user.getId());
     }
 
     public void updateComment(Long commentId, UpdateCommentRequest request) {

@@ -9,6 +9,7 @@ public class CommentDto {
     private String firstName;
     private String lastName;
     private Boolean isOpen;
+    private Long userId;
 
     public CommentDto() {
 
@@ -20,13 +21,15 @@ public class CommentDto {
             String text,
             String firstName,
             String lastName,
-            Boolean isOpen) {
+            Boolean isOpen,
+            Long userId) {
         this.id = id;
         this.createdAt = createdAt;
         this.text = text;
         this.firstName = firstName;
         this.lastName = lastName;
         this.isOpen = isOpen;
+        this.userId = userId;
     }
 
     public Long getId() {
@@ -35,6 +38,10 @@ public class CommentDto {
 
     public Boolean getIsOpen() {
         return isOpen;
+    }
+
+    public Long getUserId() {
+        return userId;
     }
 
     public String getText() {
@@ -55,6 +62,10 @@ public class CommentDto {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public void setText(String text) {

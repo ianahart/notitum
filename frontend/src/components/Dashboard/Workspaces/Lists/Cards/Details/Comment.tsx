@@ -1,11 +1,12 @@
 import { Box, Button, ButtonGroup, Flex, Textarea, Text } from '@chakra-ui/react';
-import { IComment } from '../../../../../../interfaces';
+import { IComment, IUserContext } from '../../../../../../interfaces';
 import Avatar from '../../../../../Shared/Avatar';
 import { abbreviate } from '../../../../../../util';
 // @ts-ignore
 import dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { UserContext } from '../../../../../../context/user';
 dayjs.extend(localizedFormat);
 interface ICommentProps {
   comment: IComment;
@@ -20,6 +21,7 @@ const Comment = ({
   updateComment,
   removeComment,
 }: ICommentProps) => {
+  const { user } = useContext(UserContext) as IUserContext;
   const { firstName, lastName, text, createdAt, id, isOpen } = comment;
   const [error, setError] = useState('');
   const [inputValue, setInputValue] = useState('');
@@ -114,26 +116,28 @@ const Comment = ({
                 </Text>
               </Flex>
               <Box>
-                <ButtonGroup>
-                  <Button
-                    onClick={() => toggleUpdateCommentForm(id, true)}
-                    color="#8e918e"
-                    fontSize="0.8rem"
-                    bg="transparent"
-                    _hover={{ bg: 'transparent' }}
-                  >
-                    Update
-                  </Button>
-                  <Button
-                    onClick={() => removeComment(id)}
-                    color="#8e918e"
-                    fontSize="0.8rem"
-                    bg="transparent"
-                    _hover={{ bg: 'transparent' }}
-                  >
-                    Delete
-                  </Button>
-                </ButtonGroup>
+                {comment.userId === user.id && (
+                  <ButtonGroup>
+                    <Button
+                      onClick={() => toggleUpdateCommentForm(id, true)}
+                      color="#8e918e"
+                      fontSize="0.8rem"
+                      bg="transparent"
+                      _hover={{ bg: 'transparent' }}
+                    >
+                      Update
+                    </Button>
+                    <Button
+                      onClick={() => removeComment(id)}
+                      color="#8e918e"
+                      fontSize="0.8rem"
+                      bg="transparent"
+                      _hover={{ bg: 'transparent' }}
+                    >
+                      Delete
+                    </Button>
+                  </ButtonGroup>
+                )}
               </Box>
             </Flex>
           </Box>

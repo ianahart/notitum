@@ -24,6 +24,7 @@ export interface IComment {
   firstName: string;
   lastName: string;
   isOpen: boolean;
+  userId: number;
 }
 
 export interface IChecklistItemMember {
@@ -70,14 +71,14 @@ export interface ICard {
   color: string;
   createdAt: Date;
   details: string;
-  endDate: Date;
+  endDate: Date | null;
   id: number;
   index: number;
   label: string;
-  startDate: Date;
+  startDate: Date | null;
   title: string;
   updatedAt: Date;
-activeLabels: IActiveLabel[];
+  activeLabels: IActiveLabel[];
 }
 
 export interface IMember {

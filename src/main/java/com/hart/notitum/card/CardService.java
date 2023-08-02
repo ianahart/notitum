@@ -10,6 +10,7 @@ import org.modelmapper.ModelMapper;
 
 import java.util.List;
 import java.util.Optional;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import com.hart.notitum.activelabel.ActiveLabelRepository;
@@ -126,6 +127,23 @@ public class CardService {
                 card.getEndDate(),
                 card.getTitle());
 
+    }
+
+    public void updateCardDates(Long cardId, String action, List<Timestamp> dates, Long workspaceUserId) {
+        if (this.userService.getCurrentlyLoggedInUser().getId() != workspaceUserId) {
+            throw new ForbiddenException("Cannot update dates of a card if you are not the owner");
+        }
+        Card card = this.cardRepository.findById(cardId).orElseThrow(() -> new NotFoundException("Card not found"));
+        if (action.equalsIgnoreCase("add")) {
+
+            card.setStartDate(dates.get(0));
+            card.setEndDate(dates.get(1));
+        } else {
+            card.setStartDate(null);
+            card.setEndDate(null);
+        }
+
+        this.cardRepository.save(card);
     }
 
     public void reorderCards(List<ReorderCardDto> data, Long workspaceUserId) {

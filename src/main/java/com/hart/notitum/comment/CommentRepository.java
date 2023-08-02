@@ -15,7 +15,8 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     @Query(value = """
             SELECT new com.hart.notitum.comment.dto.CommentDto(
              c.id AS id, c.createdAt AS createdAt, c.text AS text,
-             u.firstName AS firstName, u.lastName AS lastName, c.isOpen AS isOpen
+             u.firstName AS firstName, u.lastName AS lastName, c.isOpen AS isOpen,
+             u.id AS userId
             ) FROM Comment c
             INNER JOIN c.card _c
             INNER JOIN c.user u

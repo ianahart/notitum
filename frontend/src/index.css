@@ -17,6 +17,12 @@ a:hover {
   opacity: 0.8;
 }
 
+.react-calendar {
+  background: #454545 !important;
+  border: none;
+  border-radius: 8px;
+}
+
 h1 {
   font-size: 3.2em;
   line-height: 1.1;

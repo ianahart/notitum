@@ -12,6 +12,15 @@ export const http = axios.create({
 });
 
 export const Client = {
+  updateDates: (
+    action: string,
+    values: Date[],
+    cardId: number,
+    workspaceUserId: number
+  ) => {
+    return http.patch(`/cards/${cardId}/dates`, { action, values, workspaceUserId });
+  },
+
   removeComment: (commentId: number, userId: number, workspaceId: number) => {
     return http.delete(
       `/comments/${commentId}?userId=${userId}&workspaceId=${workspaceId}`
