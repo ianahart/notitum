@@ -79,6 +79,7 @@ export interface ICard {
   title: string;
   updatedAt: Date;
   activeLabels: IActiveLabel[];
+  coverPhoto: string | null;
 }
 
 export interface IMember {

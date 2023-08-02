@@ -53,7 +53,7 @@ const Comment = ({
   };
 
   return (
-    <Box width="100%" my="0.5rem">
+    <Box width="95%" my="0.5rem">
       <>
         {isOpen && (
           <form onSubmit={updateCommentOnSubmit} style={{ width: '100%' }}>

@@ -18,6 +18,7 @@ public class CardDto {
     private Timestamp startDate;
     private Timestamp endDate;
     private String title;
+    private String coverPhoto;
 
     public CardDto(
             List<ActiveLabelDto> activeLabels,
@@ -30,7 +31,8 @@ public class CardDto {
             String details,
             Timestamp startDate,
             Timestamp endDate,
-            String title) {
+            String title,
+            String coverPhoto) {
         this.activeLabels = activeLabels;
         this.id = id;
         this.createdAt = createdAt;
@@ -42,10 +44,15 @@ public class CardDto {
         this.startDate = startDate;
         this.endDate = endDate;
         this.title = title;
+        this.coverPhoto = coverPhoto;
     }
 
     public Long getId() {
         return id;
+    }
+
+    public String getCoverPhoto() {
+        return coverPhoto;
     }
 
     public List<ActiveLabelDto> getActiveLabels() {
@@ -94,6 +101,10 @@ public class CardDto {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public void setCoverPhoto(String coverPhoto) {
+        this.coverPhoto = coverPhoto;
     }
 
     public void setActiveLabels(List<ActiveLabelDto> activeLabels) {

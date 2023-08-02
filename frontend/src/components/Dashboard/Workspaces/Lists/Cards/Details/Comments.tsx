@@ -162,7 +162,7 @@ const Comments = ({ cardId }: ICommentsProps) => {
             p="0.25rem"
             alignItems="center"
             borderRadius={8}
-            w="100%"
+            w="85%"
             _hover={{ opacity: '0.8' }}
             bg="black.tertiary"
             minH="40px"

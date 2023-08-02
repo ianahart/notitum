@@ -123,6 +123,17 @@ const SingleCard = ({
       _hover={{ background: '#3f3f44' }}
       bg="#38383c"
     >
+      {card.coverPhoto !== null && (
+        <Box
+          borderTopRadius={8}
+          width="100%"
+          backgroundImage={`url(${card.coverPhoto})`}
+          backgroundPosition="center"
+          backgroundSize="cover"
+          minH="60px"
+        ></Box>
+      )}
+
       <Flex
         ml="auto"
         justify={
@@ -179,6 +190,16 @@ const SingleCard = ({
           minH="400px"
           bg="black.primary"
         >
+          {card.coverPhoto !== null && (
+            <Box
+              borderTopRadius={8}
+              width="100%"
+              backgroundImage={`url(${card.coverPhoto})`}
+              backgroundPosition="center"
+              backgroundSize="cover"
+              minH="150px"
+            ></Box>
+          )}
           <ModalHeader color="light.primary">
             <Header
               workspaceListId={workspaceListId}

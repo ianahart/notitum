@@ -9,6 +9,7 @@ import { useContext } from 'react';
 import { WorkspaceContext } from '../../../../../../context/workspace';
 import AddCheckList from './AddCheckList';
 import Dates from './Dates';
+import Cover from './Cover';
 
 type ValuePiece = Date | null;
 type DateValue = ValuePiece | [ValuePiece, ValuePiece];
@@ -72,6 +73,7 @@ const Panel = ({
         endDate={card.endDate}
         updateDates={updateDates}
       />
+      <Cover card={card} workspaceListId={workspaceListId} />
       <Box onClick={removeCard}>
         <CardButton title="Remove card" icon={<AiOutlineClose />} />
       </Box>

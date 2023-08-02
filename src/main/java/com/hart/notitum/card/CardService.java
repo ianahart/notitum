@@ -106,7 +106,6 @@ public class CardService {
 
         int countOfCardsInList = this.cardRepository.checkCardLimit(user.getId(), workspaceList.getId());
         if (countOfCardsInList > 10) {
-            System.out.println("DSFDSJKFDSJFKLDSJFSLKDJFDSKLFJDSLKFSDJFLKSDFJDSKLFJDSKLFSDJL");
             throw new BadRequestException("You can only have 10 cards in a list for now.");
         }
 
@@ -125,7 +124,8 @@ public class CardService {
                 card.getDetails(),
                 card.getStartDate(),
                 card.getEndDate(),
-                card.getTitle());
+                card.getTitle(),
+                null);
 
     }
 
@@ -168,5 +168,19 @@ public class CardService {
             }
         }
         this.cardRepository.saveAll(cards);
+    }
+
+    public void updateCardCoverPhoto(Long cardId, String coverPhoto, Long workspaceUserId) {
+        if (this.userService.getCurrentlyLoggedInUser().getId() != workspaceUserId) {
+            throw new ForbiddenException("Only the owner of the workspace can update the cover photo of a card");
+        }
+
+        Card card = this.cardRepository.findById(cardId)
+                .orElseThrow(() -> new NotFoundException("Card with id " + cardId + " not found"));
+
+        card.setCoverPhoto(coverPhoto);
+
+        this.cardRepository.save(card);
+
     }
 }

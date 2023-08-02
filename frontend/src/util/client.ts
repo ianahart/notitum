@@ -12,6 +12,18 @@ export const http = axios.create({
 });
 
 export const Client = {
+  updateCardCoverPhoto: (
+    cardId: number,
+    coverPhoto: string | null,
+    workspaceUserId: number,
+    action: string
+  ) => {
+    return http.patch(`/cards/${cardId}/cover-photo`, {
+      coverPhoto,
+      workspaceUserId,
+      action,
+    });
+  },
   updateDates: (
     action: string,
     values: Date[],

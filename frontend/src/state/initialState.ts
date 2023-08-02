@@ -8,6 +8,19 @@ export const registerFormState = {
   confirmPassword: { name: 'confirmPassword', value: '', error: '', type: 'password' },
 };
 
+export const suggestedSearches = [
+  'Productivity',
+  'Perspective',
+  'Organization',
+  'Colorful',
+  'Nature',
+  'Business',
+  'Minimal',
+  'Animals',
+  'Space',
+  'Backgrounds',
+];
+
 export const colorsState = [
   { id: nanoid(), background: '#F1C93B' },
   { id: nanoid(), background: '#1A5D1A' },

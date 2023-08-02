@@ -2,11 +2,13 @@ package com.hart.notitum.card;
 
 import com.hart.notitum.card.request.CreateCardRequest;
 import com.hart.notitum.card.request.ReorderCardsRequest;
+import com.hart.notitum.card.request.UpdateCardCoverPhotoRequest;
 import com.hart.notitum.card.request.UpdateCardDatesRequest;
 import com.hart.notitum.card.request.UpdateCardRequest;
 import com.hart.notitum.card.response.CreateCardResponse;
 import com.hart.notitum.card.response.DeleteCardResponse;
 import com.hart.notitum.card.response.ReorderCardsResponse;
+import com.hart.notitum.card.response.UpdateCardCoverPhotoResponse;
 import com.hart.notitum.card.response.UpdateCardDatesResponse;
 import com.hart.notitum.card.response.UpdateCardResponse;
 
@@ -71,5 +73,12 @@ public class CardController {
 
         this.cardService.updateCardDates(id, request.getAction(), request.getValues(), request.getWorkspaceUserId());
         return ResponseEntity.status(HttpStatus.OK).body(new UpdateCardDatesResponse("success"));
+    }
+
+    @PatchMapping("{id}/cover-photo")
+    public ResponseEntity<UpdateCardCoverPhotoResponse> updateCardCoverPhoto(@PathVariable("id") Long id,
+            @RequestBody UpdateCardCoverPhotoRequest request) {
+        this.cardService.updateCardCoverPhoto(id, request.getCoverPhoto(), request.getWorkspaceUserId());
+        return ResponseEntity.status(HttpStatus.OK).body(new UpdateCardCoverPhotoResponse("success"));
     }
 }

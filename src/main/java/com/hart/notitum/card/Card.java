@@ -59,6 +59,8 @@ public class Card {
     private Timestamp startDate;
     @Column(name = "end_date")
     private Timestamp endDate;
+    @Column(name = "cover_photo")
+    private String coverPhoto;
     @JsonBackReference
     @ManyToOne()
     @JoinColumn(name = "user_id", referencedColumnName = "id")
@@ -93,7 +95,8 @@ public class Card {
             Integer index,
             String details,
             Timestamp startDate,
-            Timestamp endDate) {
+            Timestamp endDate,
+            String coverPhoto) {
         this.id = id;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -103,6 +106,7 @@ public class Card {
         this.details = details;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.coverPhoto = coverPhoto;
     }
 
     public Card(String title, User user, WorkspaceList workspaceList) {
@@ -153,6 +157,10 @@ public class Card {
         return checklists;
     }
 
+    public String getCoverPhoto() {
+        return coverPhoto;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -187,6 +195,10 @@ public class Card {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void setCoverPhoto(String coverPhoto) {
+        this.coverPhoto = coverPhoto;
     }
 
     public void setUser(User user) {
