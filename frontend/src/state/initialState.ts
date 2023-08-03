@@ -150,6 +150,7 @@ export const userState = {
   firstName: '',
   loggedIn: false,
   role: '',
+  profileId: 0,
 };
 
 export const forgotPasswordState = {

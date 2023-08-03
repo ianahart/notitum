@@ -12,6 +12,7 @@ import com.hart.notitum.auth.response.LoginResponse;
 import com.hart.notitum.auth.response.RegisterResponse;
 import com.hart.notitum.config.JwtService;
 import com.hart.notitum.config.RefreshTokenService;
+import com.hart.notitum.profile.ProfileService;
 import com.hart.notitum.refreshtoken.RefreshToken;
 import com.hart.notitum.token.Token;
 import com.hart.notitum.token.TokenRepository;
@@ -38,6 +39,7 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final TokenRepository tokenRepository;
     private final RefreshTokenService refreshTokenService;
+    private final ProfileService profileService;
 
     @Autowired
     public AuthenticationService(
@@ -46,13 +48,15 @@ public class AuthenticationService {
             AuthenticationManager authenticationManager,
             JwtService jwtService,
             TokenRepository tokenRepository,
-            RefreshTokenService refreshTokenService) {
+            RefreshTokenService refreshTokenService,
+            ProfileService profileService) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;
         this.tokenRepository = tokenRepository;
         this.refreshTokenService = refreshTokenService;
+        this.profileService = profileService;
     }
 
     public RegisterResponse register(RegisterRequest request) {
@@ -62,7 +66,8 @@ public class AuthenticationService {
                 request.getEmail(),
                 this.passwordEncoder.encode(request.getPassword()),
                 false,
-                request.getRole().equals("USER") ? Role.USER : Role.ADMIN);
+                request.getRole().equals("USER") ? Role.USER : Role.ADMIN,
+                this.profileService.createProfile());
 
         Optional<User> exists = this.userRepository.findByEmail(request.getEmail());
 
@@ -72,7 +77,7 @@ public class AuthenticationService {
         if (exists.isPresent()) {
             throw new BadRequestException("A user with that email already exists.");
         }
-        this.userRepository.save(user);
+        User newUser = this.userRepository.save(user);
 
         return new RegisterResponse("User created.");
     }
@@ -118,7 +123,8 @@ public class AuthenticationService {
                 user.getLastName(),
                 user.getRole(),
                 user.getAbbreviation(),
-                user.getLoggedIn());
+                user.getLoggedIn(),
+                user.getProfile().getId());
 
         return new LoginResponse(userDto, jwtToken, refreshToken.getRefreshToken());
     }

@@ -215,6 +215,7 @@ export interface IUser {
   lastName: string;
   loggedIn: boolean;
   role: string;
+  profileId: number;
 }
 
 export interface IUserContext {

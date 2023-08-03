@@ -4,6 +4,7 @@ import { aboutForm } from '../../state/initialState';
 import { IAboutForm, IUserContext } from '../../interfaces';
 import AboutField from './AboutField';
 import { UserContext } from '../../context/user';
+import { Client } from '../../util/client';
 
 const AboutForm = () => {
   const [form, setForm] = useState<IAboutForm>(aboutForm);
@@ -12,13 +13,22 @@ const AboutForm = () => {
   const shouldRun = useRef(true);
 
   const syncForm = () => {
-    setForm((prevState) => ({
-      ...prevState,
-      fullName: {
-        ...prevState['fullName'],
-        value: `${user.firstName} ${user.lastName}`,
-      },
-    }));
+    Client.syncProfile(user.id, user.profileId)
+      .then((res) => {
+        const { data } = res.data;
+        for (let prop in data) {
+          if (prop === 'locationVisible') {
+            setLocationVisible(data[prop]);
+          }
+          if (prop === 'firstName' || prop === 'lastName') {
+            updateField('fullName', `${data['firstName']} ${data['lastName']}`, 'value');
+          }
+          updateField(prop, data[prop] === null ? '' : data[prop], 'value');
+        }
+      })
+      .catch((err) => {
+        throw new Error(err.response.data.message);
+      });
   };
 
   const handleLocationVisible = (visibility: boolean) => {
@@ -27,7 +37,11 @@ const AboutForm = () => {
 
   const syncUpdateField = (name: string) => {
     const field = { ...form[name as keyof IAboutForm] };
-    console.log(field.value, name);
+    Client.updateProfile(field.value, name, user.profileId, locationVisible)
+      .then(() => {})
+      .catch((err) => {
+        throw new Error(err.response.data.message);
+      });
   };
 
   useEffect(() => {

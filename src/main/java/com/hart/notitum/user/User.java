@@ -13,6 +13,7 @@ import com.hart.notitum.label.Label;
 import com.hart.notitum.list.WorkspaceList;
 import com.hart.notitum.member.Member;
 import com.hart.notitum.passwordreset.PasswordReset;
+import com.hart.notitum.profile.Profile;
 import com.hart.notitum.refreshtoken.RefreshToken;
 import com.hart.notitum.token.Token;
 import com.hart.notitum.workspace.Workspace;
@@ -28,7 +29,9 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
@@ -57,6 +60,10 @@ public class User implements UserDetails {
     private String abbreviation;
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "profile_id", referencedColumnName = "id")
+    private Profile profile;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Workspace> workspaces;
@@ -126,7 +133,8 @@ public class User implements UserDetails {
             String email,
             String password,
             Boolean loggedIn,
-            Role role) {
+            Role role,
+             Profile profile) {
 
         this.firstName = firstName;
         this.lastName = lastName;
@@ -134,6 +142,7 @@ public class User implements UserDetails {
         this.password = password;
         this.loggedIn = loggedIn;
         this.role = role;
+        this.profile = profile;
     }
 
     public Long getId() {
@@ -151,6 +160,10 @@ public class User implements UserDetails {
 
     public List<Checklist> getChecklists() {
         return checklists;
+    }
+
+    public Profile getProfile() {
+        return profile;
     }
 
     public List<Member> getMembers() {
@@ -275,6 +288,10 @@ public class User implements UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 
     public void setRole(Role role) {

@@ -73,7 +73,8 @@ public class UserService {
                 user.getLastName(),
                 user.getRole(),
                 user.getAbbreviation(),
-                user.getLoggedIn());
+                user.getLoggedIn(),
+                user.getProfile().getId());
         return userDto;
 
     }
