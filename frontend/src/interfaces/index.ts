@@ -6,6 +6,57 @@ export interface IRegisterForm {
   confirmPassword: { name: string; value: string; error: string; type: string };
 }
 
+export interface IAboutForm {
+  fullName: {
+    name: string;
+    value: string;
+    error: string;
+    type: string;
+    label: string;
+    placeholder: string;
+  };
+  publicName: {
+    name: string;
+    value: string;
+    error: string;
+    type: string;
+    label: string;
+    placeholder: string;
+  };
+  jobTitle: {
+    name: string;
+    value: string;
+    error: string;
+    type: string;
+    label: string;
+    placeholder: string;
+  };
+  department: {
+    name: string;
+    value: string;
+    error: string;
+    type: string;
+    label: string;
+    placeholder: string;
+  };
+  organization: {
+    name: string;
+    value: string;
+    error: string;
+    type: string;
+    label: string;
+    placeholder: string;
+  };
+  location: {
+    name: string;
+    value: string;
+    error: string;
+    type: string;
+    label: string;
+    placeholder: string;
+  };
+}
+
 export interface IWorkspaceMenus {
   description: { name: string; value: string; open: boolean };
   background: { name: string; value: string; open: boolean };

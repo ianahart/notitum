@@ -5,8 +5,7 @@ import { UserContext } from '../../context/user';
 import { IUserContext } from '../../interfaces';
 import ClickAwayMenu from '../Shared/ClickAwayMenu';
 import { Link as RouterLink } from 'react-router-dom';
-import { AiOutlineRightSquare } from 'react-icons/ai';
-import { FiSettings } from 'react-icons/fi';
+import { FiEdit, FiSettings } from 'react-icons/fi';
 import { slugify } from '../../util';
 import { Client } from '../../util/client';
 
@@ -73,7 +72,7 @@ const AccountMenu = () => {
                 <RouterLink to={`/${slugify(user.firstName, user.lastName)}/account`}>
                   Manage Account
                 </RouterLink>
-                <AiOutlineRightSquare />
+                <FiEdit />
               </Box>
             </Box>
             <Box mb="1rem" borderBottom="1px solid" borderColor="text.secondary"></Box>
