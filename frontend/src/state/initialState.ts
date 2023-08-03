@@ -51,6 +51,18 @@ export const aboutForm = {
   },
 };
 
+export const profileState = {
+  id: 0,
+  department: '',
+  firstName: '',
+  jobTitle: '',
+  lastName: '',
+  location: '',
+  locationVisible: false,
+  organization: '',
+  publicName: '',
+};
+
 export const registerFormState = {
   firstName: { name: 'firstName', value: '', error: '', type: 'text' },
   lastName: { name: 'lastName', value: '', error: '', type: 'text' },

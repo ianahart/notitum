@@ -12,6 +12,9 @@ export const http = axios.create({
 });
 
 export const Client = {
+  getProfile: (profileId: number) => {
+    return http.get(`/profiles/${profileId}`);
+  },
   syncProfile: (userId: number, profileId: number) => {
     return http.get(`/profiles/sync?userId=${userId}&profileId=${profileId}`);
   },

@@ -1,11 +1,11 @@
 package com.hart.notitum.profile;
 
+import com.hart.notitum.profile.dto.ProfileDto;
 import com.hart.notitum.profile.dto.SyncProfileDto;
 import com.hart.notitum.profile.request.UpdateProfileRequest;
 import com.hart.notitum.user.User;
 import com.hart.notitum.user.UserRepository;
 import com.hart.notitum.user.UserService;
-import com.hart.notitum.advice.BadRequestException;
 import com.hart.notitum.advice.ForbiddenException;
 import com.hart.notitum.advice.NotFoundException;
 
@@ -34,8 +34,12 @@ public class ProfileService {
         return this.profileRepository.save(profile);
     }
 
+    public ProfileDto getProfile(Long profileId) {
+        return this.profileRepository.getProfile(profileId);
+    }
+
     public SyncProfileDto syncProfile(Long userId, Long profileId) {
-       return this.profileRepository.syncProfile(userId, profileId);
+        return this.profileRepository.syncProfile(userId, profileId);
     }
 
     public Profile getProfileById(Long profileId) {

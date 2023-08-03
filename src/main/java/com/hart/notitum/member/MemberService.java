@@ -65,7 +65,8 @@ public class MemberService {
 
         Member member = this.memberRepository.save(new Member(user, workspace));
 
-        return new MemberDto(member.getId(), user.getFirstName(), user.getLastName(), user.getId());
+        return new MemberDto(member.getId(), user.getFirstName(), user.getLastName(), user.getId(),
+                user.getProfile().getId());
 
     }
 

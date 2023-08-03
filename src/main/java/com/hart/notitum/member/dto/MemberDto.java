@@ -5,6 +5,7 @@ public class MemberDto {
     private String firstName;
     private String lastName;
     private Long userId;
+    private Long profileId;
 
     public MemberDto() {
     }
@@ -13,12 +14,14 @@ public class MemberDto {
             Long id,
             String firstName,
             String lastName,
-            Long userId) {
+            Long userId,
+            Long profileId) {
 
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.userId = userId;
+        this.profileId = profileId;
     }
 
     public Long getId() {
@@ -31,6 +34,10 @@ public class MemberDto {
 
     public String getLastName() {
         return lastName;
+    }
+
+    public Long getProfileId() {
+        return profileId;
     }
 
     public String getFirstName() {
@@ -47,6 +54,10 @@ public class MemberDto {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public void setProfileId(Long profileId) {
+        this.profileId = profileId;
     }
 
     public void setFirstName(String firstName) {

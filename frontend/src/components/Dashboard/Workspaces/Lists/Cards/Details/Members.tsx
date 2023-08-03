@@ -14,16 +14,18 @@ import {
 import CardButton from './CardButton';
 import { AiOutlineUser } from 'react-icons/ai';
 import { IMember, IUserContext, IWorkspaceContext } from '../../../../../../interfaces';
+import { useNavigate } from 'react-router-dom';
 import { useState, useCallback, useContext, useEffect, useRef } from 'react';
 import { debounce } from 'lodash';
 import Avatar from '../../../../../Shared/Avatar';
 import { UserContext } from '../../../../../../context/user';
 import { Client } from '../../../../../../util/client';
 import { WorkspaceContext } from '../../../../../../context/workspace';
-import { abbreviate } from '../../../../../../util';
+import { abbreviate, slugify } from '../../../../../../util';
 import AddMember from './AddMember';
 
 const Members = () => {
+  const navigate = useNavigate();
   const paginationState = { pageSize: 2, page: 0, direction: 'next', totalPages: 0 };
   const { user } = useContext(UserContext) as IUserContext;
   const { workspace } = useContext(WorkspaceContext) as IWorkspaceContext;
@@ -85,6 +87,10 @@ const Members = () => {
 
   const addMember = (member: IMember) => {
     setMembers((prevState) => [...prevState, member]);
+  };
+
+  const goToProfile = (profileId: number) => {
+    navigate(`/${slugify(user.firstName, user.lastName)}/profiles/${profileId}`);
   };
 
   return (
@@ -153,9 +159,16 @@ const Members = () => {
                   )}
                 </Box>
                 <Box height="80px" className="overflow-scroll" overflowY="auto">
-                  {members.map(({ id, firstName, lastName }) => {
+                  {members.map(({ profileId, id, firstName, lastName }) => {
                     return (
-                      <Flex key={id} my="0.25rem" alignItems="center">
+                      <Flex
+                        cursor="pointer"
+                        _hover={{ bg: 'text.primary' }}
+                        onClick={() => goToProfile(profileId)}
+                        key={id}
+                        my="0.25rem"
+                        alignItems="center"
+                      >
                         <Avatar abbreviation={abbreviate(firstName, lastName)} />
 
                         <Text fontSize="0.9rem">

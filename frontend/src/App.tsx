@@ -20,6 +20,7 @@ import WithAxios from './hooks/WithAxios';
 import ForgotPasswordRoute from './routes/ForgotPasswordRoute';
 import ResetPasswordRoute from './routes/ResetPasswordRoute';
 import WorkspaceRoute from './routes/WorkspaceRoute';
+import ProfileRoute from './routes/ProfileRoute';
 
 function App() {
   const { updateUser, stowTokens, user } = useContext(UserContext) as IUserContext;
@@ -80,6 +81,15 @@ function App() {
                   </RequireGuest>
                 }
               />
+              <Route
+                path="/:name/profiles/:profileId"
+                element={
+                  <RequireAuth>
+                    <ProfileRoute />
+                  </RequireAuth>
+                }
+              />
+
               <Route
                 path="/:name/dashboard"
                 element={

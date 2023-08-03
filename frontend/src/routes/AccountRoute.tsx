@@ -20,7 +20,7 @@ const AccountRoute = () => {
           <ManageAccountHeader />
         </Box>
         <Box my="2rem">
-          <Banner userInitials={user.abbreviation} />
+          <Banner showInfo={true} userInitials={user.abbreviation} />
         </Box>
         <Box my="2rem">
           <AboutForm />

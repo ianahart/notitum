@@ -38,9 +38,10 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Query(value = """
             SELECT new com.hart.notitum.member.dto.MemberDto(
               m.id AS id, u.firstName AS firstName, u.lastName AS lastName,
-              u.id AS userId
+              u.id AS userId, p.id as profileId
             ) FROM Member m
             INNER JOIN m.user u
+            INNER JOIN u.profile p
             INNER JOIN m.workspace w
             WHERE w.id = :workspaceId
                     """)

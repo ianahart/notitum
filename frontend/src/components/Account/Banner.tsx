@@ -4,9 +4,10 @@ import { RiEarthFill } from 'react-icons/ri';
 
 interface IBannerProps {
   userInitials: string;
+  showInfo: boolean;
 }
 
-const Banner = ({ userInitials }: IBannerProps) => {
+const Banner = ({ userInitials, showInfo }: IBannerProps) => {
   return (
     <Box>
       <Heading mb="0.25rem" color="black.primary" fontSize="1.3rem">
@@ -42,22 +43,26 @@ const Banner = ({ userInitials }: IBannerProps) => {
           boxShadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
           borderColor="light.primary"
         >
-          <Flex mr="0.5rem" alignItems="center">
-            <Text fontSize="0.85rem" color="text.primary">
-              Who can see this?
-            </Text>
-            <Box color="text.primary">
-              <AiOutlineInfoCircle />
-            </Box>
-          </Flex>
-          <Flex mr="0.5rem" alignItems="center">
-            <Text fontSize="0.85rem" color="text.primary">
-              Anyone
-            </Text>
-            <Box ml="0.5rem" color="text.primary">
-              <RiEarthFill />
-            </Box>
-          </Flex>
+          {showInfo && (
+            <>
+              <Flex mr="0.5rem" alignItems="center">
+                <Text fontSize="0.85rem" color="text.primary">
+                  Who can see this?
+                </Text>
+                <Box color="text.primary">
+                  <AiOutlineInfoCircle />
+                </Box>
+              </Flex>
+              <Flex mr="0.5rem" alignItems="center">
+                <Text fontSize="0.85rem" color="text.primary">
+                  Anyone
+                </Text>
+                <Box ml="0.5rem" color="text.primary">
+                  <RiEarthFill />
+                </Box>
+              </Flex>
+            </>
+          )}
         </Flex>
         <Flex
           flexDir="column"

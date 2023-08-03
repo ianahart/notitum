@@ -3,6 +3,7 @@ package com.hart.notitum.profile;
 import com.hart.notitum.profile.request.CreateProfileRequest;
 import com.hart.notitum.profile.request.UpdateProfileRequest;
 import com.hart.notitum.profile.response.CreateProfileResponse;
+import com.hart.notitum.profile.response.GetProfileResponse;
 import com.hart.notitum.profile.response.SyncProfileResponse;
 import com.hart.notitum.profile.response.UpdateProfileResponse;
 
@@ -27,6 +28,13 @@ public class ProfileController {
     @Autowired
     public ProfileController(ProfileService profileService) {
         this.profileService = profileService;
+    }
+
+    @GetMapping("/{profileId}")
+    public ResponseEntity<GetProfileResponse> getProfile(@PathVariable("profileId") Long profileId) {
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new GetProfileResponse("success", this.profileService.getProfile(profileId)));
     }
 
     @GetMapping("/sync")

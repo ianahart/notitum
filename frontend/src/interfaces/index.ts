@@ -138,6 +138,7 @@ export interface IMember {
   firstName: string;
   lastName: string;
   userId: number;
+  profileId: number;
 }
 
 export interface IList {
