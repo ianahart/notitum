@@ -12,6 +12,21 @@ export const http = axios.create({
 });
 
 export const Client = {
+  syncProfile: (userId: number, profileId: number) => {
+    return http.get(`/profiles/sync?userId=${userId}&profileId=${profileId}`);
+  },
+  updateProfile: (
+    value: string,
+    name: string,
+    profileId: number,
+    locationVisible: boolean
+  ) => {
+    return http.patch(`/profiles/${profileId}`, { value, name, locationVisible });
+  },
+
+  createProfile: (userId: number) => {
+    return http.post('/profiles', { userId });
+  },
   updateCardCoverPhoto: (
     cardId: number,
     coverPhoto: string | null,

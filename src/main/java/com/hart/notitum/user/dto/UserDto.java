@@ -10,9 +10,10 @@ public class UserDto {
     private Role role;
     private String abbreviation;
     private Boolean loggedIn;
+    private Long profileId;
 
     public UserDto(Long id, String email, String firstName, String lastName, Role role, String abbreviation,
-            Boolean loggedIn) {
+            Boolean loggedIn, Long profileId) {
         this.id = id;
         this.email = email;
         this.firstName = firstName;
@@ -20,10 +21,15 @@ public class UserDto {
         this.role = role;
         this.abbreviation = abbreviation;
         this.loggedIn = loggedIn;
+        this.profileId = profileId;
     }
 
     public Long getId() {
         return id;
+    }
+
+    public Long getProfileId() {
+        return profileId;
     }
 
     public String getAbbreviation() {
@@ -52,6 +58,10 @@ public class UserDto {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public void setProfileId(Long profileId) {
+        this.profileId = profileId;
     }
 
     public void setEmail(String email) {

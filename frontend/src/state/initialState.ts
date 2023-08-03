@@ -1,5 +1,56 @@
 import { nanoid } from 'nanoid';
 
+export const aboutForm = {
+  fullName: {
+    name: 'fullName',
+    value: '',
+    error: '',
+    type: 'text',
+    label: 'full name',
+    placeholder: 'Your full name',
+  },
+  publicName: {
+    name: 'publicName',
+    value: '',
+    error: '',
+    type: 'text',
+    label: 'Public name',
+    placeholder: 'Your public name',
+  },
+  jobTitle: {
+    name: 'jobTitle',
+    value: '',
+    error: '',
+    type: 'text',
+    label: 'Job title',
+    placeholder: 'Your job title',
+  },
+  department: {
+    name: 'department',
+    value: '',
+    error: '',
+    type: 'text',
+    label: 'Department',
+    placeholder: 'Your department',
+  },
+  organization: {
+    name: 'organization',
+    value: '',
+    error: '',
+    type: 'text',
+    label: 'Organization',
+    placeholder: 'Your organization',
+  },
+  location: {
+    name: 'location',
+    value: '',
+    error: '',
+    type: 'text',
+    label: 'Based in',
+    placeholder: 'Your location',
+  },
+};
+
 export const registerFormState = {
   firstName: { name: 'firstName', value: '', error: '', type: 'text' },
   lastName: { name: 'lastName', value: '', error: '', type: 'text' },
@@ -99,6 +150,7 @@ export const userState = {
   firstName: '',
   loggedIn: false,
   role: '',
+  profileId: 0,
 };
 
 export const forgotPasswordState = {
