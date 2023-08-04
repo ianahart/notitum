@@ -12,6 +12,10 @@ export const http = axios.create({
 });
 
 export const Client = {
+  updateEmailAddress: (userId: number, email: string) => {
+    return http.patch(`/users/${userId}`, { email });
+  },
+
   getProfile: (profileId: number) => {
     return http.get(`/profiles/${profileId}`);
   },

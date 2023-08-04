@@ -1,14 +1,31 @@
-import { Box } from '@chakra-ui/react';
-import ManageAccountHeader from '../components/Account/ManageAccountHeader';
-import Banner from '../components/Account/Banner';
-import { useContext } from 'react';
+import { Box, Flex } from '@chakra-ui/react';
+import { useContext, useState } from 'react';
+import { Outlet, Link as RouterLink } from 'react-router-dom';
 import { UserContext } from '../context/user';
 import { IUserContext } from '../interfaces';
-import AboutForm from '../components/Account/AboutForm';
 const AccountRoute = () => {
-  const { user } = useContext(UserContext) as IUserContext;
+  const { activeAccountLink, setActiveAccountLink } = useContext(
+    UserContext
+  ) as IUserContext;
+
   return (
     <Box minH="100vh">
+      <Box minH="40px" borderBottom="1px solid" borderColor="light.primary">
+        <Flex p="1rem">
+          <Box mx="0.5rem" color="text.primary">
+            <RouterLink onClick={() => setActiveAccountLink('profile')} to="profile">
+              Password and visibility
+            </RouterLink>
+            {activeAccountLink === 'profile' && <Box minH="3px" bg="primary.blue"></Box>}
+          </Box>
+          <Box mx="0.5rem" color="text.primary">
+            <RouterLink onClick={() => setActiveAccountLink('email')} to="email">
+              Email
+            </RouterLink>
+            {activeAccountLink === 'email' && <Box minH="3px" bg="primary.blue"></Box>}
+          </Box>
+        </Flex>
+      </Box>
       <Box
         p="0.25rem"
         mx="auto"
@@ -16,15 +33,7 @@ const AccountRoute = () => {
         maxW="600px"
         width={['95%', '95%', '600px']}
       >
-        <Box mt="4rem">
-          <ManageAccountHeader />
-        </Box>
-        <Box my="2rem">
-          <Banner showInfo={true} userInitials={user.abbreviation} />
-        </Box>
-        <Box my="2rem">
-          <AboutForm />
-        </Box>
+        <Outlet />
       </Box>
     </Box>
   );

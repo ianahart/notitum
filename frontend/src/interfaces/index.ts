@@ -225,6 +225,8 @@ export interface IUserContext {
   stowTokens: (tokens: ITokens) => void;
   updateUser: (user: IUser) => void;
   logout: () => void;
+  activeAccountLink: string;
+  setActiveAccountLink: (activeAccountLink: string) => void;
 }
 
 export interface IWorkspaceContext {

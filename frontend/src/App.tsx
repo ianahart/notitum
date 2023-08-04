@@ -21,6 +21,8 @@ import ForgotPasswordRoute from './routes/ForgotPasswordRoute';
 import ResetPasswordRoute from './routes/ResetPasswordRoute';
 import WorkspaceRoute from './routes/WorkspaceRoute';
 import ProfileRoute from './routes/ProfileRoute';
+import Profile from './components/Account/Profile';
+import Email from './components/Account/Email';
 
 function App() {
   const { updateUser, stowTokens, user } = useContext(UserContext) as IUserContext;
@@ -105,7 +107,24 @@ function App() {
                     <AccountRoute />
                   </RequireAuth>
                 }
-              />
+              >
+                <Route
+                  path="profile"
+                  element={
+                    <RequireAuth>
+                      <Profile />
+                    </RequireAuth>
+                  }
+                />
+                <Route
+                  path="email"
+                  element={
+                    <RequireAuth>
+                      <Email />
+                    </RequireAuth>
+                  }
+                />
+              </Route>
               <Route
                 path="/:name/:title"
                 element={

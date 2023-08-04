@@ -69,7 +69,9 @@ const AccountMenu = () => {
                 fontSize="0.8rem"
                 color="light.primary"
               >
-                <RouterLink to={`/${slugify(user.firstName, user.lastName)}/account`}>
+                <RouterLink
+                  to={`/${slugify(user.firstName, user.lastName)}/account/profile`}
+                >
                   Manage Account
                 </RouterLink>
                 <FiEdit />

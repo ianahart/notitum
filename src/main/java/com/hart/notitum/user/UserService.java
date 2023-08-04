@@ -18,6 +18,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import java.security.Key;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -108,4 +109,15 @@ public class UserService {
         return user;
     }
 
+    public void updateUserEmail(Long userId, String email) {
+        Optional<User> existingUser = this.userRepository.findByEmail(email);
+
+        if (existingUser.isPresent()) {
+            throw new BadRequestException("User with that email already exists.");
+        }
+
+        User user = this.getUserById(userId);
+        user.setEmail(email);
+        this.userRepository.save(user);
+    }
 }

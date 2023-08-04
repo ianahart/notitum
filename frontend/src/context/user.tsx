@@ -11,6 +11,7 @@ export const UserContext = createContext<IUserContext | null>(null);
 const UserContextProvider = ({ children }: IChildren) => {
   const [user, setUser] = useState<IUser>(userState);
   const [tokens, setTokens] = useState<ITokens>(tokenState);
+  const [activeAccountLink, setActiveAccountLink] = useState('profile');
 
   const logout = () => {
     localStorage.clear();
@@ -34,7 +35,17 @@ const UserContextProvider = ({ children }: IChildren) => {
   };
 
   return (
-    <UserContext.Provider value={{ tokens, user, stowTokens, updateUser, logout }}>
+    <UserContext.Provider
+      value={{
+        activeAccountLink,
+        setActiveAccountLink,
+        tokens,
+        user,
+        stowTokens,
+        updateUser,
+        logout,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );
