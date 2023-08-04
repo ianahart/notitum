@@ -19,6 +19,7 @@ const Description = ({ card, workspaceListId }: IDescriptionProps) => {
   const { updateCard } = useContext(WorkspaceContext) as IWorkspaceContext;
   const [newDescription, setNewDescription] = useState('');
   const [isQuillShowing, setIsQuillShowing] = useState(false);
+  const [error, setError] = useState('');
   const shouldRun = useRef(true);
   const placeholder = 'Add a more detailed description...';
   const modules = { toolbar: [] };
@@ -31,12 +32,14 @@ const Description = ({ card, workspaceListId }: IDescriptionProps) => {
   }, [shouldRun.current]);
 
   const saveDescription = () => {
+    setError('');
     updateCard('details', newDescription, workspaceListId, card.id);
     Client.updateCard({ ...card, details: newDescription }, workspaceListId, user.id)
       .then(() => {
         setIsQuillShowing(false);
       })
       .catch((err) => {
+        setError(err.response.data.message);
         throw new Error(err.response.data.message);
       });
   };
@@ -53,6 +56,12 @@ const Description = ({ card, workspaceListId }: IDescriptionProps) => {
           </Text>
         </Box>
       </Flex>
+      {error.length > 0 && (
+        <Text color="red.500" fontSize="0.85rem" textAlign="center">
+          {error}
+        </Text>
+      )}
+
       {!isQuillShowing && (
         <Box
           onClick={() => setIsQuillShowing(true)}

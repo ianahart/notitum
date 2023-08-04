@@ -1,5 +1,31 @@
 import { nanoid } from 'nanoid';
 
+export const listState = {
+  createdAt: new Date(),
+  title: '',
+  index: 0,
+  xCoordinate: 0,
+  yCoordinate: 0,
+  updatedAt: new Date(),
+  cards: [],
+  id: 0,
+};
+
+export const cardState = {
+  color: '',
+  createdAt: new Date(),
+  details: '',
+  endDate: new Date(),
+  id: 0,
+  index: 0,
+  label: '',
+  startDate: new Date(),
+  title: '',
+  updatedAt: new Date(),
+  activeLabels: [],
+  coverPhoto: '',
+};
+
 export const aboutForm = {
   fullName: {
     name: 'fullName',

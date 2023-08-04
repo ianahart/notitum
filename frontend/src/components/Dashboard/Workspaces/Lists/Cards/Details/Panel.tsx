@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/react';
 import { IActiveLabel, ICard, IWorkspaceContext } from '../../../../../../interfaces';
 import Members from './Members';
 import Labels from './Labels';
@@ -10,6 +10,7 @@ import { WorkspaceContext } from '../../../../../../context/workspace';
 import AddCheckList from './AddCheckList';
 import Dates from './Dates';
 import Cover from './Cover';
+import MoveCard from './MoveCard';
 
 type ValuePiece = Date | null;
 type DateValue = ValuePiece | [ValuePiece, ValuePiece];
@@ -57,27 +58,32 @@ const Panel = ({
   };
 
   return (
-    <Box>
-      <Members />
-      <Labels
-        activeLabels={activeLabels}
-        card={card}
-        handleActiveLabel={handleActiveLabel}
-      />
-      <AddCheckList
-        createChecklistError={createChecklistError}
-        createChecklist={createChecklist}
-      />
-      <Dates
-        startDate={card.startDate}
-        endDate={card.endDate}
-        updateDates={updateDates}
-      />
-      <Cover card={card} workspaceListId={workspaceListId} />
-      <Box onClick={removeCard}>
-        <CardButton title="Remove card" icon={<AiOutlineClose />} />
+    <Flex flexDir="column" justifyContent="space-between" minH="50vh">
+      <Box>
+        <Members />
+        <Labels
+          activeLabels={activeLabels}
+          card={card}
+          handleActiveLabel={handleActiveLabel}
+        />
+        <AddCheckList
+          createChecklistError={createChecklistError}
+          createChecklist={createChecklist}
+        />
+        <Dates
+          startDate={card.startDate}
+          endDate={card.endDate}
+          updateDates={updateDates}
+        />
+        <Cover card={card} workspaceListId={workspaceListId} />
+        <Box onClick={removeCard}>
+          <CardButton title="Remove card" icon={<AiOutlineClose />} />
+        </Box>
       </Box>
-    </Box>
+      <Box>
+        <MoveCard cardId={card.id} workspaceListId={workspaceListId} />
+      </Box>
+    </Flex>
   );
 };
 

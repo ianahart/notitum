@@ -70,6 +70,9 @@ public class CardService {
     }
 
     public void updateCard(CardDto card, Long workspaceListId, Long userId) {
+        if (card.getDetails().length() > 400) {
+            throw new BadRequestException("Description cannot exceed 400 characters");
+        }
         Card cardToUpdate = modelMapper.map(card, Card.class);
 
         WorkspaceList wl = this.workspaceListRepository.findById(workspaceListId)

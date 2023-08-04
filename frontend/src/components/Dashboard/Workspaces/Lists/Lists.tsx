@@ -1,5 +1,5 @@
 import { Box, Flex } from '@chakra-ui/react';
-import { useContext, useEffect, useRef } from 'react';
+import { useContext, useEffect } from 'react';
 import { WorkspaceContext } from '../../../../context/workspace';
 import { IUserContext, IWorkspaceContext } from '../../../../interfaces';
 import { UserContext } from '../../../../context/user';
