@@ -3,6 +3,7 @@ package com.hart.notitum.user;
 import java.util.Collection;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.hart.notitum.activity.Activity;
 import com.hart.notitum.card.Card;
@@ -52,10 +53,13 @@ public class User implements UserDetails {
     private String lastName;
     @Column(name = "email", unique = true, length = 200)
     private String email;
+    @JsonIgnore
     @Column(name = "password")
     private String password;
     @Column(name = "logged_in")
     private Boolean loggedIn;
+    @Column(name = "bio", length = 300)
+    private String bio;
     @Transient
     private String abbreviation;
     @Enumerated(EnumType.STRING)
@@ -116,7 +120,8 @@ public class User implements UserDetails {
             String email,
             String password,
             Boolean loggedIn,
-            Role role) {
+            Role role,
+            String bio) {
 
         this.id = id;
         this.firstName = firstName;
@@ -125,6 +130,7 @@ public class User implements UserDetails {
         this.password = password;
         this.loggedIn = loggedIn;
         this.role = role;
+        this.bio = bio;
     }
 
     public User(
@@ -134,7 +140,7 @@ public class User implements UserDetails {
             String password,
             Boolean loggedIn,
             Role role,
-             Profile profile) {
+            Profile profile) {
 
         this.firstName = firstName;
         this.lastName = lastName;
@@ -143,6 +149,10 @@ public class User implements UserDetails {
         this.loggedIn = loggedIn;
         this.role = role;
         this.profile = profile;
+    }
+
+    public String getBio() {
+        return bio;
     }
 
     public Long getId() {
@@ -232,6 +242,10 @@ public class User implements UserDetails {
 
     public void setWorkspaceLists(List<WorkspaceList> workspaceLists) {
         this.workspaceLists = workspaceLists;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
     }
 
     public String getAbbreviation() {

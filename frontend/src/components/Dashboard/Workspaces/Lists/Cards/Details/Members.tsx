@@ -93,6 +93,10 @@ const Members = () => {
     navigate(`/${slugify(user.firstName, user.lastName)}/profiles/${profileId}`);
   };
 
+  const goToOwnProfile = () => {
+    navigate(`/${slugify(user.firstName, user.lastName)}/profiles/${user.profileId}`);
+  };
+
   return (
     <Box position="relative">
       <Popover>
@@ -149,7 +153,7 @@ const Members = () => {
                     Workspace members
                   </Text>
                   {workspace.userId === user.id && (
-                    <Flex alignItems="center">
+                    <Flex cursor="pointer" onClick={goToOwnProfile} alignItems="center">
                       <Avatar abbreviation={user.abbreviation} />
 
                       <Text fontSize="0.9rem">

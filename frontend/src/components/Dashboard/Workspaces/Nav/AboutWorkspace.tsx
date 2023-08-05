@@ -71,7 +71,7 @@ const AboutWorkspace = () => {
       </Flex>
 
       <Box mt="2rem" color="light.primary" fontSize="0.85rem" cursor="pointer">
-        <RouterLink to={`/${slugify(user.firstName, user.lastName)}/settings`}>
+        <RouterLink to={`/${slugify(user.firstName, user.lastName)}/account/profile`}>
           Edit profile info
         </RouterLink>
       </Box>

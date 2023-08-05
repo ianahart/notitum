@@ -1,0 +1,59 @@
+import { Box, Heading, Text } from '@chakra-ui/react';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { UserContext } from '../../context/user';
+import { IMinimalUser, IUserContext } from '../../interfaces';
+import { Link as RouterLink } from 'react-router-dom';
+import { Client } from '../../util/client';
+import { minimalUserState } from '../../state/initialState';
+import { slugify } from '../../util';
+
+const ProfileAndVisiblity = () => {
+  const { user } = useContext(UserContext) as IUserContext;
+  const [minimalUserDetails, setMinimalUserDetails] =
+    useState<IMinimalUser>(minimalUserState);
+  const shouldRun = useRef(true);
+
+  const getMinimalUserDetails = () => {
+    Client.getMinimalUserDetails(user.id)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+        throw new Error(err.response.data.message);
+      });
+  };
+
+  useEffect(() => {
+    if (shouldRun.current && user.id !== 0) {
+      shouldRun.current = false;
+      getMinimalUserDetails();
+    }
+  }, [shouldRun.current, user.id]);
+
+  return (
+    <Box>
+      <Heading mb="1.5rem" color="black.primary" fontSize="1.4rem">
+        Manage your personal information
+      </Heading>
+      <Box bg="#f1ecec" p="1rem" borderRadius={4}>
+        <Text color="text.primary" lineHeight="1.6">
+          This is your main account information. You can edit your profile information on
+          your{' '}
+          <Box as="span" color="primary.blue" fontWeight="bold">
+            <RouterLink to={`/${slugify(user.firstName, user.lastName)}/account/profile`}>
+              About you{' '}
+            </RouterLink>
+          </Box>
+          section.
+        </Text>
+      </Box>
+
+      <Heading as="h3" fontSize="1.2rem">
+        About
+      </Heading>
+    </Box>
+  );
+};
+
+export default ProfileAndVisiblity;

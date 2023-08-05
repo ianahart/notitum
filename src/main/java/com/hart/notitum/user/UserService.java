@@ -5,7 +5,9 @@ import com.hart.notitum.advice.ForbiddenException;
 import com.hart.notitum.advice.NotFoundException;
 import com.hart.notitum.config.JwtService;
 import com.hart.notitum.passwordreset.request.PasswordResetRequest;
+import com.hart.notitum.user.dto.MinimalUserDto;
 import com.hart.notitum.user.dto.UserDto;
+import com.hart.notitum.user.request.UpdateUserRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -118,6 +120,31 @@ public class UserService {
 
         User user = this.getUserById(userId);
         user.setEmail(email);
+        this.userRepository.save(user);
+    }
+
+    public MinimalUserDto getMinimalUser(Long userId) {
+        if (userId == null) {
+            throw new BadRequestException("User id not found while getting minimal user");
+        }
+        return this.userRepository.getMinimalUser(userId);
+    }
+
+    public void updateUser(Long userId, UpdateUserRequest request) {
+        User user = getUserById(userId);
+        if (request.getFirstName().strip().length() == 0 || request.getLastName().strip().length() == 0) {
+            throw new BadRequestException("First name and last name are required");
+        }
+
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+
+        if (request.getBio().strip().length() == 0) {
+            user.setBio(null);
+        } else {
+            user.setBio(request.getBio());
+        }
+
         this.userRepository.save(user);
     }
 }

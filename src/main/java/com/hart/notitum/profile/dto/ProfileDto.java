@@ -11,6 +11,7 @@ public class ProfileDto {
     private String organization;
     private String location;
     private Boolean locationVisible;
+    private String bio;
 
     public ProfileDto() {
 
@@ -25,7 +26,8 @@ public class ProfileDto {
             String department,
             String organization,
             String location,
-            Boolean locationVisible) {
+            Boolean locationVisible,
+            String bio) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -35,6 +37,7 @@ public class ProfileDto {
         this.organization = organization;
         this.location = location;
         this.locationVisible = locationVisible;
+        this.bio = bio;
     }
 
     public String getJobTitle() {
@@ -43,6 +46,10 @@ public class ProfileDto {
 
     public String getLastName() {
         return lastName;
+    }
+
+    public String getBio() {
+        return bio;
     }
 
     public Long getId() {
@@ -107,5 +114,9 @@ public class ProfileDto {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
     }
 }

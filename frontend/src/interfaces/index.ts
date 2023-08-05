@@ -6,6 +6,19 @@ export interface IRegisterForm {
   confirmPassword: { name: string; value: string; error: string; type: string };
 }
 
+export interface IMinimalUser {
+  id: number;
+  firstName: string;
+  lastName: string;
+  bio: string;
+}
+
+export interface IMinimalUserForm {
+  firstName: { name: string; value: string; error: string; type: string };
+  lastName: { name: string; value: string; error: string; type: string };
+  bio: { name: string; value: string; error: string; type: string };
+}
+
 export interface IAboutForm {
   fullName: {
     name: string;
@@ -217,6 +230,7 @@ export interface IUser {
   loggedIn: boolean;
   role: string;
   profileId: number;
+  bio: string;
 }
 
 export interface IUserContext {

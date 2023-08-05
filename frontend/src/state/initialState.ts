@@ -11,6 +11,19 @@ export const listState = {
   id: 0,
 };
 
+export const minimalUserState = {
+  id: 0,
+  firstName: '',
+  lastName: '',
+  bio: '',
+};
+
+export const minimalUserForm = {
+  firstName: { name: 'firstName', value: '', error: '', type: 'text' },
+  lastName: { name: 'lastName', value: '', error: '', type: 'text' },
+  bio: { name: 'bio', value: '', error: '', type: 'text' },
+};
+
 export const cardState = {
   color: '',
   createdAt: new Date(),
@@ -87,6 +100,7 @@ export const profileState = {
   locationVisible: false,
   organization: '',
   publicName: '',
+  bio: '',
 };
 
 export const registerFormState = {
@@ -189,6 +203,7 @@ export const userState = {
   loggedIn: false,
   role: '',
   profileId: 0,
+  bio: '',
 };
 
 export const forgotPasswordState = {

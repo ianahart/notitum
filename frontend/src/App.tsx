@@ -23,6 +23,9 @@ import WorkspaceRoute from './routes/WorkspaceRoute';
 import ProfileRoute from './routes/ProfileRoute';
 import Profile from './components/Account/Profile';
 import Email from './components/Account/Email';
+import ProfileAndVisiblity from './components/Settings/ProfileAndVisibility';
+import Activity from './components/Settings/Activity';
+import Cards from './components/Settings/Cards';
 
 function App() {
   const { updateUser, stowTokens, user } = useContext(UserContext) as IUserContext;
@@ -141,7 +144,34 @@ function App() {
                     <SettingsRoute />
                   </RequireAuth>
                 }
-              />
+              >
+                <Route
+                  path="profile-visibility"
+                  element={
+                    <RequireAuth>
+                      <ProfileAndVisiblity />
+                    </RequireAuth>
+                  }
+                />
+
+                <Route
+                  path="activity"
+                  element={
+                    <RequireAuth>
+                      <Activity />
+                    </RequireAuth>
+                  }
+                />
+
+                <Route
+                  path="cards"
+                  element={
+                    <RequireAuth>
+                      <Cards />
+                    </RequireAuth>
+                  }
+                />
+              </Route>
             </Routes>
           </WithAxios>
         </Box>

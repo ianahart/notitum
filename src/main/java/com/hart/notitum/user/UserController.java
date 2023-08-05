@@ -2,7 +2,10 @@ package com.hart.notitum.user;
 
 import com.hart.notitum.user.dto.UserDto;
 import com.hart.notitum.user.request.UpdateEmailRequest;
+import com.hart.notitum.user.request.UpdateUserRequest;
+import com.hart.notitum.user.response.GetMinimalUserResponse;
 import com.hart.notitum.user.response.UpdateEmailResponse;
+import com.hart.notitum.user.response.UpdateUserResponse;
 import com.hart.notitum.advice.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,11 +30,24 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PatchMapping("/{userId}")
+    @PatchMapping("/{userId}/email")
     public ResponseEntity<UpdateEmailResponse> updateUserEmail(@PathVariable("userId") Long userId,
             @RequestBody UpdateEmailRequest request) {
         this.userService.updateUserEmail(userId, request.getEmail());
         return ResponseEntity.status(HttpStatus.OK).body(new UpdateEmailResponse("success"));
+    }
+
+    @PatchMapping("/{userId}")
+    public ResponseEntity<UpdateUserResponse> updateUser(@PathVariable("userId") Long userId,
+            @RequestBody UpdateUserRequest request) {
+        this.userService.updateUser(userId, request);
+        return ResponseEntity.status(HttpStatus.OK).body(new UpdateUserResponse("success"));
+    }
+
+    @GetMapping("/{userId}/minimal-details")
+    public ResponseEntity<GetMinimalUserResponse> getMinimalUser(@PathVariable("userId") Long userId) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new GetMinimalUserResponse("success", this.userService.getMinimalUser(userId)));
     }
 
     @GetMapping("/sync")

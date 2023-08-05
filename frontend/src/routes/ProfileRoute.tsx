@@ -89,6 +89,7 @@ const ProfileRoute = () => {
               label="Based in"
               errorName="location"
             />
+            <ProfileField value={profile.bio} label="Bio" errorName="bio" />
           </Box>
         </Box>
       </Box>

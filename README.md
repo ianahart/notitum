@@ -25,3 +25,7 @@ An applcation based on Trello for learning purposes.
 ### Test Account
 
 -u: millie@gmail.com -p:Test12345%
+
+### How To Use
+
+For the most features, go to the **my-blog** workspace on the **dashboard**

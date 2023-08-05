@@ -17,7 +17,8 @@ public interface ProfileRepository extends JpaRepository<Profile, Long> {
              u.firstName AS firstName, u.lastName AS lastName,
              p.publicName AS publicName, p.jobTitle AS jobTitle,
             p.department AS department, p.organization AS organization,
-            p.location AS location, p.locationVisible AS locationVisible
+            p.location AS location, p.locationVisible AS locationVisible,
+            u.bio AS bio
             ) FROM Profile p
             INNER JOIN p.user u
             WHERE p.id = :profileId

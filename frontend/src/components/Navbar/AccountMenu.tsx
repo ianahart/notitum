@@ -96,7 +96,12 @@ const AccountMenu = () => {
                 fontSize="0.8rem"
                 color="light.primary"
               >
-                <RouterLink to={`/${slugify(user.firstName, user.lastName)}/settings`}>
+                <RouterLink
+                  to={`/${slugify(
+                    user.firstName,
+                    user.lastName
+                  )}/settings/profile-visibility`}
+                >
                   Settings
                 </RouterLink>
                 <FiSettings />
