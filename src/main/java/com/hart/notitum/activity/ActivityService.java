@@ -53,7 +53,8 @@ public class ActivityService {
     public PaginationDto getActivities(Long userId, Long workspaceId, int page, String direction, int pageSize) {
         int currentPage = MyUtils.paginate(page, direction);
         Pageable paging = PageRequest.of(currentPage, pageSize, Sort.by("id").descending());
-        Page<ActivitiesDto> result = this.activityRepository.getActivities(userId, workspaceId, paging);
+        Page<ActivitiesDto> result = workspaceId == 0 ? this.activityRepository.getAllActivities(userId, paging)
+                : this.activityRepository.getActivities(userId, workspaceId, paging);
 
         return new PaginationDto(
                 result.getContent(),

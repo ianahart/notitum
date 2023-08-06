@@ -1,9 +1,12 @@
 import { UnorderedList, Box } from '@chakra-ui/react';
 import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import SettingsLink from './SettingsLink';
 
 const SettingsLinks = () => {
-  const [activeLink, setActiveLink] = useState('profile');
+  const location = useLocation();
+  const path = location.pathname.split('/')[3];
+  const [activeLink, setActiveLink] = useState(path !== undefined ? path : 'profile');
 
   const handleSetActiveLink = (activeLink: string) => {
     setActiveLink(activeLink);

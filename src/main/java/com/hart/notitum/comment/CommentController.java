@@ -31,9 +31,14 @@ public class CommentController {
     }
 
     @DeleteMapping("/{commentId}")
-    public ResponseEntity<DeleteCommentResponse> deleteComment(@PathVariable("commentId") Long commentId,
-            @RequestParam("userId") Long userId, @RequestParam("workspaceId") Long workspaceId) {
-        this.commentService.deleteComment(commentId, userId, workspaceId);
+    public ResponseEntity<DeleteCommentResponse> deleteComment(
+            @PathVariable("commentId") Long commentId,
+            @RequestParam("userId") Long userId,
+            @RequestParam("workspaceId") Long workspaceId,
+            @RequestParam("workspaceTitle") String workspaceTitle,
+            @RequestParam("firstName") String firstName,
+            @RequestParam("lastName") String lastName) {
+        this.commentService.deleteComment(commentId, userId, workspaceId, workspaceTitle, firstName, lastName);
         return ResponseEntity.status(HttpStatus.OK).body(new DeleteCommentResponse("success"));
     }
 

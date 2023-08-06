@@ -25,4 +25,14 @@ public interface ActivityRepository extends JpaRepository<Activity, Long> {
     Page<ActivitiesDto> getActivities(@Param("userId") Long userId, @Param("workspaceId") Long workspaceId,
             Pageable paging);
 
+    @Query(value = """
+            SELECT new com.hart.notitum.activity.dto.ActivitiesDto(
+            a.id as activityId, a.createdAt as createdAt, a.text as text
+            )
+            FROM Activity a
+            INNER JOIN a.user u
+            WHERE u.id = :userId
+            """)
+    Page<ActivitiesDto> getAllActivities(@Param("userId") Long userId,
+            Pageable paging);
 }

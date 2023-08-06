@@ -122,7 +122,14 @@ const Comments = ({ cardId }: ICommentsProps) => {
   };
 
   const removeComment = (id: number) => {
-    Client.removeComment(id, user.id, workspace.workspaceId)
+    Client.removeComment(
+      id,
+      user.id,
+      workspace.workspaceId,
+      workspace.title,
+      user.firstName,
+      user.lastName
+    )
       .then(() => {
         setComments(comments.filter((comment) => comment.id !== id));
         getComments(false);

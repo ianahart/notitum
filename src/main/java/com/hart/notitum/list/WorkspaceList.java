@@ -5,6 +5,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.hart.notitum.card.Card;
 import com.hart.notitum.user.User;
 import com.hart.notitum.workspace.Workspace;
@@ -48,6 +50,7 @@ public class WorkspaceList {
     @Column(name = "y_coordinate")
     private Double yCoordinate;
 
+    @JsonBackReference
     @ManyToOne()
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
@@ -56,6 +59,7 @@ public class WorkspaceList {
     @JoinColumn(name = "workspace_id", referencedColumnName = "id")
     private Workspace workspace;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "workspaceList", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Card> cards;
 

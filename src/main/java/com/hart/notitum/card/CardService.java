@@ -15,6 +15,9 @@ import java.util.ArrayList;
 
 import com.hart.notitum.activelabel.ActiveLabelRepository;
 import com.hart.notitum.activelabel.dto.ActiveLabelDto;
+import com.hart.notitum.activity.Activity;
+import com.hart.notitum.activity.ActivityRepository;
+import com.hart.notitum.activity.ActivityService;
 import com.hart.notitum.advice.BadRequestException;
 import com.hart.notitum.advice.ForbiddenException;
 import com.hart.notitum.advice.NotFoundException;
@@ -35,6 +38,7 @@ public class CardService {
     private final UserService userService;
     private final ActiveLabelRepository activeLabelRepository;
     private final ChecklistRepository checklistRepository;
+    private final ActivityRepository activityRepository;
 
     @Autowired
     public CardService(CardRepository cardRepository,
@@ -43,7 +47,8 @@ public class CardService {
             ModelMapper modelMapper,
             UserService userService,
             ActiveLabelRepository activeLabelRepository,
-            ChecklistRepository checklistRepository) {
+            ChecklistRepository checklistRepository,
+            ActivityRepository activityRepository) {
         this.cardRepository = cardRepository;
         this.userRepository = userRepository;
         this.workspaceListRepository = workspaceListRepository;
@@ -51,6 +56,7 @@ public class CardService {
         this.userService = userService;
         this.activeLabelRepository = activeLabelRepository;
         this.checklistRepository = checklistRepository;
+        this.activityRepository = activityRepository;
     }
 
     public Card getCardById(Long cardId) {
@@ -70,20 +76,21 @@ public class CardService {
     }
 
     public void updateCard(CardDto card, Long workspaceListId, Long userId) {
-        if (card.getDetails().length() > 400) {
-            throw new BadRequestException("Description cannot exceed 400 characters");
+        if (card.getDetails() != null) {
+            if (card.getDetails().length() > 400) {
+                throw new BadRequestException("Card details cannot exceed 400 characters");
+            }
         }
         Card cardToUpdate = modelMapper.map(card, Card.class);
 
         WorkspaceList wl = this.workspaceListRepository.findById(workspaceListId)
                 .orElseThrow(() -> new NotFoundException("Workspace list not found"));
 
-        if (wl.getUser().getId() != this.userService.getCurrentlyLoggedInUser().getId()) {
+        User user = this.userService.getCurrentlyLoggedInUser();
+
+        if (wl.getUser().getId() != user.getId()) {
             throw new ForbiddenException("Cannot update another persons card");
         }
-
-        User user = this.userRepository.findById(userId)
-                .orElseThrow(() -> new NotFoundException("User not found"));
 
         cardToUpdate.setUser(user);
         cardToUpdate.setWorkspaceList(wl);
@@ -91,6 +98,14 @@ public class CardService {
         cardToUpdate.setChecklists(this.checklistRepository.getChecklists(card.getId()));
 
         this.cardRepository.save(cardToUpdate);
+
+        this.activityRepository.save(
+                new Activity(
+                        user.getFirstName() + " " + user.getLastName() + " updated a card title to "
+                                + cardToUpdate.getTitle() + "  in list " +
+                                wl.getTitle(),
+                        user, wl.getWorkspace()));
+
     }
 
     public CardDto createCard(String title, Long userId, Long workspaceListId, Integer index) {
@@ -116,6 +131,11 @@ public class CardService {
         card.setIndex(index);
         this.cardRepository.save(card);
         List<ActiveLabelDto> emptyList = new ArrayList<>();
+
+        this.activityRepository.save(
+                new Activity(
+                        user.getFirstName() + " " + user.getLastName() + " added a card in " + workspaceList.getTitle(),
+                        user, workspaceList.getWorkspace()));
         return new CardDto(
                 emptyList,
                 card.getId(),

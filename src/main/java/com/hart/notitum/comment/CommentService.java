@@ -11,6 +11,7 @@ import com.hart.notitum.user.UserService;
 import com.hart.notitum.util.MyUtils;
 import com.hart.notitum.workspace.Workspace;
 import com.hart.notitum.workspace.WorkspaceService;
+import com.hart.notitum.activity.ActivityService;
 import com.hart.notitum.advice.BadRequestException;
 import com.hart.notitum.advice.ForbiddenException;
 import com.hart.notitum.advice.NotFoundException;
@@ -30,17 +31,20 @@ public class CommentService {
     private final CardService cardService;
     private final CommentRepository commentRepository;
     private final WorkspaceService workspaceService;
+    private final ActivityService activityService;
 
     @Autowired
     public CommentService(
             CommentRepository commentRepository,
             UserService userService,
             WorkspaceService workspaceService,
-            CardService cardService) {
+            CardService cardService,
+            ActivityService activityService) {
         this.commentRepository = commentRepository;
         this.userService = userService;
         this.workspaceService = workspaceService;
         this.cardService = cardService;
+        this.activityService = activityService;
     }
 
     public PaginationDto getComments(int page, int pageSize, Long cardId, String direction) {
@@ -56,9 +60,13 @@ public class CommentService {
 
     }
 
-    public void deleteComment(Long commentId, Long userId, Long workspaceId) {
+    public void deleteComment(Long commentId, Long userId, Long workspaceId, String workspaceTitle, String firstName,
+            String lastName) {
         canComment(userId, workspaceId);
         this.commentRepository.deleteById(commentId);
+        this.activityService.createActivity(firstName + " " + lastName + " deleted a comment in " + workspaceTitle,
+                userId, workspaceId);
+
     }
 
     private void canComment(Long userId, Long workspaceId) {

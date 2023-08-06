@@ -62,9 +62,16 @@ export const Client = {
     return http.patch(`/cards/${cardId}/dates`, { action, values, workspaceUserId });
   },
 
-  removeComment: (commentId: number, userId: number, workspaceId: number) => {
+  removeComment: (
+    commentId: number,
+    userId: number,
+    workspaceId: number,
+    workspaceTitle: string,
+    firstName: string,
+    lastName: string
+  ) => {
     return http.delete(
-      `/comments/${commentId}?userId=${userId}&workspaceId=${workspaceId}`
+      `/comments/${commentId}?userId=${userId}&workspaceId=${workspaceId}&workspaceTitle=${workspaceTitle}&firstName=${firstName}&lastName=${lastName}`
     );
   },
   updateComment: (
