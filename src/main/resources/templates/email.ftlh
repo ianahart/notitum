@@ -12,7 +12,7 @@
 <div>
 <p>This link will expire in 24 hours. After that, you'll need to submit a new request in order to reset your password. If you don't want to reset it, simply disregard this email.</p>
 <p>If you do not see an email from boardreserve@gmail.com check your spam folder.</p>
-<a href="http://localhost:5173/reset-password/?uid=${user.id}&token=${token}">Click here</a>
+<a href="https://notitum.netlify.app/reset-password/?uid=${user.id}&token=${token}">Click here</a>
 </div>
 </body>
 </html>

@@ -1,5 +1,5 @@
 import { Box, Flex } from '@chakra-ui/react';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { Outlet, Link as RouterLink } from 'react-router-dom';
 import { UserContext } from '../context/user';
 import { IUserContext } from '../interfaces';

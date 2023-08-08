@@ -18,7 +18,7 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      '/api/v1/': 'http://localhost:8080',
+      '/api/v1/': 'https://notitum-1f649e446a5b.herokuapp.com',
     },
   },
 } as VitestConfigExport);

@@ -1,7 +1,7 @@
 {
   "name": "frontend",
   "private": true,
-  "proxy": "http://localhost:8080/",
+  "proxy": "https://notitum-1f649e446a5b.herokuapp.com/",
   "version": "0.0.0",
   "type": "module",
   "scripts": {

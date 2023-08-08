@@ -1,7 +1,7 @@
 import { Box, Image } from '@chakra-ui/react';
 
 import { AiOutlineCheck } from 'react-icons/ai';
-import { IPexels } from '../../interfaces';
+import { IPexels } from '../../../interfaces';
 
 interface IPhotosProps {
   photos: IPexels[];

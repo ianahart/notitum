@@ -1,6 +1,6 @@
 import { IWorkspaceContext, IWorkspace, IList, ICard } from '../interfaces';
 import { createContext, useState } from 'react';
-import { userState, tokenState, workspaceState } from '../state/initialState';
+import { workspaceState } from '../state/initialState';
 import { Client } from '../util/client';
 
 interface IChildren {

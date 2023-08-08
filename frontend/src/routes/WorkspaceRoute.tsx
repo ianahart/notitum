@@ -1,5 +1,5 @@
 import { Box, Flex } from '@chakra-ui/react';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { Client } from '../util/client';
 import BasicSpinner from '../components/Shared/BasicSpinner';
@@ -15,7 +15,6 @@ const WorkspaceRoute = () => {
   const { workspaceId, userId } = location.state;
   const { workspace, setWorkspace } = useContext(WorkspaceContext) as IWorkspaceContext;
   const [isLoading, setIsLoading] = useState(false);
-  const shouldRun = useRef(true);
 
   const backgroundImage = !workspace.background.startsWith('#')
     ? workspace.background

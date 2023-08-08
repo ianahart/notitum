@@ -2,7 +2,7 @@ import { Box, Button, Flex, Input, Text } from '@chakra-ui/react';
 import { useContext, useState } from 'react';
 import { AiOutlineClose, AiOutlinePlus } from 'react-icons/ai';
 import { UserContext } from '../../../../context/user';
-import { IList, IUserContext, IWorkspaceContext } from '../../../../interfaces';
+import { IUserContext, IWorkspaceContext } from '../../../../interfaces';
 import { WorkspaceContext } from '../../../../context/workspace';
 import { Client } from '../../../../util/client';
 

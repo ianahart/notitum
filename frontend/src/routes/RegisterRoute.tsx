@@ -1,7 +1,6 @@
 import AuthContainer from '../components/Shared/AuthContainer';
 import registerBG from '../assets/register.jpg';
 import RegisterForm from '../components/Register/RegisterForm.tsx/RegisterForm';
-import { Flex } from '@chakra-ui/react';
 
 const RegisterRoute = () => {
   return (

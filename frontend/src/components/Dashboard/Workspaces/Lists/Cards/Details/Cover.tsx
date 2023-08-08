@@ -42,7 +42,6 @@ const Cover = ({ card, workspaceListId }: ICoverProps) => {
     Client.updateCardCoverPhoto(card.id, coverPhoto, workspace.userId)
       .then(() => {})
       .catch((err) => {
-        console.log(err);
         throw new Error(err.response.data.message);
       });
   };

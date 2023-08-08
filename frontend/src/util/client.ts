@@ -8,7 +8,7 @@ import {
 } from '../interfaces';
 
 export const http = axios.create({
-  baseURL: 'http://localhost:5173/api/v1',
+  baseURL: 'https://notitum.netlify.app/api/v1',
 });
 
 export const Client = {
@@ -59,13 +59,11 @@ export const Client = {
   updateCardCoverPhoto: (
     cardId: number,
     coverPhoto: string | null,
-    workspaceUserId: number,
-    action: string
+    workspaceUserId: number
   ) => {
     return http.patch(`/cards/${cardId}/cover-photo`, {
       coverPhoto,
       workspaceUserId,
-      action,
     });
   },
   updateDates: (

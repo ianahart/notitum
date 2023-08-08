@@ -31,12 +31,13 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
+        http.cors().and()
 
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/v1/auth/**")
+                .requestMatchers("/api/v1/auth/**", "https://notitum-1f649e446a5b.herokuapp.com/",
+                        "https://notitum.netlify.app/")
                 .permitAll()
                 .anyRequest()
                 .authenticated()

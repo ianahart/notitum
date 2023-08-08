@@ -1,6 +1,5 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { useContext, useEffect, useRef, useState } from 'react';
-import { AiOutlineClockCircle } from 'react-icons/ai';
 import { UserContext } from '../../context/user';
 import { IUserContext, IWorkspace } from '../../interfaces';
 import { Client } from '../../util/client';

@@ -1,5 +1,5 @@
 import { IList, IUserContext, IWorkspaceContext } from '../../../../interfaces';
-import { Box, MenuItem, Menu, MenuButton, IconButton, MenuList } from '@chakra-ui/react';
+import { MenuItem, Menu, MenuButton, IconButton, MenuList } from '@chakra-ui/react';
 import { BsThreeDots } from 'react-icons/bs';
 import { Client } from '../../../../util/client';
 import { useContext } from 'react';
@@ -12,9 +12,7 @@ interface IListMenuProps {
 }
 
 const ListMenu = ({ list, handleSetCardInputShowing }: IListMenuProps) => {
-  const { workspace, removeWorkspaceList } = useContext(
-    WorkspaceContext
-  ) as IWorkspaceContext;
+  const { removeWorkspaceList } = useContext(WorkspaceContext) as IWorkspaceContext;
   const { user } = useContext(UserContext) as IUserContext;
 
   const handleRemoveList = () => {

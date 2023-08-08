@@ -1,4 +1,4 @@
-import { Box, Text } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import { useContext, useEffect, useRef, useState } from 'react';
 import NavMenu from './NavMenu';
 import { UserContext } from '../../context/user';

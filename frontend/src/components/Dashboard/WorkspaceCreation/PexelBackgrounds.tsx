@@ -9,7 +9,7 @@ import {
 } from '@chakra-ui/react';
 
 import { BsThreeDots } from 'react-icons/bs';
-import { IPexels } from '../../interfaces';
+import { IPexels } from '../../../interfaces';
 import Photos from './Photos';
 
 interface IPexelBackgroundsProps {
