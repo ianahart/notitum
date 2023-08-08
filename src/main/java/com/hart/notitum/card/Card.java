@@ -13,6 +13,7 @@ import com.hart.notitum.checklist.Checklist;
 import com.hart.notitum.comment.Comment;
 import com.hart.notitum.list.WorkspaceList;
 import com.hart.notitum.user.User;
+import com.hart.notitum.workspace.Workspace;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -61,6 +62,11 @@ public class Card {
     private Timestamp endDate;
     @Column(name = "cover_photo")
     private String coverPhoto;
+
+    @JsonBackReference
+    @ManyToOne()
+    @JoinColumn(name = "workspace_id", referencedColumnName = "id")
+    private Workspace workspace;
     @JsonBackReference
     @ManyToOne()
     @JoinColumn(name = "user_id", referencedColumnName = "id")
@@ -109,10 +115,11 @@ public class Card {
         this.coverPhoto = coverPhoto;
     }
 
-    public Card(String title, User user, WorkspaceList workspaceList) {
+    public Card(String title, User user, WorkspaceList workspaceList, Workspace workspace) {
         this.title = title;
         this.user = user;
         this.workspaceList = workspaceList;
+        this.workspace = workspace;
     }
 
     public Long getId() {
@@ -147,6 +154,14 @@ public class Card {
 
     public Integer getIndex() {
         return index;
+    }
+
+    public Workspace getWorkspace() {
+        return workspace;
+    }
+
+    public void setWorkspace(Workspace workspace) {
+        this.workspace = workspace;
     }
 
     public String getLabel() {

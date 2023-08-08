@@ -13,6 +13,24 @@ export interface IMinimalUser {
   bio: string;
 }
 
+export interface ICardSort {
+  id: number;
+  label: string;
+  header: string;
+  checked: boolean;
+  value: string;
+  workspaces: IWorkspace[];
+}
+
+export interface ICardFilter {
+  id: number;
+  label: string;
+  header: string;
+  checked: boolean;
+  value: string;
+  workspaces: IWorkspace[];
+}
+
 export interface IMinimalUserForm {
   firstName: { name: string; value: string; error: string; type: string };
   lastName: { name: string; value: string; error: string; type: string };
@@ -144,6 +162,13 @@ export interface ICard {
   updatedAt: Date;
   activeLabels: IActiveLabel[];
   coverPhoto: string | null;
+}
+
+export interface IWorkspaceWithCards {
+  id: number;
+  title: string;
+  background: string;
+  cards: ICard[];
 }
 
 export interface IMember {

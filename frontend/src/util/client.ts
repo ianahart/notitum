@@ -12,6 +12,18 @@ export const http = axios.create({
 });
 
 export const Client = {
+  filterCards: (
+    userId: number,
+    sort: string,
+    filterWorkspaces: string,
+    filterDates: string,
+    activeWorkspaceId: number
+  ) => {
+    return http.get(
+      `cards?userId=${userId}&sort=${sort}&filterWorkspaces=${filterWorkspaces}&filterDates=${filterDates}&activeWorkspaceId=${activeWorkspaceId}`
+    );
+  },
+
   updateUser: (userId: number, firstName: string, lastName: string, bio: string) => {
     return http.patch(`users/${userId}`, { firstName, lastName, bio });
   },

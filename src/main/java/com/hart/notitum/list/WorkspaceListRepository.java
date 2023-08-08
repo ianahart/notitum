@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hart.notitum.list.dto.WorkspaceListDto;
 import com.hart.notitum.list.dto.WorkspaceListIdDto;
+import com.hart.notitum.list.dto.WorkspaceListWithCardDto;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

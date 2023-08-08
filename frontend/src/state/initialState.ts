@@ -39,6 +39,55 @@ export const cardState = {
   coverPhoto: '',
 };
 
+export const filterCardState = [
+  {
+    id: 1,
+    label: 'Sort by all workspaces',
+    header: 'Sorting by all workspaces',
+    checked: true,
+    value: 'workspaces',
+    workspaces: [],
+  },
+  {
+    id: 2,
+    label: 'Sort by single workspace',
+    header: 'Sorting by single workspace',
+    checked: false,
+    value: 'workspace',
+    workspaces: [],
+  },
+];
+
+export const cardSortState = [
+  {
+    id: 1,
+    label: 'Sort by no due date',
+    header: 'Sorting by no due date',
+    checked: true,
+    value: 'noDueDate',
+    workspaces: [],
+  },
+  {
+    id: 2,
+    label: 'Sort by due date',
+    header: 'Sorting by due date',
+    checked: false,
+    value: 'dueDate',
+    workspaces: [],
+  },
+];
+
+export const cardDateState = [
+  {
+    id: 1,
+    label: 'Show all cards',
+    header: 'Showing all cards',
+    checked: true,
+    value: 'allCards',
+    workspaces: [],
+  },
+];
+
 export const aboutForm = {
   fullName: {
     name: 'fullName',

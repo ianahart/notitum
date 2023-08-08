@@ -2,6 +2,7 @@ package com.hart.notitum.activity;
 
 import java.sql.Timestamp;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.hart.notitum.user.User;
 import com.hart.notitum.workspace.Workspace;
 
@@ -41,6 +42,7 @@ public class Activity {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
+    @JsonBackReference
     @ManyToOne()
     @JoinColumn(name = "workspace_id", referencedColumnName = "id")
     private Workspace workspace;

@@ -2,9 +2,12 @@ package com.hart.notitum.card;
 
 import com.hart.notitum.list.WorkspaceList;
 import com.hart.notitum.list.WorkspaceListRepository;
+import com.hart.notitum.list.dto.FilterWorkspaceListCardsDto;
 import com.hart.notitum.user.User;
 import com.hart.notitum.user.UserRepository;
 import com.hart.notitum.user.UserService;
+import com.hart.notitum.workspace.Workspace;
+import com.hart.notitum.workspace.WorkspaceRepository;
 
 import org.modelmapper.ModelMapper;
 
@@ -17,7 +20,6 @@ import com.hart.notitum.activelabel.ActiveLabelRepository;
 import com.hart.notitum.activelabel.dto.ActiveLabelDto;
 import com.hart.notitum.activity.Activity;
 import com.hart.notitum.activity.ActivityRepository;
-import com.hart.notitum.activity.ActivityService;
 import com.hart.notitum.advice.BadRequestException;
 import com.hart.notitum.advice.ForbiddenException;
 import com.hart.notitum.advice.NotFoundException;
@@ -39,6 +41,7 @@ public class CardService {
     private final ActiveLabelRepository activeLabelRepository;
     private final ChecklistRepository checklistRepository;
     private final ActivityRepository activityRepository;
+    private final WorkspaceRepository workspaceRepository;
 
     @Autowired
     public CardService(CardRepository cardRepository,
@@ -48,7 +51,8 @@ public class CardService {
             UserService userService,
             ActiveLabelRepository activeLabelRepository,
             ChecklistRepository checklistRepository,
-            ActivityRepository activityRepository) {
+            ActivityRepository activityRepository,
+            WorkspaceRepository workspaceRepository) {
         this.cardRepository = cardRepository;
         this.userRepository = userRepository;
         this.workspaceListRepository = workspaceListRepository;
@@ -57,6 +61,58 @@ public class CardService {
         this.activeLabelRepository = activeLabelRepository;
         this.checklistRepository = checklistRepository;
         this.activityRepository = activityRepository;
+        this.workspaceRepository = workspaceRepository;
+    }
+
+    private List<Card> filterCardsByDueDate(Workspace workspace, String sort) {
+        return sort.equals("noDueDate") ? workspace.getCards().stream()
+                .filter(v -> v.getEndDate() == null)
+                .toList()
+                : workspace.getCards()
+                        .stream().filter(v -> v.getEndDate() != null).toList();
+
+    }
+
+    private List<FilterWorkspaceListCardsDto> filterCardsByAllWorkspaces(String sort, Long userId) {
+        List<Workspace> workspaces = this.workspaceRepository.getAllWorkspaceEntities(userId);
+        List<FilterWorkspaceListCardsDto> workspaceListCards = new ArrayList<>();
+        for (Workspace workspace : workspaces) {
+            workspaceListCards.add(new FilterWorkspaceListCardsDto(
+                    workspace.getId(),
+                    workspace.getBackground(),
+                    workspace.getTitle(),
+                    filterCardsByDueDate(workspace, sort)));
+        }
+
+        return workspaceListCards;
+    }
+
+    private List<FilterWorkspaceListCardsDto> filterCardsBySingleWorkspace(String sort, Long userId,
+            Long activeWorkspaceId) {
+        Workspace workspace = this.workspaceRepository.getWorkspaceById(activeWorkspaceId);
+        List<FilterWorkspaceListCardsDto> workspaceListCards = new ArrayList<>();
+        workspaceListCards.add(
+                new FilterWorkspaceListCardsDto(workspace.getId(),
+                        workspace.getBackground(),
+                        workspace.getTitle(),
+                        filterCardsByDueDate(workspace, sort)));
+        return workspaceListCards;
+    }
+
+    public List<FilterWorkspaceListCardsDto> filterCards(Long userId, String sort, String filterWorkspaces,
+            String filterDates,
+            Long activeWorkspaceId) {
+        if (filterWorkspaces.equals("workspaces")) {
+            return filterCardsByAllWorkspaces(sort, userId);
+        }
+
+        if (filterWorkspaces.equals(("workspace"))) {
+            return filterCardsBySingleWorkspace(sort, userId, activeWorkspaceId);
+
+        }
+        List<FilterWorkspaceListCardsDto> emptyList = new ArrayList<>();
+        return emptyList;
+
     }
 
     public Card getCardById(Long cardId) {
@@ -127,7 +183,7 @@ public class CardService {
             throw new BadRequestException("You can only have 10 cards in a list for now.");
         }
 
-        Card card = new Card(title, user, workspaceList);
+        Card card = new Card(title, user, workspaceList, workspaceList.getWorkspace());
         card.setIndex(index);
         this.cardRepository.save(card);
         List<ActiveLabelDto> emptyList = new ArrayList<>();

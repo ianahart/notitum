@@ -3,8 +3,10 @@ package com.hart.notitum.workspace;
 import java.sql.Timestamp;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.hart.notitum.activity.Activity;
+import com.hart.notitum.card.Card;
 import com.hart.notitum.label.Label;
 import com.hart.notitum.list.WorkspaceList;
 import com.hart.notitum.member.Member;
@@ -55,19 +57,25 @@ public class Workspace {
     @Enumerated(EnumType.STRING)
     private Visibility visibility;
 
+    @JsonBackReference
     @ManyToOne()
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "workspace", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WorkspaceList> workspaceLists;
 
-    @OneToMany()
+    @JsonManagedReference
+    @OneToMany(mappedBy = "workspace", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Activity> activities;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "workspace", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Member> members;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "workspace", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Card> cards;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Label> labels;
@@ -116,6 +124,14 @@ public class Workspace {
 
     public Long getId() {
         return id;
+    }
+
+    public List<Card> getCards() {
+        return cards;
+    }
+
+    public void setCards(List<Card> cards) {
+        this.cards = cards;
     }
 
     public List<Label> getLabels() {

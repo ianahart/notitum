@@ -14,6 +14,13 @@ import org.springframework.data.repository.query.Param;
 public interface WorkspaceRepository extends JpaRepository<Workspace, Long> {
 
     @Query(value = """
+            SELECT w FROM Workspace w
+                        INNER JOIN w.user u
+                       WHERE u.id = :userId
+                    """)
+    List<Workspace> getAllWorkspaceEntities(@Param("userId") Long userId);
+
+    @Query(value = """
             SELECT new com.hart.notitum.workspace.dto.WorkspaceDto(
              w.id as workspaceId, w.background as background,
              w.createdAt as createdAt, w.title as title, w.visibility as visibility,
@@ -97,4 +104,9 @@ public interface WorkspaceRepository extends JpaRepository<Workspace, Long> {
     Page<SearchWorkspaceDto> searchWorkspaces(@Param("query") String query,
             Pageable paging);
 
+    @Query(value = """
+              SELECT w FROM Workspace w
+              WHERE w.id = :workspaceId
+            """)
+    Workspace getWorkspaceById(@Param("workspaceId") Long workspaceId);
 }

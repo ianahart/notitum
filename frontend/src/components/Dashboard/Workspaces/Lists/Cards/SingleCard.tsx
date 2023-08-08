@@ -22,17 +22,19 @@ import { WorkspaceContext } from '../../../../../context/workspace';
 import DueDate from './Details/DueDate';
 
 interface ICardProps {
+  seeDetails: boolean;
   card: ICard;
-  provided: DraggableProvided;
-  workspaceListId: number;
-  workspaceListTitle: string;
+  provided?: DraggableProvided;
+  workspaceListId?: number;
+  workspaceListTitle?: string;
 }
 
 const SingleCard = ({
+  seeDetails,
   card,
   provided,
-  workspaceListId,
-  workspaceListTitle,
+  workspaceListId = 0,
+  workspaceListTitle = '',
 }: ICardProps) => {
   const [isEditShowing, setIsEditShowing] = useState(false);
   const { lists, setLists } = useContext(WorkspaceContext) as IWorkspaceContext;
@@ -151,15 +153,17 @@ const SingleCard = ({
         )}
         <DueDate startDate={card.startDate} endDate={card.endDate} />
 
-        <Flex
-          justify="flex-end"
-          ml="auto"
-          {...provided.dragHandleProps}
-          color="light.primary"
-          fontSize="1.2rem"
-        >
-          <RiDraggable />
-        </Flex>
+        {provided !== undefined && (
+          <Flex
+            justify="flex-end"
+            ml="auto"
+            {...provided.dragHandleProps}
+            color="light.primary"
+            fontSize="1.2rem"
+          >
+            <RiDraggable />
+          </Flex>
+        )}
       </Flex>
       <Flex justify="space-between">
         <Text wordBreak="break-all" color="light.primary">
@@ -182,42 +186,44 @@ const SingleCard = ({
           <AiOutlineEdit />
         </Box>
       </Flex>
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent
-          className="card-modal-content"
-          m="0 auto"
-          minH="400px"
-          bg="black.primary"
-        >
-          {card.coverPhoto !== null && (
-            <Box
-              borderTopRadius={8}
-              width="100%"
-              backgroundImage={`url(${card.coverPhoto})`}
-              backgroundPosition="center"
-              backgroundSize="cover"
-              minH="150px"
-            ></Box>
-          )}
-          <ModalHeader color="light.primary">
-            <Header
-              workspaceListId={workspaceListId}
-              card={card}
-              workspaceListTitle={workspaceListTitle}
-            />
-          </ModalHeader>
-          <ModalCloseButton color="light.primary" />
-          <ModalBody>
-            <CardDetails
-              handleActiveLabel={handleActiveLabel}
-              activeLabels={card.activeLabels}
-              workspaceListId={workspaceListId}
-              card={card}
-            />
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+      {seeDetails && (
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent
+            className="card-modal-content"
+            m="0 auto"
+            minH="400px"
+            bg="black.primary"
+          >
+            {card.coverPhoto !== null && (
+              <Box
+                borderTopRadius={8}
+                width="100%"
+                backgroundImage={`url(${card.coverPhoto})`}
+                backgroundPosition="center"
+                backgroundSize="cover"
+                minH="150px"
+              ></Box>
+            )}
+            <ModalHeader color="light.primary">
+              <Header
+                workspaceListId={workspaceListId}
+                card={card}
+                workspaceListTitle={workspaceListTitle}
+              />
+            </ModalHeader>
+            <ModalCloseButton color="light.primary" />
+            <ModalBody>
+              <CardDetails
+                handleActiveLabel={handleActiveLabel}
+                activeLabels={card.activeLabels}
+                workspaceListId={workspaceListId}
+                card={card}
+              />
+            </ModalBody>
+          </ModalContent>
+        </Modal>
+      )}
     </Box>
   );
 };

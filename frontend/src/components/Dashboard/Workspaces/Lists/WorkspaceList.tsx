@@ -122,6 +122,7 @@ const WorkspaceList = ({ list, provided }: IWorkspaceListProps) => {
                 {(provided) => (
                   <Box {...provided.draggableProps} ref={provided.innerRef}>
                     <SingleCard
+                      seeDetails={true}
                       workspaceListId={list.id}
                       workspaceListTitle={list.title}
                       provided={provided}
