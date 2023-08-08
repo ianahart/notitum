@@ -67,6 +67,13 @@ public class WorkspaceService {
 
     }
 
+    public void deleteWorkspace(Long workspaceId, Long userId) {
+        if (this.userService.getCurrentlyLoggedInUser().getId() != userId) {
+            throw new ForbiddenException("Only the owner of the workspace can delete it");
+        }
+        this.workspaceRepository.deleteById(workspaceId);
+    }
+
     public void validateWorkspaceProperties(UpdateWorkspaceRequest request) {
         if (request.getTitle().trim().length() == 0 || request.getTitle().length() > 150) {
             throw new BadRequestException("Title must be between 1 and 150 characters");

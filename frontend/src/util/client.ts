@@ -12,6 +12,9 @@ export const http = axios.create({
 });
 
 export const Client = {
+  removeWorkspace: (workspaceId: number, userId: number) => {
+    return http.delete(`/workspaces/${workspaceId}?userId=${userId}`);
+  },
   filterCards: (
     userId: number,
     sort: string,
