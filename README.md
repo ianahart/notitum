@@ -1,6 +1,6 @@
 # Notitum
 
-An applcation based on Trello for learning purposes.
+An application based on Trello for learning purposes.
 
 ### Features
 
@@ -23,7 +23,7 @@ An applcation based on Trello for learning purposes.
 - Pexels API
 
 ### Test Account
-
+https://notitum.netlify.app
 -u: millie@gmail.com -p:Test12345%
 
 ### How To Use
