@@ -1,6 +1,13 @@
 # Notitum
 
-An application based on Trello for learning purposes.
+An application based on Trello for learning purposes. Built with React and Spring Boot. It features most of Trello's features.
+
+
+### Visuals
+
+![notitum](https://github.com/ianahart/notitum/assets/29121238/64c186cf-10e2-4d46-baf2-b9bd325e1c2f)
+
+
 
 ### Features
 
